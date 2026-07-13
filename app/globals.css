@@ -1325,8 +1325,17 @@ html.intro-locked .intro-logo {
   transition: --cursor-mask-size 1.25s cubic-bezier(.16, 1, .3, 1);
 }
 
+[data-cursor-mask].cursor-mask-active,
+[data-cursor-mask-shell].cursor-mask-active {
+  transition-duration: 1.42s;
+}
+
 .landing-wordmark-highlight-circle {
   transition: transform 1.25s cubic-bezier(.16, 1, .3, 1);
+}
+
+.landing-word-shell.cursor-mask-active .landing-wordmark-highlight-circle {
+  transition-duration: 1.42s;
 }
 
 .title-swipe-accent {
@@ -1736,9 +1745,20 @@ html.intro-locked .intro-logo {
   .recognition-toggle,
   .recognition-item:hover .recognition-toggle,
   .recognition-item.is-expanded .recognition-toggle {
-    grid-template-columns: 1fr 34px;
+    grid-template-columns: minmax(0, 1fr) 34px;
     gap: 10px;
     padding-inline: 18px;
+  }
+
+  .recognition-toggle > span,
+  .recognition-toggle strong {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .recognition-toggle i {
+    grid-column: 2;
+    grid-row: 1 / 3;
   }
 
   .recognition-detail-layout {

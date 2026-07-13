@@ -182,8 +182,9 @@ export default function SignalField() {
       const phase = mount.dataset.phase ?? "hidden";
       const carouselIndex = Number(mount.dataset.carouselIndex ?? -1);
 
+      const finalPixelRatioCap = window.innerWidth <= 520 ? 1.75 : 2;
       const targetPixelRatio = phase === "final"
-        ? Math.min(window.devicePixelRatio, window.innerWidth <= 800 ? 1.4 : 1.62)
+        ? Math.min(window.devicePixelRatio, finalPixelRatioCap)
         : basePixelRatio;
       if (Math.abs(targetPixelRatio - currentPixelRatio) > 0.01) {
         currentPixelRatio = targetPixelRatio;
