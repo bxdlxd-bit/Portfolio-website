@@ -399,6 +399,7 @@ export default function Portfolio() {
     gsap.registerPlugin(ScrollTrigger);
 
     let cleanupOrbitPointer = () => {};
+    let cleanupReelIdle = () => {};
 
     const context = gsap.context(() => {
       let projectCarouselScrollTrigger: ScrollTrigger | null = null;
@@ -447,6 +448,7 @@ export default function Portfolio() {
       const reelHeading = document.querySelector<HTMLElement>(".landing-reel-heading");
       const reelScroll = document.querySelector<HTMLElement>(".landing-reel-scroll");
       const reelOutlines = gsap.utils.toArray<HTMLElement>(".landing-reel-outline");
+      const reelOutlineIdleShells = gsap.utils.toArray<HTMLElement>(".landing-reel-outline-idle");
       if (reel && reelPin && reelFrame) {
         const initialScale = window.innerWidth <= 520 ? 0.72 : window.innerWidth <= 1050 ? 0.54 : 0.42;
         const finalScale = () => (window.innerWidth * 0.8) / reelFrame.offsetWidth;
@@ -458,6 +460,104 @@ export default function Portfolio() {
         const outlineScaleStep = () => window.innerWidth <= 520 ? 0.14 : window.innerWidth <= 800 ? 0.135 : 0.125;
         const outlineRotation = (element: HTMLElement) => Number.parseFloat(element.dataset.rotation ?? "0");
 
+        let reelIdleActive = false;
+        let reelIdleInView = false;
+        let reelScrollProgress = 0;
+        let reelIdleTweens: gsap.core.Tween[] = [];
+
+        const stopReelIdle = (reset = true) => {
+          if (!reelIdleActive && !reelIdleTweens.length) return;
+          reelIdleActive = false;
+          reelIdleTweens.forEach((tween) => tween.kill());
+          reelIdleTweens = [];
+
+          if (!reset) return;
+          gsap.to(reelOutlineIdleShells, {
+            x: 0,
+            y: 0,
+            rotation: 0,
+            scaleX: 1,
+            scaleY: 1,
+            duration: 0.32,
+            ease: "power2.out",
+            overwrite: true
+          });
+          gsap.to(reelOutlines, {
+            filter: "drop-shadow(0 0 0 rgba(139,104,255,0))",
+            boxShadow: "inset 0 0 42px rgba(139,104,255,.025), 0 0 34px rgba(139,104,255,.035)",
+            duration: 0.32,
+            ease: "power2.out",
+            overwrite: "auto"
+          });
+        };
+
+        const startReelIdle = () => {
+          if (reelIdleActive || !reelOutlineIdleShells.length) return;
+          reelIdleActive = true;
+
+          reelOutlineIdleShells.forEach((shell, index) => {
+            const direction = index % 2 === 0 ? 1 : -1;
+            const horizontal = direction * (2.4 + index * 0.42);
+            const vertical = ((index % 3) - 1) * (1.7 + index * 0.18);
+            const rotation = direction * (0.08 + index * 0.022);
+
+            gsap.set(shell, {
+              x: horizontal * -0.42,
+              y: vertical * -0.38,
+              rotation: rotation * -0.5,
+              scaleX: 1,
+              scaleY: 1
+            });
+
+            reelIdleTweens.push(gsap.to(shell, {
+              x: horizontal,
+              y: vertical,
+              rotation,
+              scaleX: 1 + (index % 2 === 0 ? 0.008 : 0.003),
+              scaleY: 1 + (index % 2 === 0 ? 0.003 : 0.008),
+              duration: 2.9 + index * 0.28,
+              delay: index * -0.31,
+              repeat: -1,
+              yoyo: true,
+              ease: "sine.inOut"
+            }));
+
+            const outline = reelOutlines[index];
+            if (outline) {
+              reelIdleTweens.push(gsap.to(outline, {
+                filter: index % 2 === 0
+                  ? "drop-shadow(0 0 13px rgba(139,104,255,.22))"
+                  : "drop-shadow(0 0 11px rgba(116,216,255,.16))",
+                boxShadow: index % 2 === 0
+                  ? "inset 0 0 48px rgba(139,104,255,.055), 0 0 42px rgba(139,104,255,.105)"
+                  : "inset 0 0 46px rgba(116,216,255,.035), 0 0 38px rgba(116,216,255,.075)",
+                duration: 2.4 + index * 0.24,
+                delay: index * -0.27,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+              }));
+            }
+          });
+        };
+
+        const reelIdleObserver = new IntersectionObserver(([entry]) => {
+          reelIdleInView = Boolean(entry?.isIntersecting);
+          if (reelIdleInView && reelScrollProgress <= 0.012) startReelIdle();
+          else stopReelIdle(reelIdleInView);
+        }, {
+          rootMargin: "15% 0px",
+          threshold: [0, 0.01]
+        });
+        reelIdleObserver.observe(reel);
+
+        cleanupReelIdle = () => {
+          reelIdleObserver.disconnect();
+          stopReelIdle(false);
+          gsap.set(reelOutlineIdleShells, { clearProps: "transform" });
+          gsap.set(reelOutlines, { clearProps: "filter,boxShadow" });
+        };
+
         const reelTimeline = gsap.timeline({
           scrollTrigger: {
             trigger: reel,
@@ -466,7 +566,17 @@ export default function Portfolio() {
             scrub: 0.65,
             pin: reelPin,
             anticipatePin: 1,
-            invalidateOnRefresh: true
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              reelScrollProgress = self.progress;
+              if (self.progress > 0.012) stopReelIdle();
+              else if (reelIdleInView) startReelIdle();
+            },
+            onRefresh: (self) => {
+              reelScrollProgress = self.progress;
+              if (self.progress > 0.012) stopReelIdle();
+              else if (reelIdleInView) startReelIdle();
+            }
           }
         });
 
@@ -1111,6 +1221,7 @@ export default function Portfolio() {
     }, rootRef);
 
     return () => {
+      cleanupReelIdle();
       cleanupOrbitPointer();
       context.revert();
     };
@@ -1293,16 +1404,17 @@ export default function Portfolio() {
           <div className="landing-reel-stage">
             <div className="landing-reel-radiance" aria-hidden="true">
               {REEL_FRAME_ROTATIONS.map((rotation, index) => (
-                <span
-                  className="landing-reel-outline"
-                  data-rotation={rotation}
-                  key={`reel-outline-${index}`}
-                  style={{
-                    "--reel-outline-scale": `${0.5 + index * 0.125}`,
-                    "--reel-outline-rotation": `${rotation}deg`,
-                    "--reel-outline-opacity": `${Math.max(0.18, 0.58 - index * 0.055)}`
-                  } as CSSProperties}
-                />
+                <span className="landing-reel-outline-idle" key={`reel-outline-${index}`}>
+                  <i
+                    className="landing-reel-outline"
+                    data-rotation={rotation}
+                    style={{
+                      "--reel-outline-scale": `${0.5 + index * 0.125}`,
+                      "--reel-outline-rotation": `${rotation}deg`,
+                      "--reel-outline-opacity": `${Math.max(0.18, 0.58 - index * 0.055)}`
+                    } as CSSProperties}
+                  />
+                </span>
               ))}
             </div>
             <div className="landing-reel-heading" aria-hidden="true">
@@ -1592,7 +1704,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.2.0 · Build 005</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.2.1 · Build 006</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />

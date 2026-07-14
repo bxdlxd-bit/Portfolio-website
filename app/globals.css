@@ -947,8 +947,19 @@ img, video { display: block; max-width: 100%; }
   filter: blur(44px);
   opacity: .82;
 }
+.landing-reel-outline-idle {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transform-origin: center;
+  will-change: transform;
+}
 .landing-reel-outline {
   grid-area: 1 / 1;
+  display: block;
   width: min(92vw, 1500px);
   aspect-ratio: 16 / 9;
   border: 1px solid rgba(176,158,255,.24);
@@ -959,8 +970,8 @@ img, video { display: block; max-width: 100%; }
   box-shadow: inset 0 0 42px rgba(139,104,255,.025), 0 0 34px rgba(139,104,255,.035);
   will-change: transform, opacity;
 }
-.landing-reel-outline:nth-child(2n) { border-color: rgba(116,216,255,.12); }
-.landing-reel-outline:nth-child(3n) { border-color: rgba(197,184,255,.18); }
+.landing-reel-outline-idle:nth-child(2n) .landing-reel-outline { border-color: rgba(116,216,255,.12); }
+.landing-reel-outline-idle:nth-child(3n) .landing-reel-outline { border-color: rgba(197,184,255,.18); }
 .landing-reel-frame {
   position: relative;
   z-index: 3;
@@ -1196,7 +1207,7 @@ html.intro-locked .intro-logo {
   overflow: hidden;
   isolation: isolate;
   color: #f5f4f0;
-  background: #07080d;
+  background: transparent;
   touch-action: none;
 }
 .intro-panel {
@@ -1211,15 +1222,13 @@ html.intro-locked .intro-logo {
 .intro-panel-left {
   left: 0;
   background:
-    radial-gradient(circle at 102% 52%, rgba(139, 104, 255, .2), transparent 34rem),
-    radial-gradient(circle at 22% 18%, rgba(116, 216, 255, .055), transparent 26rem),
+    radial-gradient(circle at 22% 18%, rgba(116, 216, 255, .045), transparent 26rem),
     linear-gradient(110deg, #07080d 0%, #0a0b12 72%, #100d1b 100%);
 }
 .intro-panel-right {
   right: 0;
   background:
-    radial-gradient(circle at -2% 52%, rgba(139, 104, 255, .2), transparent 34rem),
-    radial-gradient(circle at 78% 82%, rgba(116, 216, 255, .045), transparent 28rem),
+    radial-gradient(circle at 78% 82%, rgba(116, 216, 255, .04), transparent 28rem),
     linear-gradient(250deg, #07080d 0%, #0a0b12 72%, #100d1b 100%);
 }
 .intro-screen[data-phase="releasing"] .intro-panel-left {
@@ -1260,7 +1269,7 @@ html.intro-locked .intro-logo {
   line-height: .72;
   letter-spacing: -.09em;
   text-rendering: geometricPrecision;
-  filter: drop-shadow(0 18px 44px rgba(139, 104, 255, .2));
+  filter: none;
   transform-origin: center;
   -webkit-tap-highlight-color: transparent;
 }
@@ -1296,12 +1305,12 @@ html.intro-locked .intro-logo {
   }
   .intro-panel-left {
     background:
-      radial-gradient(circle at 105% 50%, rgba(139, 104, 255, .22), transparent 20rem),
+      radial-gradient(circle at 18% 18%, rgba(116, 216, 255, .04), transparent 18rem),
       linear-gradient(110deg, #07080d 0%, #0a0b12 74%, #100d1b 100%);
   }
   .intro-panel-right {
     background:
-      radial-gradient(circle at -5% 50%, rgba(139, 104, 255, .22), transparent 20rem),
+      radial-gradient(circle at 82% 82%, rgba(116, 216, 255, .035), transparent 18rem),
       linear-gradient(250deg, #07080d 0%, #0a0b12 74%, #100d1b 100%);
   }
 }
@@ -1944,26 +1953,28 @@ html.intro-locked .intro-logo {
 /* Capability drawer connection refinement */
 .service-row {
   --service-row-gap: 14px;
-  --service-active-surface: rgba(24, 21, 43, .94);
   --service-active-gradient: linear-gradient(140deg, rgba(112, 82, 205, .25), rgba(31, 26, 52, .94) 48%, rgba(24, 21, 43, .94) 100%);
   gap: var(--service-row-gap);
 }
 
 .service-card-connector {
   position: absolute;
-  z-index: 0;
+  z-index: 3;
   left: -1px;
   right: -1px;
-  bottom: calc((var(--service-row-gap) + 5px) * -1);
-  height: calc(var(--service-row-gap) + 10px);
+  bottom: calc((var(--service-row-gap) + 3px) * -1);
+  height: calc(var(--service-row-gap) + 5px);
   display: none;
-  border-inline: 1px solid rgba(255,255,255,.1);
-  background: linear-gradient(180deg, rgba(31,26,52,.96) 0%, rgba(27,24,47,.78) 48%, rgba(18,20,30,.18) 100%);
+  background: linear-gradient(180deg, rgba(31,26,52,.96) 0%, rgba(28,25,48,.84) 48%, rgba(18,20,30,.66) 100%);
+  box-shadow: inset 1px 0 rgba(255,255,255,.08), inset -1px 0 rgba(255,255,255,.08);
   pointer-events: none;
 }
 
 .service-card.is-expanded {
   overflow: visible;
+  border-bottom-color: transparent;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   background: var(--service-active-gradient);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
 }
@@ -1971,23 +1982,12 @@ html.intro-locked .intro-logo {
 .service-card.is-expanded::after { opacity: 0; }
 .service-card.is-expanded .service-card-connector { display: block; }
 
-.service-row.expanded-left .service-card.is-expanded {
-  border-bottom-left-radius: 0;
+.service-row.expanded-left .service-card.is-expanded .service-card-connector {
   border-bottom-right-radius: 22px;
 }
-.service-row.expanded-right .service-card.is-expanded {
-  border-bottom-left-radius: 22px;
-  border-bottom-right-radius: 0;
-}
-.service-row.expanded-left .service-card.is-expanded .service-card-connector {
-  right: 20px;
-  border-right: 1px solid rgba(255,255,255,.09);
-  border-bottom-right-radius: 18px;
-}
+
 .service-row.expanded-right .service-card.is-expanded .service-card-connector {
-  left: 20px;
-  border-left: 1px solid rgba(255,255,255,.09);
-  border-bottom-left-radius: 18px;
+  border-bottom-left-radius: 22px;
 }
 
 .service-row.has-expanded .service-drawer {
@@ -1996,18 +1996,14 @@ html.intro-locked .intro-logo {
   margin-top: 0;
   border-top-color: rgba(255,255,255,.055);
 }
+
 .service-row.has-expanded .service-drawer::before {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  top: -1px;
-  width: calc((100% - var(--service-row-gap)) / 2);
-  height: clamp(76px, 8vw, 116px);
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(31,26,52,.82) 0%, rgba(86,63,151,.16) 46%, rgba(18,20,30,0) 100%);
+  content: none;
+  display: none;
 }
-.service-row.expanded-left .service-drawer::before { left: 0; }
-.service-row.expanded-right .service-drawer::before { right: 0; }
+
+.service-row.expanded-left .service-drawer { border-top-left-radius: 0; }
+.service-row.expanded-right .service-drawer { border-top-right-radius: 0; }
 .service-drawer-inner { position: relative; z-index: 1; }
 
 .service-drawer-content {
