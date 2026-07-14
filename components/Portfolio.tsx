@@ -887,11 +887,6 @@ export default function Portfolio() {
           return element.getBoundingClientRect().top + window.scrollY;
         };
 
-        const quadratic = (start: number, control: number, end: number, amount: number) => {
-          const inverse = 1 - amount;
-          return inverse * inverse * start + 2 * inverse * amount * control + amount * amount * end;
-        };
-
         const calculateGlobeLayout = () => {
           const width = signal.offsetWidth;
           const height = signal.offsetHeight;
@@ -965,21 +960,43 @@ export default function Portfolio() {
           });
         };
 
-        const positionRingsAtGlobe = (x: number, y: number, globeScale: number) => {
-          if (!layout) return;
+        const carouselRingTargets = (x: number, y: number, globeScale: number) => {
+          if (!layout) return [];
           const centreX = x + layout.width / 2;
           const centreY = y + layout.height / 2;
           const globeDiameter = layout.width * globeScale * 0.96;
+          const mobile = layout.viewportWidth <= 800;
+          const ringLayouts = mobile
+            ? [
+                { offsetX: -0.018, offsetY: 0.018, width: 1.1, height: 0.54, rotate: -21 },
+                { offsetX: 0.026, offsetY: -0.014, width: 1.23, height: 0.575, rotate: 8 },
+                { offsetX: -0.03, offsetY: -0.032, width: 1.36, height: 0.61, rotate: -31 },
+                { offsetX: 0.036, offsetY: 0.026, width: 1.49, height: 0.645, rotate: 23 },
+                { offsetX: -0.012, offsetY: 0.046, width: 1.62, height: 0.68, rotate: -5 }
+              ]
+            : [
+                { offsetX: -0.024, offsetY: 0.018, width: 1.12, height: 0.52, rotate: -22 },
+                { offsetX: 0.03, offsetY: -0.022, width: 1.25, height: 0.555, rotate: 9 },
+                { offsetX: -0.038, offsetY: -0.04, width: 1.38, height: 0.59, rotate: -34 },
+                { offsetX: 0.046, offsetY: 0.03, width: 1.51, height: 0.625, rotate: 25 },
+                { offsetX: -0.016, offsetY: 0.052, width: 1.64, height: 0.66, rotate: -6 }
+              ];
+
+          return ringLayouts.map((ring) => ({
+            x: centreX + globeDiameter * ring.offsetX,
+            y: centreY + globeDiameter * ring.offsetY,
+            width: globeDiameter * ring.width,
+            height: globeDiameter * ring.height,
+            rotate: ring.rotate
+          }));
+        };
+
+        const positionRingsAtGlobe = (x: number, y: number, globeScale: number) => {
+          const targets = carouselRingTargets(x, y, globeScale);
           orbitRings.forEach((ring, index) => {
-            const spread = 1.12 + index * 0.13;
-            positionOrbitRing(
-              ring,
-              centreX,
-              centreY,
-              globeDiameter * spread,
-              globeDiameter * (0.52 + index * 0.035),
-              -13
-            );
+            const target = targets[index];
+            if (!target) return;
+            positionOrbitRing(ring, target.x, target.y, target.width, target.height, target.rotate);
           });
         };
 
@@ -1080,17 +1097,15 @@ export default function Portfolio() {
           if (y < layout.carouselStart) {
             const raw = gsap.utils.clamp(0, 1, (y - layout.proofStart) / Math.max(1, layout.carouselStart - layout.proofStart));
             const amount = smooth(raw);
-            const startX = -layout.width * 0.3;
-            const startY = layout.viewportHeight * 0.28 - layout.height * 0.5;
-            const controlX = layout.viewportWidth * 0.22 - layout.width * 0.45;
-            const controlY = layout.viewportHeight * 0.22 - layout.height * 0.42;
-            const opacity = visibleOpacity * Math.min(1, raw / 0.16);
+            const startX = layout.viewportWidth * (layout.viewportWidth <= 800 ? 0.18 : 0.16) - layout.width / 2;
+            const startY = layout.pos3Y + layout.viewportHeight * (layout.viewportWidth <= 800 ? 0.025 : 0.04);
+            const opacity = visibleOpacity * Math.min(1, raw / 0.1);
             setMode("travel");
             setSignal(
-              quadratic(startX, controlX, layout.pos3X, amount),
-              quadratic(startY, controlY, layout.pos3Y, amount),
-              interpolate(0.78, layout.pos3Scale, softOut(raw)),
-              interpolate(-14, 0, amount),
+              interpolate(startX, layout.pos3X, amount),
+              interpolate(startY, layout.pos3Y, amount),
+              interpolate(layout.pos3Scale * 0.9, layout.pos3Scale, softOut(raw)),
+              interpolate(-5, 0, amount),
               opacity,
               "travel"
             );
@@ -1125,20 +1140,18 @@ export default function Portfolio() {
               "detached"
             );
 
-            const centreX = layout.pos3X + layout.width / 2;
-            const centreY = layout.pos3Y + layout.height / 2;
-            const globeDiameter = layout.width * layout.pos3Scale * 0.96;
+            const carouselTargets = carouselRingTargets(layout.pos3X, layout.pos3Y, layout.pos3Scale);
             orbitRings.forEach((ring, index) => {
+              const from = carouselTargets[index];
               const target = targets[index];
-              const startWidth = globeDiameter * (1.12 + index * 0.13);
-              const startHeight = globeDiameter * (0.52 + index * 0.035);
+              if (!from || !target) return;
               positionOrbitRing(
                 ring,
-                interpolate(centreX, target.x, amount),
-                interpolate(centreY, target.y, amount),
-                interpolate(startWidth, target.size, amount),
-                interpolate(startHeight, target.size, amount),
-                interpolate(-13, target.rotate, amount)
+                interpolate(from.x, target.x, amount),
+                interpolate(from.y, target.y, amount),
+                interpolate(from.width, target.size, amount),
+                interpolate(from.height, target.size, amount),
+                interpolate(from.rotate, target.rotate, amount)
               );
             });
             return;
@@ -1704,7 +1717,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.2.3 · Build 008</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.2.4 · Build 009</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />

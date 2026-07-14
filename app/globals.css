@@ -101,17 +101,36 @@ img, video { display: block; max-width: 100%; }
 .globe-orbit-segment {
   position: absolute;
   inset: 0;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
   opacity: .88;
-  background: conic-gradient(from 0deg, transparent 0 4%, rgba(198,187,255,.08) 4% 6.5%, rgba(170,152,255,.92) 6.5% 16.5%, rgba(116,216,255,.22) 16.5% 18.5%, transparent 18.5% 100%);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
-  animation: globe-orbit-segment-spin 11s linear infinite;
 }
-.globe-orbit-ring:nth-child(even) .globe-orbit-segment { animation-direction: reverse; animation-duration: 13.5s; }
-.globe-orbit-ring:nth-child(3) .globe-orbit-segment { animation-delay: -4.1s; }
-.globe-orbit-ring:nth-child(4) .globe-orbit-segment { animation-delay: -7.2s; }
-.globe-orbit-ring:nth-child(5) .globe-orbit-segment { animation-delay: -2.6s; }
+.globe-orbit-segment-path {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  animation-duration: 11s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.globe-orbit-segment-main {
+  stroke: rgba(170, 152, 255, .92);
+  stroke-width: 3.4;
+  stroke-dasharray: 11 89;
+  animation-name: globe-orbit-segment-spin;
+}
+.globe-orbit-segment-tail {
+  stroke: rgba(116, 216, 255, .34);
+  stroke-width: 2.2;
+  stroke-dasharray: 2.2 97.8;
+  stroke-dashoffset: -12.6;
+  animation-name: globe-orbit-segment-tail-spin;
+}
+.globe-orbit-ring:nth-child(even) .globe-orbit-segment-path { animation-direction: reverse; animation-duration: 13.5s; }
+.globe-orbit-ring:nth-child(3) .globe-orbit-segment-path { animation-delay: -4.1s; }
+.globe-orbit-ring:nth-child(4) .globe-orbit-segment-path { animation-delay: -7.2s; }
+.globe-orbit-ring:nth-child(5) .globe-orbit-segment-path { animation-delay: -2.6s; }
 .globe-orbit-system[data-mode="carousel"][data-ring-count="1"] .globe-orbit-ring:nth-child(-n+1),
 .globe-orbit-system[data-mode="carousel"][data-ring-count="2"] .globe-orbit-ring:nth-child(-n+2),
 .globe-orbit-system[data-mode="carousel"][data-ring-count="3"] .globe-orbit-ring:nth-child(-n+3),
@@ -130,11 +149,11 @@ img, video { display: block; max-width: 100%; }
   border-color: rgba(170, 152, 255, .34);
   box-shadow: inset 0 0 30px rgba(116,216,255,.035), 0 0 36px rgba(155,125,255,.06);
 }
-.globe-orbit-system[data-mode="detached"] .globe-orbit-ring:nth-child(1) .globe-orbit-float { animation: globe-detached-float-a 7.8s ease-in-out infinite; }
-.globe-orbit-system[data-mode="detached"] .globe-orbit-ring:nth-child(2) .globe-orbit-float { animation: globe-detached-float-b 11.4s ease-in-out infinite -3.1s; }
-.globe-orbit-system[data-mode="detached"] .globe-orbit-ring:nth-child(3) .globe-orbit-float { animation: globe-detached-float-c 9.2s ease-in-out infinite -5.2s; }
-.globe-orbit-system[data-mode="detached"] .globe-orbit-ring:nth-child(4) .globe-orbit-float { animation: globe-detached-float-d 6.7s ease-in-out infinite -1.8s; }
-.globe-orbit-system[data-mode="detached"] .globe-orbit-ring:nth-child(5) .globe-orbit-float { animation: globe-detached-float-e 13.2s ease-in-out infinite -7.4s; }
+.globe-orbit-system:is([data-mode="carousel"], [data-mode="detached"]) .globe-orbit-ring:nth-child(1) .globe-orbit-float { animation: globe-detached-float-a 7.8s ease-in-out infinite; }
+.globe-orbit-system:is([data-mode="carousel"], [data-mode="detached"]) .globe-orbit-ring:nth-child(2) .globe-orbit-float { animation: globe-detached-float-b 11.4s ease-in-out infinite -3.1s; }
+.globe-orbit-system:is([data-mode="carousel"], [data-mode="detached"]) .globe-orbit-ring:nth-child(3) .globe-orbit-float { animation: globe-detached-float-c 9.2s ease-in-out infinite -5.2s; }
+.globe-orbit-system:is([data-mode="carousel"], [data-mode="detached"]) .globe-orbit-ring:nth-child(4) .globe-orbit-float { animation: globe-detached-float-d 6.7s ease-in-out infinite -1.8s; }
+.globe-orbit-system:is([data-mode="carousel"], [data-mode="detached"]) .globe-orbit-ring:nth-child(5) .globe-orbit-float { animation: globe-detached-float-e 13.2s ease-in-out infinite -7.4s; }
 .globe-orbit-system[data-mode="final"] .globe-orbit-ring { opacity: .76; }
 .globe-orbit-system[data-mode="final"] .globe-orbit-body {
   border-color: rgba(199, 188, 255, .46);
@@ -146,7 +165,8 @@ img, video { display: block; max-width: 100%; }
 .globe-orbit-system[data-mode="final"] .globe-orbit-ring:nth-child(3) .globe-orbit-float { animation: globe-moon-drift-c 6.4s ease-in-out infinite -4.1s; }
 .globe-orbit-system[data-mode="final"] .globe-orbit-ring:nth-child(4) .globe-orbit-float { animation: globe-moon-drift-d 10.6s ease-in-out infinite -5.3s; }
 .globe-orbit-system[data-mode="final"] .globe-orbit-ring:nth-child(5) .globe-orbit-float { animation: globe-moon-drift-e 7.9s ease-in-out infinite -1.4s; }
-@keyframes globe-orbit-segment-spin { to { rotate: 360deg; } }
+@keyframes globe-orbit-segment-spin { to { stroke-dashoffset: -100; } }
+@keyframes globe-orbit-segment-tail-spin { to { stroke-dashoffset: -112.6; } }
 @keyframes globe-detached-float-a { 0%, 100% { transform: translate3d(-18px,-10px,0); } 50% { transform: translate3d(34px,24px,0); } }
 @keyframes globe-detached-float-b { 0%, 100% { transform: translate3d(24px,-22px,0); } 50% { transform: translate3d(-42px,34px,0); } }
 @keyframes globe-detached-float-c { 0%, 100% { transform: translate3d(-34px,22px,0); } 50% { transform: translate3d(38px,-28px,0); } }
