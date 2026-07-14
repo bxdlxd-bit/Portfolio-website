@@ -147,6 +147,8 @@ function RecognitionMediaRotator({
 }
 
 
+const REEL_FRAME_ROTATIONS = [-2.6, 1.9, -1.35, 2.25, -1.7, 1.15, -0.7] as const;
+
 const LANDING_ROLES = [
   "Direction",
   "Camera",
@@ -444,12 +446,17 @@ export default function Portfolio() {
       const reelFrame = document.querySelector<HTMLElement>(".landing-reel-frame");
       const reelHeading = document.querySelector<HTMLElement>(".landing-reel-heading");
       const reelScroll = document.querySelector<HTMLElement>(".landing-reel-scroll");
+      const reelOutlines = gsap.utils.toArray<HTMLElement>(".landing-reel-outline");
       if (reel && reelPin && reelFrame) {
         const initialScale = window.innerWidth <= 520 ? 0.72 : window.innerWidth <= 1050 ? 0.54 : 0.42;
         const finalScale = () => (window.innerWidth * 0.8) / reelFrame.offsetWidth;
         const initialHalfHeight = () => reelFrame.offsetHeight * initialScale * 0.5;
         const finalHalfHeight = () => reelFrame.offsetHeight * finalScale() * 0.5;
         const headingGap = () => window.innerWidth <= 800 ? 76 : 86;
+
+        const outlineBaseScale = () => initialScale + (window.innerWidth <= 520 ? 0.1 : 0.08);
+        const outlineScaleStep = () => window.innerWidth <= 520 ? 0.14 : window.innerWidth <= 800 ? 0.135 : 0.125;
+        const outlineRotation = (element: HTMLElement) => Number.parseFloat(element.dataset.rotation ?? "0");
 
         const reelTimeline = gsap.timeline({
           scrollTrigger: {
@@ -462,6 +469,25 @@ export default function Portfolio() {
             invalidateOnRefresh: true
           }
         });
+
+        if (reelOutlines.length) {
+          reelTimeline.fromTo(reelOutlines, {
+            scale: (index) => outlineBaseScale() + index * outlineScaleStep(),
+            rotation: (_index, element) => outlineRotation(element as HTMLElement),
+            xPercent: (index) => (index % 2 === 0 ? -1 : 1) * (index + 1) * 0.85,
+            yPercent: (index) => (index % 3 === 0 ? -1 : 1) * (index + 1) * 0.36,
+            autoAlpha: (index) => Math.max(0.18, 0.58 - index * 0.055)
+          }, {
+            scale: (index) => finalScale() * (1.08 + index * 0.18),
+            rotation: (_index, element) => outlineRotation(element as HTMLElement) * 1.72,
+            xPercent: (index) => (index % 2 === 0 ? -1 : 1) * (index + 1) * 1.7,
+            yPercent: (index) => (index % 3 === 0 ? -1 : 1) * (index + 1) * 0.8,
+            autoAlpha: 0,
+            duration: 0.88,
+            stagger: 0.012,
+            ease: "power1.out"
+          }, 0.06);
+        }
 
         if (reelHeading) {
           reelTimeline.fromTo(reelHeading, {
@@ -479,16 +505,16 @@ export default function Portfolio() {
 
         if (reelScroll) {
           reelTimeline.fromTo(reelScroll, {
-            autoAlpha: 0,
-            y: 0,
-            scale: 0.9
-          }, {
             autoAlpha: 1,
-            y: () => initialHalfHeight() + 42,
-            scale: 1,
-            duration: 0.16,
-            ease: "back.out(1.7)"
-          }, 0.11);
+            y: () => initialHalfHeight() + 46,
+            scale: 1
+          }, {
+            autoAlpha: 0,
+            y: () => finalHalfHeight() + 54,
+            scale: 0.96,
+            duration: 0.58,
+            ease: "power1.out"
+          }, 0.3);
         }
 
         reelTimeline.to(reelFrame, {
@@ -506,13 +532,6 @@ export default function Portfolio() {
           }, 0.18);
         }
 
-        if (reelScroll) {
-          reelTimeline.to(reelScroll, {
-            y: () => finalHalfHeight() + 42,
-            duration: 0.82,
-            ease: "none"
-          }, 0.18);
-        }
       }
 
       const projectCarousel = document.querySelector<HTMLElement>(".project-carousel");
@@ -1272,6 +1291,20 @@ export default function Portfolio() {
       <section className="landing-reel" id="reel" aria-label="Featured reel">
         <div className="landing-reel-pin">
           <div className="landing-reel-stage">
+            <div className="landing-reel-radiance" aria-hidden="true">
+              {REEL_FRAME_ROTATIONS.map((rotation, index) => (
+                <span
+                  className="landing-reel-outline"
+                  data-rotation={rotation}
+                  key={`reel-outline-${index}`}
+                  style={{
+                    "--reel-outline-scale": `${0.5 + index * 0.125}`,
+                    "--reel-outline-rotation": `${rotation}deg`,
+                    "--reel-outline-opacity": `${Math.max(0.18, 0.58 - index * 0.055)}`
+                  } as CSSProperties}
+                />
+              ))}
+            </div>
             <div className="landing-reel-heading" aria-hidden="true">
               <strong data-cursor-mask>Featured reel</strong>
               <span data-cursor-mask>Direction / Camera / Edit / Sound</span>
@@ -1288,7 +1321,12 @@ export default function Portfolio() {
                 </video>
               </motion.div>
             </div>
-            <div className="landing-reel-scroll" aria-hidden="true" data-cursor-mask>Keep scrolling</div>
+            <div className="landing-reel-scroll" aria-hidden="true">
+              <span className="landing-reel-scroll-copy landing-reel-scroll-copy-wheel">Scroll to open reel</span>
+              <span className="landing-reel-scroll-copy landing-reel-scroll-copy-touch">Swipe up to open reel</span>
+              <span className="landing-reel-scroll-track"><i /></span>
+              <span className="landing-reel-scroll-arrow">↓</span>
+            </div>
           </div>
         </div>
       </section>
@@ -1554,7 +1592,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.1.0 · Build 004</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.2.0 · Build 005</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />

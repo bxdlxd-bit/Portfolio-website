@@ -118,10 +118,7 @@ export default function InteractiveCursor() {
       targetDocumentTop = bounds.top + window.scrollY;
       targetWidth = Math.max(bounds.width, 1);
       targetHeight = Math.max(bounds.height, 1);
-      const configuredRadius = Number.parseFloat(getComputedStyle(activeTarget).getPropertyValue("--cursor-mask-radius")) || 148;
-      targetMaskRadius = activeTarget.classList.contains("landing-word-shell")
-        ? configuredRadius
-        : Math.max(12, Math.hypot(targetWidth, targetHeight) * 1.04);
+      targetMaskRadius = Math.max(12, Math.hypot(targetWidth, targetHeight) * 1.04);
       activeTarget.style.setProperty("--cursor-mask-radius", `${targetMaskRadius.toFixed(2)}px`);
       lastBoundsRefresh = performance.now();
       syncWordmarkHighlight();

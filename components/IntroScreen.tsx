@@ -157,9 +157,9 @@ function IntroParticles({ phase }: { phase: IntroPhase }) {
           : 1;
         context.beginPath();
         context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        context.fillStyle = `rgba(102, 54, 201, ${particle.alpha * releaseFade})`;
-        context.shadowBlur = activePhase === "charging" ? 13 : 6;
-        context.shadowColor = "rgba(117, 69, 220, .34)";
+        context.fillStyle = `rgba(177, 151, 255, ${particle.alpha * releaseFade})`;
+        context.shadowBlur = activePhase === "charging" ? 15 : 7;
+        context.shadowColor = "rgba(139, 104, 255, .58)";
         context.fill();
       });
 
