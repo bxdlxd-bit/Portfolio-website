@@ -149,34 +149,14 @@ img, video { display: block; max-width: 100%; }
   border-color: rgba(170, 152, 255, .34);
   box-shadow: inset 0 0 30px rgba(116,216,255,.035), 0 0 36px rgba(155,125,255,.06);
 }
-.globe-orbit-system:is([data-mode="carousel"], [data-mode="detached"]) .globe-orbit-ring:nth-child(1) .globe-orbit-float { animation: globe-detached-float-a 7.8s ease-in-out infinite; }
-.globe-orbit-system:is([data-mode="carousel"], [data-mode="detached"]) .globe-orbit-ring:nth-child(2) .globe-orbit-float { animation: globe-detached-float-b 11.4s ease-in-out infinite -3.1s; }
-.globe-orbit-system:is([data-mode="carousel"], [data-mode="detached"]) .globe-orbit-ring:nth-child(3) .globe-orbit-float { animation: globe-detached-float-c 9.2s ease-in-out infinite -5.2s; }
-.globe-orbit-system:is([data-mode="carousel"], [data-mode="detached"]) .globe-orbit-ring:nth-child(4) .globe-orbit-float { animation: globe-detached-float-d 6.7s ease-in-out infinite -1.8s; }
-.globe-orbit-system:is([data-mode="carousel"], [data-mode="detached"]) .globe-orbit-ring:nth-child(5) .globe-orbit-float { animation: globe-detached-float-e 13.2s ease-in-out infinite -7.4s; }
 .globe-orbit-system[data-mode="final"] .globe-orbit-ring { opacity: .76; }
 .globe-orbit-system[data-mode="final"] .globe-orbit-body {
   border-color: rgba(199, 188, 255, .46);
   box-shadow: inset 0 0 18px rgba(116,216,255,.04), 0 0 26px rgba(155,125,255,.12);
 }
 .globe-orbit-system[data-mode="final"] .globe-orbit-segment { opacity: 0; }
-.globe-orbit-system[data-mode="final"] .globe-orbit-ring:nth-child(1) .globe-orbit-float { animation: globe-moon-drift-a 7.2s ease-in-out infinite; }
-.globe-orbit-system[data-mode="final"] .globe-orbit-ring:nth-child(2) .globe-orbit-float { animation: globe-moon-drift-b 8.8s ease-in-out infinite -2.7s; }
-.globe-orbit-system[data-mode="final"] .globe-orbit-ring:nth-child(3) .globe-orbit-float { animation: globe-moon-drift-c 6.4s ease-in-out infinite -4.1s; }
-.globe-orbit-system[data-mode="final"] .globe-orbit-ring:nth-child(4) .globe-orbit-float { animation: globe-moon-drift-d 10.6s ease-in-out infinite -5.3s; }
-.globe-orbit-system[data-mode="final"] .globe-orbit-ring:nth-child(5) .globe-orbit-float { animation: globe-moon-drift-e 7.9s ease-in-out infinite -1.4s; }
 @keyframes globe-orbit-segment-spin { to { stroke-dashoffset: -100; } }
 @keyframes globe-orbit-segment-tail-spin { to { stroke-dashoffset: -112.6; } }
-@keyframes globe-detached-float-a { 0%, 100% { transform: translate3d(-18px,-10px,0); } 50% { transform: translate3d(34px,24px,0); } }
-@keyframes globe-detached-float-b { 0%, 100% { transform: translate3d(24px,-22px,0); } 50% { transform: translate3d(-42px,34px,0); } }
-@keyframes globe-detached-float-c { 0%, 100% { transform: translate3d(-34px,22px,0); } 50% { transform: translate3d(38px,-28px,0); } }
-@keyframes globe-detached-float-d { 0%, 100% { transform: translate3d(12px,28px,0); } 50% { transform: translate3d(-26px,-36px,0); } }
-@keyframes globe-detached-float-e { 0%, 100% { transform: translate3d(-28px,-18px,0); } 50% { transform: translate3d(46px,32px,0); } }
-@keyframes globe-moon-drift-a { 0%, 100% { transform: translate3d(18px,-12px,0); } 50% { transform: translate3d(-30px,26px,0); } }
-@keyframes globe-moon-drift-b { 0%, 100% { transform: translate3d(28px,2px,0); } 50% { transform: translate3d(-34px,7px,0); } }
-@keyframes globe-moon-drift-c { 0%, 100% { transform: translate3d(0,16px,0); } 50% { transform: translate3d(5px,-24px,0); } }
-@keyframes globe-moon-drift-d { 0%, 100% { transform: translate3d(24px,18px,0); } 50% { transform: translate3d(-30px,-24px,0); } }
-@keyframes globe-moon-drift-e { 0%, 100% { transform: translate3d(-14px,-12px,0); } 50% { transform: translate3d(24px,20px,0); } }
 .scroll-progress { position: fixed; z-index: 50; top: 0; left: 0; right: 0; height: 2px; transform-origin: left center; background: linear-gradient(90deg, var(--violet), var(--cyan)); }
 
 .site-header {

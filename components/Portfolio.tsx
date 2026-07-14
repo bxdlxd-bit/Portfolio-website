@@ -399,6 +399,7 @@ export default function Portfolio() {
     gsap.registerPlugin(ScrollTrigger);
 
     let cleanupOrbitPointer = () => {};
+    let cleanupOrbitMotion = () => {};
     let cleanupReelIdle = () => {};
 
     const context = gsap.context(() => {
@@ -845,8 +846,9 @@ export default function Portfolio() {
       const signal = document.querySelector<HTMLElement>(".signal-field");
       const orbitSystem = document.querySelector<HTMLElement>(".globe-orbit-system");
       const orbitRings = gsap.utils.toArray<HTMLElement>(".globe-orbit-ring");
+      const orbitFloats = gsap.utils.toArray<HTMLElement>(".globe-orbit-float");
       const orbitBodies = gsap.utils.toArray<HTMLElement>(".globe-orbit-body");
-      if (signal && orbitSystem && orbitRings.length === 5 && root) {
+      if (signal && orbitSystem && orbitRings.length === 5 && orbitFloats.length === 5 && root) {
         const approach = document.querySelector<HTMLElement>(".manifesto");
         const proofSection = document.querySelector<HTMLElement>(".proof-section");
         const capabilities = document.querySelector<HTMLElement>("#capabilities");
@@ -857,6 +859,66 @@ export default function Portfolio() {
         const softOut = gsap.parseEase("power3.out");
         const progress = { value: 0 };
         let lastMode = "hidden";
+
+        type OrbitFloatMotion = {
+          duration: number;
+          delay: number;
+          fromX: number;
+          fromY: number;
+          toX: number;
+          toY: number;
+        };
+
+        const detachedFloatMotions: OrbitFloatMotion[] = [
+          { duration: 7.8, delay: 0, fromX: -18, fromY: -10, toX: 34, toY: 24 },
+          { duration: 11.4, delay: -3.1, fromX: 24, fromY: -22, toX: -42, toY: 34 },
+          { duration: 9.2, delay: -5.2, fromX: -34, fromY: 22, toX: 38, toY: -28 },
+          { duration: 6.7, delay: -1.8, fromX: 12, fromY: 28, toX: -26, toY: -36 },
+          { duration: 13.2, delay: -7.4, fromX: -28, fromY: -18, toX: 46, toY: 32 }
+        ];
+
+        const finalFloatMotions: OrbitFloatMotion[] = [
+          { duration: 7.2, delay: 0, fromX: 18, fromY: -12, toX: -30, toY: 26 },
+          { duration: 8.8, delay: -2.7, fromX: 28, fromY: 2, toX: -34, toY: 7 },
+          { duration: 6.4, delay: -4.1, fromX: 0, fromY: 16, toX: 5, toY: -24 },
+          { duration: 10.6, delay: -5.3, fromX: 24, fromY: 18, toX: -30, toY: -24 },
+          { duration: 7.9, delay: -1.4, fromX: -14, fromY: -12, toX: 24, toY: 20 }
+        ];
+
+        let orbitMotionActive = false;
+        let orbitMotionStart = 0;
+        let orbitTickerTime = 0;
+        let orbitFinalBlend = 0;
+
+        const orbitMotionPoint = (motion: OrbitFloatMotion, elapsed: number) => {
+          const cycle = ((elapsed - motion.delay) % motion.duration + motion.duration) % motion.duration;
+          const phase = cycle / motion.duration;
+          const wave = (1 - Math.cos(phase * Math.PI * 2)) / 2;
+          return {
+            x: interpolate(motion.fromX, motion.toX, wave),
+            y: interpolate(motion.fromY, motion.toY, wave)
+          };
+        };
+
+        const updateOrbitMotion = (time: number) => {
+          orbitTickerTime = time;
+          if (!orbitMotionActive) return;
+          const elapsed = Math.max(0, time - orbitMotionStart);
+          orbitFloats.forEach((float, index) => {
+            const detachedPoint = orbitMotionPoint(detachedFloatMotions[index], elapsed);
+            const finalPoint = orbitMotionPoint(finalFloatMotions[index], elapsed);
+            gsap.set(float, {
+              x: interpolate(detachedPoint.x, finalPoint.x, orbitFinalBlend),
+              y: interpolate(detachedPoint.y, finalPoint.y, orbitFinalBlend)
+            });
+          });
+        };
+
+        gsap.ticker.add(updateOrbitMotion);
+        cleanupOrbitMotion = () => {
+          gsap.ticker.remove(updateOrbitMotion);
+          gsap.set(orbitFloats, { clearProps: "transform" });
+        };
 
         type GlobeLayout = {
           width: number;
@@ -1048,6 +1110,15 @@ export default function Portfolio() {
           if (lastMode === mode) return;
           lastMode = mode;
           orbitSystem.dataset.mode = mode;
+          const motionShouldRun = mode === "carousel" || mode === "detached" || mode === "final";
+          if (motionShouldRun && !orbitMotionActive) {
+            orbitMotionActive = true;
+            orbitMotionStart = orbitTickerTime;
+          } else if (!motionShouldRun && orbitMotionActive) {
+            orbitMotionActive = false;
+            orbitFinalBlend = 0;
+            gsap.set(orbitFloats, { x: 0, y: 0 });
+          }
           if (mode === "hidden" || mode === "approach" || mode === "travel") {
             orbitSystem.dataset.ringCount = "0";
           } else if (mode === "detached" || mode === "final") {
@@ -1060,6 +1131,7 @@ export default function Portfolio() {
           if (!layout) return;
           const y = pageProgress * layout.maxScroll;
           const visibleOpacity = layout.viewportWidth <= 800 ? 0.42 : 0.62;
+          orbitFinalBlend = 0;
 
           if (y < layout.approachStart) {
             setMode("hidden");
@@ -1159,6 +1231,7 @@ export default function Portfolio() {
 
           const raw = gsap.utils.clamp(0, 1, (y - layout.contactStart) / Math.max(1, layout.maxScroll - layout.contactStart));
           const amount = smooth(raw);
+          orbitFinalBlend = amount;
           const detached = detachedTargets();
           const moons = moonTargets();
           setMode("final");
@@ -1236,6 +1309,7 @@ export default function Portfolio() {
     return () => {
       cleanupReelIdle();
       cleanupOrbitPointer();
+      cleanupOrbitMotion();
       context.revert();
     };
   }, [introComplete, shouldReduceMotion]);
@@ -1717,7 +1791,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.2.4 · Build 009</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.2.5 · Build 010</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />
