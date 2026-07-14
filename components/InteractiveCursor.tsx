@@ -71,6 +71,35 @@ export default function InteractiveCursor() {
     let lastBoundsRefresh = 0;
     let cursorVisible = false;
     let pageVisible = !document.hidden;
+    const preparedTargets = new Set<HTMLElement>();
+    const targetCleanupTimers = new Map<HTMLElement, number>();
+
+    const prepareMaskTarget = (target: HTMLElement) => {
+      const pendingCleanup = targetCleanupTimers.get(target);
+      if (pendingCleanup) {
+        window.clearTimeout(pendingCleanup);
+        targetCleanupTimers.delete(target);
+      }
+      const wasPrepared = target.classList.contains("cursor-mask-target");
+      target.classList.add("cursor-mask-target");
+      preparedTargets.add(target);
+      return wasPrepared;
+    };
+
+    const scheduleMaskTargetCleanup = (target: HTMLElement) => {
+      const pendingCleanup = targetCleanupTimers.get(target);
+      if (pendingCleanup) window.clearTimeout(pendingCleanup);
+      const timer = window.setTimeout(() => {
+        targetCleanupTimers.delete(target);
+        if (target === activeTarget) return;
+        target.classList.remove("cursor-mask-target");
+        target.style.removeProperty("--cursor-mask-x");
+        target.style.removeProperty("--cursor-mask-y");
+        target.style.removeProperty("--cursor-mask-radius");
+        preparedTargets.delete(target);
+      }, 940);
+      targetCleanupTimers.set(target, timer);
+    };
 
     const syncWordmarkHighlight = () => {
       if (!activeWordmarkSvg || !activeWordmarkCircle || targetWidth <= 0 || targetHeight <= 0) return;
@@ -90,7 +119,9 @@ export default function InteractiveCursor() {
       targetWidth = Math.max(bounds.width, 1);
       targetHeight = Math.max(bounds.height, 1);
       const configuredRadius = Number.parseFloat(getComputedStyle(activeTarget).getPropertyValue("--cursor-mask-radius")) || 148;
-      targetMaskRadius = Math.max(configuredRadius, Math.hypot(targetWidth, targetHeight) * 1.08);
+      targetMaskRadius = activeTarget.classList.contains("landing-word-shell")
+        ? configuredRadius
+        : Math.max(12, Math.hypot(targetWidth, targetHeight) * 1.04);
       activeTarget.style.setProperty("--cursor-mask-radius", `${targetMaskRadius.toFixed(2)}px`);
       lastBoundsRefresh = performance.now();
       syncWordmarkHighlight();
@@ -102,8 +133,10 @@ export default function InteractiveCursor() {
       activeWordmarkSvg = null;
       activeWordmarkCircle = null;
       if (!activeTarget) return;
-      activeTarget.classList.remove("cursor-mask-active");
+      const previousTarget = activeTarget;
+      previousTarget.classList.remove("cursor-mask-active");
       activeTarget = null;
+      scheduleMaskTargetCleanup(previousTarget);
       maskVelocityX = 0;
       maskVelocityY = 0;
     };
@@ -113,6 +146,9 @@ export default function InteractiveCursor() {
       clearMaskTarget();
       activeTarget = nextTarget;
       if (!activeTarget) return;
+
+      const wasPrepared = prepareMaskTarget(activeTarget);
+      if (!wasPrepared) void activeTarget.offsetWidth;
 
       activeWordmarkSvg = activeTarget.querySelector<SVGSVGElement>(".landing-wordmark");
       activeWordmarkCircle = activeTarget.querySelector<SVGCircleElement>(".landing-wordmark-highlight-circle");
@@ -245,6 +281,14 @@ export default function InteractiveCursor() {
       document.removeEventListener("visibilitychange", onVisibility);
       finePointer.removeEventListener("change", setEnabled);
       reducedMotion.removeEventListener("change", ensureFrame);
+      targetCleanupTimers.forEach((timer) => window.clearTimeout(timer));
+      targetCleanupTimers.clear();
+      preparedTargets.forEach((target) => {
+        target.classList.remove("cursor-mask-target", "cursor-mask-active");
+        target.style.removeProperty("--cursor-mask-x");
+        target.style.removeProperty("--cursor-mask-y");
+        target.style.removeProperty("--cursor-mask-radius");
+      });
       if (frame) cancelAnimationFrame(frame);
     };
   }, []);

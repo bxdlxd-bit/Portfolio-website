@@ -645,13 +645,15 @@ export default function Portfolio() {
           const spotifyStart = glowStart + counterElements.length * 0.34 + 0.38;
           counterTimeline
             .to(spotifyButton, {
-              backgroundPosition: "100% 50%",
-              boxShadow: "0 0 38px rgba(154,126,255,.48), 0 0 62px rgba(80,197,255,.22)",
+              borderColor: "rgba(190,176,255,.78)",
+              backgroundColor: "rgba(151,125,255,.1)",
+              boxShadow: "0 0 38px rgba(154,126,255,.38), 0 0 62px rgba(80,197,255,.16)",
               duration: 1.2,
               ease: "sine.inOut"
             }, spotifyStart)
             .to(spotifyButton, {
-              backgroundPosition: "0% 50%",
+              borderColor: "rgba(185,170,255,.34)",
+              backgroundColor: "rgba(255,255,255,.018)",
               boxShadow: "0 0 0 rgba(0,0,0,0)",
               duration: 1.2,
               ease: "sine.inOut"
@@ -1397,6 +1399,7 @@ export default function Portfolio() {
                           </div>
                         </div>
                       </button>
+                      <i className="service-card-connector" aria-hidden="true" />
                     </article>
                   );
                 })}
@@ -1423,7 +1426,6 @@ export default function Portfolio() {
                           >
                             <div className="service-drawer-heading">
                               <span>{activeService.number} / Experience note</span>
-                              <strong>{activeService.title}</strong>
                             </div>
                             <p>{activeService.details}</p>
                           </motion.div>
@@ -1552,7 +1554,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.0.2 · Build 003</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.1.0 · Build 004</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />

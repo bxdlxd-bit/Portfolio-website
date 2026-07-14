@@ -40,6 +40,7 @@ export default function ProjectDialog({ project, onClose }: { project: Project |
           <DialogParticles />
           <motion.article
             className="project-dialog"
+            data-lenis-prevent
             role="dialog"
             aria-modal="true"
             aria-labelledby="dialog-title"
