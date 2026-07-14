@@ -41,7 +41,7 @@ img, video { display: block; max-width: 100%; }
 .site-root { position: relative; isolation: isolate; min-height: 100vh; }
 .section { width: min(calc(100% - 48px), var(--max)); margin-inline: auto; position: relative; z-index: 2; }
 .glass {
-  background: linear-gradient(140deg, rgba(255,255,255,.085), rgba(255,255,255,.035));
+  background: var(--service-compound-surface);
   border: 1px solid var(--line);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 28px 90px rgba(0,0,0,.28);
   backdrop-filter: blur(24px) saturate(135%);
@@ -1925,9 +1925,7 @@ html.intro-locked .intro-logo {
 .service-row {
   --service-column-gap: 14px;
   --service-shoulder-radius: 22px;
-  --service-active-top: rgba(72, 54, 122, .96);
-  --service-active-mid: rgba(46, 35, 79, .96);
-  --service-drawer-top: rgba(24, 25, 38, .9);
+  --service-compound-surface: rgba(18, 20, 30, .88);
   column-gap: var(--service-column-gap);
   row-gap: var(--service-column-gap);
 }
@@ -1949,9 +1947,9 @@ html.intro-locked .intro-logo {
   bottom: auto;
   height: calc(var(--service-shoulder-radius) + 2px);
   display: none;
-  background:
-    linear-gradient(180deg, transparent 0%, rgba(24,25,38,.18) 52%, rgb(24,25,38) 100%),
-    linear-gradient(90deg, var(--service-active-top) 0%, var(--service-active-mid) 62%, rgba(30,27,49,.95) 100%);
+  background: var(--service-compound-surface);
+  backdrop-filter: blur(24px) saturate(135%);
+  -webkit-backdrop-filter: blur(24px) saturate(135%);
   pointer-events: none;
 }
 
@@ -1967,7 +1965,9 @@ html.intro-locked .intro-logo {
   top: 1px;
   width: var(--service-shoulder-radius);
   height: var(--service-shoulder-radius);
-  background: linear-gradient(180deg, var(--service-active-mid) 0%, rgb(24,25,38) 100%);
+  background: var(--service-compound-surface);
+  backdrop-filter: blur(24px) saturate(135%);
+  -webkit-backdrop-filter: blur(24px) saturate(135%);
 }
 
 /* The clipped circle supplies the fine glass outline around the reverse radius. */
@@ -1981,13 +1981,12 @@ html.intro-locked .intro-logo {
 
 .service-card.is-expanded {
   overflow: visible;
+  border-color: var(--line);
   border-bottom-color: transparent;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  background:
-    radial-gradient(circle at 18% 118%, rgba(145, 105, 255, .22), transparent 54%),
-    linear-gradient(90deg, var(--service-active-top), var(--service-active-mid) 62%, rgba(30, 27, 49, .95));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+  background: var(--service-compound-surface);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
 }
 
 .service-card.is-expanded::after {
@@ -2004,7 +2003,9 @@ html.intro-locked .intro-logo {
 
 .service-row.expanded-left .service-card.is-expanded .service-card-connector::before {
   left: 100%;
-  background: linear-gradient(180deg, rgba(30,27,49,.95) 0%, rgb(24,25,38) 100%);
+  background: var(--service-compound-surface);
+  backdrop-filter: blur(24px) saturate(135%);
+  -webkit-backdrop-filter: blur(24px) saturate(135%);
   -webkit-mask: radial-gradient(
     circle at 100% 0,
     transparent 0 calc(var(--service-shoulder-radius) - 1px),
@@ -2028,7 +2029,9 @@ html.intro-locked .intro-logo {
 
 .service-row.expanded-right .service-card.is-expanded .service-card-connector::before {
   right: 100%;
-  background: linear-gradient(180deg, var(--service-active-top) 0%, rgb(24,25,38) 100%);
+  background: var(--service-compound-surface);
+  backdrop-filter: blur(24px) saturate(135%);
+  -webkit-backdrop-filter: blur(24px) saturate(135%);
   -webkit-mask: radial-gradient(
     circle at 0 0,
     transparent 0 calc(var(--service-shoulder-radius) - 1px),
@@ -2053,33 +2056,23 @@ html.intro-locked .intro-logo {
   margin-top: 0;
   border-top-color: transparent;
   border-radius: 25px;
-  box-shadow: 0 28px 90px rgba(0,0,0,.28);
+  background: var(--service-compound-surface);
+  box-shadow: none;
 }
 
-/* A restrained tint carries the selected card colour into the neutral glass drawer. */
+/* The active card and drawer now share one neutral glass surface.
+   Colour is intentionally omitted so the compound silhouette reads cleanly. */
 .service-row.has-expanded .service-drawer::before {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  top: -1px;
-  bottom: auto;
-  width: calc((100% - var(--service-column-gap)) / 2 + var(--service-shoulder-radius));
-  height: clamp(72px, 8vw, 112px);
-  pointer-events: none;
+  display: none;
 }
 
-.service-row.expanded-left .service-drawer::before {
-  left: 0;
-  background: linear-gradient(180deg, rgba(92, 68, 156, .3) 0%, rgba(65, 51, 108, .17) 42%, transparent 100%);
-  -webkit-mask-image: linear-gradient(90deg, #000 0 calc(100% - 28px), transparent 100%);
-  mask-image: linear-gradient(90deg, #000 0 calc(100% - 28px), transparent 100%);
+/* Keep the drawer's outer edge continuous with the selected card. */
+.service-row.expanded-left .service-drawer {
+  border-top-left-radius: 0;
 }
 
-.service-row.expanded-right .service-drawer::before {
-  right: 0;
-  background: linear-gradient(180deg, rgba(92, 68, 156, .3) 0%, rgba(65, 51, 108, .17) 42%, transparent 100%);
-  -webkit-mask-image: linear-gradient(270deg, #000 0 calc(100% - 28px), transparent 100%);
-  mask-image: linear-gradient(270deg, #000 0 calc(100% - 28px), transparent 100%);
+.service-row.expanded-right .service-drawer {
+  border-top-right-radius: 0;
 }
 
 /* Restore only the exposed top edge beneath the inactive card. */
