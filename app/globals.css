@@ -2135,7 +2135,7 @@ html.intro-locked .intro-logo {
   }
 }
 
-/* Creative Producer positioning prototype - Build 011 */
+/* Creative Producer positioning prototype - Build 012 */
 .landing-positioning {
   display: flex;
   align-items: baseline;
@@ -2228,21 +2228,29 @@ html.intro-locked .intro-logo {
   gap: 10px;
 }
 .process-stage {
-  min-height: 210px;
-  padding: 21px 18px 20px;
+  min-height: 168px;
+  padding: 18px 18px 19px;
   border: 1px solid rgba(255,255,255,.1);
   border-radius: 20px;
   background: linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
   box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
 }
-.process-stage > span {
+.process-stage-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.process-stage-heading > span {
+  flex: 0 0 auto;
+  padding-top: 2px;
   color: #a996ff;
   font-size: 8px;
   font-weight: 750;
   letter-spacing: .16em;
 }
 .process-stage h3 {
-  margin: 38px 0 12px;
+  margin: 0 0 20px;
   font-size: clamp(19px, 1.8vw, 26px);
   line-height: 1;
   letter-spacing: -.035em;
@@ -2334,16 +2342,34 @@ html.intro-locked .intro-logo {
   font-size: 12px;
   line-height: 1.7;
 }
-.credentials-status {
+.credentials-actions {
   flex: 0 0 auto;
-  padding: 10px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.credentials-actions a {
+  min-height: 40px;
+  padding: 10px 13px;
   border: 1px solid rgba(170,152,255,.26);
   border-radius: 999px;
-  color: #b7a8ff;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: #c1b5ff;
   font-size: 8px;
   font-weight: 750;
   text-transform: uppercase;
   letter-spacing: .14em;
+  transition: color .25s ease, border-color .25s ease, background .25s ease, transform .25s var(--ease);
+}
+.credentials-actions a:hover,
+.credentials-actions a:focus-visible {
+  color: #fff;
+  border-color: rgba(190,174,255,.58);
+  background: rgba(139,104,255,.12);
+  transform: translateY(-2px);
 }
 .testimonial-heading {
   display: flex;
@@ -2512,7 +2538,7 @@ html.intro-locked .intro-logo {
 
 @media (max-width: 1100px) {
   .process-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .process-stage { min-height: 190px; }
+  .process-stage { min-height: 158px; }
   .experience-grid,
   .testimonial-grid { grid-template-columns: 1fr; }
   .experience-card,
@@ -2531,7 +2557,7 @@ html.intro-locked .intro-logo {
   .manifesto-body { gap: 30px; }
   .manifesto-support { margin-top: -6px; }
   .process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .process-stage { min-height: 175px; }
+  .process-stage { min-height: 150px; }
   .credentials-card,
   .testimonial-heading { align-items: flex-start; flex-direction: column; }
   .experience { padding-top: 36px; padding-bottom: 150px; }
@@ -2559,11 +2585,11 @@ html.intro-locked .intro-logo {
   }
   .landing-credibility strong { font-size: 11px; }
   .process-grid { grid-template-columns: 1fr; }
-  .process-stage { min-height: 150px; }
-  .process-stage h3 { margin-top: 28px; }
+  .process-stage { min-height: 132px; }
+  .process-stage h3 { margin-bottom: 15px; }
   .project-role-summary span { font-size: 7px; }
   .credentials-card { gap: 20px; }
-  .credentials-status { white-space: nowrap; }
+  .credentials-actions { justify-content: flex-start; }
   .testimonial-heading h3 { font-size: 11vw; }
   .contact-routes article { min-height: 0; }
   .dialog-content { padding: 42px 20px 30px; }

@@ -246,8 +246,10 @@ function ApproachManifesto({ reduceMotion }: { reduceMotion: boolean }) {
         <div className="process-grid">
           {processStages.map((stage) => (
             <article className="process-stage" key={stage.number}>
-              <span>{stage.number}</span>
-              <h3 data-cursor-mask>{stage.title}</h3>
+              <div className="process-stage-heading">
+                <h3 data-cursor-mask>{stage.title}</h3>
+                <span>{stage.number}</span>
+              </div>
               <p>{stage.copy}</p>
             </article>
           ))}
@@ -1492,7 +1494,7 @@ export default function Portfolio() {
             >
               <a className="button button-primary" href="#work"><span data-cursor-mask>View selected work</span><span>↘</span></a>
               <a className="button button-quiet" href="#contact"><span data-cursor-mask>Discuss a project</span><span>↗</span></a>
-              <a className="button button-quiet button-placeholder" href="#credentials"><span data-cursor-mask>Download CV</span><small>Placeholder</small></a>
+              <a className="button button-quiet" href="/documents/joshua-pearman-creative-producer-cv.pdf" download="Joshua-Pearman-Creative-Producer-CV.pdf"><span data-cursor-mask>Download CV</span><span>↓</span></a>
             </motion.div>
           </div>
           <motion.div
@@ -1756,10 +1758,13 @@ export default function Portfolio() {
         <article className="credentials-card glass" id="credentials">
           <div>
             <span>Application material</span>
-            <h3 data-cursor-mask>Producer CV + credentials PDF</h3>
-            <p>[PLACEHOLDER: link the final role-targeted CV and a concise producer credentials document containing key statistics, three flagship projects, recognition and contact details.]</p>
+            <h3 data-cursor-mask>Creative Producer CV</h3>
+            <p>A one-page, role-targeted CV covering production ownership, leadership scale, case studies, capabilities, recognition, equipment and UK-wide availability. [PLACEHOLDER: add a separate producer credentials PDF after the flagship case-study copy is final.]</p>
           </div>
-          <span className="credentials-status">Placeholder asset</span>
+          <div className="credentials-actions">
+            <a href="/documents/joshua-pearman-creative-producer-cv.pdf" target="_blank" rel="noreferrer">View CV <span>↗</span></a>
+            <a href="/documents/joshua-pearman-creative-producer-cv.pdf" download="Joshua-Pearman-Creative-Producer-CV.pdf">Download PDF <span>↓</span></a>
+          </div>
         </article>
         <div className="testimonial-heading">
           <p className="section-index" data-cursor-mask>References in progress</p>
@@ -1884,7 +1889,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.3.0 · Build 011</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.3.1 · Build 012</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />

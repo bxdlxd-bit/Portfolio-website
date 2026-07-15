@@ -40,27 +40,28 @@ export const projects: Project[] = [
     year: "2024",
     roles: ["Creative production", "Campaign delivery", "Direction", "Post-production"],
     roleLabel: "Creative Producer / Director / Editor",
-    scaleLabel: "6 releases · 60+ assets",
+    scaleLabel: "3 months · £5,000 budget",
     caseStudy: {
       brief: "Build a coherent social-first campaign for a collaborative six-track project involving multiple artists, personalities and release moments.",
       role: "Creative Producer, Director, Camera Operator and Editor.",
       responsibilities: [
-        "Developed the campaign's visual and content system",
-        "Planned production around multiple contributors and release dates",
-        "Coordinated artists and filming requirements",
-        "Directed, filmed and edited platform-specific content",
-        "Managed delivery across the campaign timeline"
+        "Developed the full treatment and content-package plan",
+        "Planned a three-month production around multiple contributors and release dates",
+        "Coordinated six featured artists and the required filming sessions",
+        "Directed, filmed and edited platform-specific performance content",
+        "Managed photography, interviews, end cards, Spotify Canvases and final delivery"
       ],
       scale: [
-        "6-track release campaign",
-        "60+ delivered assets",
-        "Multiple artists and stakeholders",
-        "Campaign duration: [PLACEHOLDER]",
-        "Budget range: [PLACEHOLDER]"
+        "Campaign duration: 3 months",
+        "Budget: £5,000",
+        "6 featured artists",
+        "5-10 social-ready performance reels per artist",
+        "40+ press-ready portraits of the producers",
+        "50+ press-ready portraits across featured artists"
       ],
-      outcome: "[PLACEHOLDER: campaign performance, client response and release impact]",
-      credits: "Client and collaborator credits to be confirmed before publication.",
-      tools: ["Sony FX30", "DaVinci Resolve", "Premiere Pro", "After Effects"]
+      outcome: "Delivered the full treatment and content package, performance reels for all six artists, press-ready producer and featured-artist photography, content end cards, Spotify Canvases and a one-hour deep-dive interview on the story of M-Beat and Missing.",
+      credits: "M-Beat & Missing - Clients; Ian McQuaid - Project hire / Interviewer; Alfie Cartwright - B-camera Operator / Overflow Editor.",
+      tools: ["Lightroom", "Three-point lighting", "Gimbal", "Lenses", "Microphones"]
     }
   },
   {
@@ -81,22 +82,23 @@ export const projects: Project[] = [
       brief: "Deliver a reliable multi-date tour across the UK and Europe while balancing the audience experience, artist needs, technical systems and commercial constraints.",
       role: "Tour Manager, Production Lead and Performing Artist.",
       responsibilities: [
-        "Planned routing, transport, schedules and accommodation",
-        "Coordinated a 13-person touring party",
-        "Managed venue communication, guestlists and show-day timings",
-        "Built playback, wireless microphone, monitoring and visual systems",
-        "Oversaw load-ins, soundchecks, merchandise and practical troubleshooting"
+        "Managed a 13-person crew across the complete run",
+        "Planned routing, vehicle hire, travel, schedules, accommodation and food",
+        "Managed venue communication, guestlists, support acts and show-day timings",
+        "Coordinated performance equipment, lighting desks, FOH workflows and point-of-sale",
+        "Oversaw load-ins, soundchecks, merchandise, promotion and practical troubleshooting"
       ],
       scale: [
-        "3 UK dates and 5 European dates",
-        "13-person touring party",
-        "Tour budget: [PLACEHOLDER: publishable range]",
-        "Merchandise operation: [PLACEHOLDER]",
-        "Venues and countries: [PLACEHOLDER]"
+        "8 dates across 8 cities and 5 countries",
+        "13-person crew",
+        "£5,000 generated from ticket sales across 3 UK dates",
+        "£3,000 allocated across European travel, accommodation, food, UK venue hire, fuel and performance equipment",
+        "£5,000 merchandise investment returned £10,000 revenue",
+        "Paris - Forum Club; Hamburg - Turmizimmer; Berlin - Machinenhaus; Warsaw - Mechanik; Prague - Bike Jesus; Birmingham - Sunflower Lounge; Manchester - Eagle Inn; London - Fox & Firkin"
       ],
-      outcome: "[PLACEHOLDER: commercial result, team feedback and delivery outcome]",
-      credits: "Tour personnel, venues and agency relationships to be listed with permission.",
-      tools: ["Playback systems", "Wireless microphones", "IEM systems", "Shopify", "Tour logistics"]
+      outcome: "Delivered three sold-out dates, collected verifiable audience ticket-sale analytics, ran online and in-person promotion through tour posters, social advertising and email marketing, developed a healthy team network eager to collaborate again, and worked alongside French production company Base Productions for the European dates.",
+      credits: "Ian McQuaid - Artist Manager; Sunflower Lounge; Eagle Inn; Fox & Firkin; Base Productions - Niels & Naomie.",
+      tools: ["Vehicle hire", "Lighting desks", "FOH", "Point-of-sale"]
     }
   },
   {
@@ -152,27 +154,28 @@ export const projects: Project[] = [
     year: "2025",
     roles: ["Video production", "Multicam direction", "Live capture", "Post-production"],
     roleLabel: "Video Producer / Multicam Director / Editor",
-    scaleLabel: "[CAMERA COUNT] cameras · [DELIVERY COUNT] assets",
+    scaleLabel: "5 cameras · 10+ assets",
     caseStudy: {
-      brief: "Capture a live performance from multiple viewpoints and turn it into a coherent audience-facing film with aligned sound, colour and pacing.",
+      brief: "Capture live performances from multiple viewpoints and turn them into coherent audience-facing films with aligned sound, colour and pacing while travelling between tour dates.",
       role: "Video Producer, Multicam Director, Camera Operator and Editor.",
       responsibilities: [
-        "Planned camera positions and coverage priorities",
-        "Coordinated operators and capture requirements",
-        "Managed media, synchronisation and proxy workflows",
-        "Edited the performance and aligned live audio",
-        "Completed colour, cleanup and final exports"
+        "Planned five-camera positions and coverage priorities",
+        "Coordinated a three-person capture crew and performance requirements",
+        "Managed media, synchronisation and proxy workflows while travelling",
+        "Edited the performances and aligned live audio",
+        "Completed next-day colour grading and platform-specific exports"
       ],
       scale: [
-        "Camera count: [PLACEHOLDER]",
-        "Crew size: [PLACEHOLDER]",
-        "Performance length: [PLACEHOLDER]",
-        "Turnaround: [PLACEHOLDER]",
-        "Delivery platforms: [PLACEHOLDER]"
+        "Camera count: 5",
+        "Crew size: 3",
+        "Performance length: 60 minutes + 30 minutes",
+        "Turnaround: next day while travelling",
+        "Delivery count: 10+ assets",
+        "Delivery platforms: YouTube, Spotify, TikTok and Instagram"
       ],
-      outcome: "[PLACEHOLDER: delivery result, audience performance and client response]",
-      credits: "[PLACEHOLDER: venue, camera operators, FOH engineer and performers]",
-      tools: ["Multicam workflow", "DaVinci Resolve", "Premiere Pro", "Live audio synchronisation"]
+      outcome: "Captured multiple one-hour sets across a tour and delivered dozens of highlighted vertical moments for social media, alongside colour-graded long-form performance assets for audience release.",
+      credits: "Fox & Firkin - Venue; Alfie Cartwright - Handheld Camera Operator; Kristian Bennet - Lighting Technician; Alastair Wain - Drummer; Bailey Dopson - Guitarist; Alex Charles - Bassist.",
+      tools: ["Five-camera workflow", "DaVinci Resolve", "Premiere Pro", "Live audio synchronisation", "Colour grading"]
     },
     links: [
       { label: "BVDLVD London set", href: "https://youtu.be/cRYERtR_lSM" },
