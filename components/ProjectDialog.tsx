@@ -65,8 +65,42 @@ export default function ProjectDialog({ project, onClose }: { project: Project |
               </div>
               <h2 id="dialog-title">{project.title}</h2>
               <p>{project.longDescription}</p>
+              <div className="dialog-project-summary">
+                <span>{project.roleLabel}</span>
+                <strong>{project.scaleLabel}</strong>
+              </div>
               <div className="dialog-roles">
                 {project.roles.map((role) => <span key={role}>{role}</span>)}
+              </div>
+              <div className="dialog-case-study">
+                <section>
+                  <span>Brief</span>
+                  <p>{project.caseStudy.brief}</p>
+                </section>
+                <section>
+                  <span>My role</span>
+                  <p>{project.caseStudy.role}</p>
+                </section>
+                <section>
+                  <span>Responsibilities</span>
+                  <ul>{project.caseStudy.responsibilities.map((item) => <li key={item}>{item}</li>)}</ul>
+                </section>
+                <section>
+                  <span>Scale</span>
+                  <ul>{project.caseStudy.scale.map((item) => <li key={item}>{item}</li>)}</ul>
+                </section>
+                <section className="dialog-case-wide">
+                  <span>Outcome</span>
+                  <p>{project.caseStudy.outcome}</p>
+                </section>
+                <section className="dialog-case-wide">
+                  <span>Credits</span>
+                  <p>{project.caseStudy.credits}</p>
+                </section>
+                <section className="dialog-case-wide">
+                  <span>Tools</span>
+                  <div className="dialog-tools">{project.caseStudy.tools.map((tool) => <i key={tool}>{tool}</i>)}</div>
+                </section>
               </div>
               {project.links?.length ? (
                 <div className="dialog-links">

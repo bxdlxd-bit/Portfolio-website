@@ -1,8 +1,18 @@
+export type ProjectCaseStudy = {
+  brief: string;
+  role: string;
+  responsibilities: string[];
+  scale: string[];
+  outcome: string;
+  credits: string;
+  tools: string[];
+};
+
 export type Project = {
   id: string;
   title: string;
   eyebrow: string;
-  category: "Film" | "Live" | "Campaign" | "Audio" | "Direction";
+  category: "Branded Content" | "Live Production" | "Video Production" | "Multicam" | "Creative Direction";
   description: string;
   longDescription: string;
   video: string;
@@ -10,84 +20,200 @@ export type Project = {
   accent: string;
   year: string;
   roles: string[];
+  roleLabel: string;
+  scaleLabel: string;
+  caseStudy: ProjectCaseStudy;
   links?: { label: string; href: string }[];
 };
 
 export const projects: Project[] = [
   {
-    id: "showreel",
-    title: "Artist showreel",
-    eyebrow: "Selected direction, camera and edit",
-    category: "Film",
-    description: "A concentrated reel of music-led visual work built around movement, atmosphere and performance.",
-    longDescription: "A selection of directing, camera and editing work across music videos and artist-led visual projects. The approach prioritises pace, texture and performance while keeping every frame connected to the identity of the artist.",
+    id: "bagatune",
+    title: "Fusion Without Formula",
+    eyebrow: "BAGATUNE release campaign",
+    category: "Branded Content",
+    description: "A multi-artist social campaign developed from one central release identity into more than 60 platform-ready assets.",
+    longDescription: "A producer-led campaign system created for M-Beat and Missing's BAGATUNE project. The work translated the Fusion Without Formula identity into repeatable social content while coordinating artists, production, filming, post-production and release delivery.",
+    video: "/media/video/vertical-content-showcase.mp4",
+    poster: "/media/images/vertical-content-poster.webp",
+    accent: "#8dffca",
+    year: "2024",
+    roles: ["Creative production", "Campaign delivery", "Direction", "Post-production"],
+    roleLabel: "Creative Producer / Director / Editor",
+    scaleLabel: "6 releases · 60+ assets",
+    caseStudy: {
+      brief: "Build a coherent social-first campaign for a collaborative six-track project involving multiple artists, personalities and release moments.",
+      role: "Creative Producer, Director, Camera Operator and Editor.",
+      responsibilities: [
+        "Developed the campaign's visual and content system",
+        "Planned production around multiple contributors and release dates",
+        "Coordinated artists and filming requirements",
+        "Directed, filmed and edited platform-specific content",
+        "Managed delivery across the campaign timeline"
+      ],
+      scale: [
+        "6-track release campaign",
+        "60+ delivered assets",
+        "Multiple artists and stakeholders",
+        "Campaign duration: [PLACEHOLDER]",
+        "Budget range: [PLACEHOLDER]"
+      ],
+      outcome: "[PLACEHOLDER: campaign performance, client response and release impact]",
+      credits: "Client and collaborator credits to be confirmed before publication.",
+      tools: ["Sony FX30", "DaVinci Resolve", "Premiere Pro", "After Effects"]
+    }
+  },
+  {
+    id: "tour-production",
+    title: "UK + European Tour Production",
+    eyebrow: "Tour management and technical delivery",
+    category: "Live Production",
+    description: "Planning, staffing and technical coordination for an eight-date UK and European run with a 13-person touring party.",
+    longDescription: "A full touring operation covering routing, schedules, budgets, transport, accommodation, team coordination, guestlists, venue liaison, playback, wireless systems, load-ins, soundchecks and merchandise delivery.",
+    video: "/media/video/studio-session.mp4",
+    poster: "/media/images/studio-session-poster.webp",
+    accent: "#ff9e80",
+    year: "2022",
+    roles: ["Tour management", "Live production", "Technical systems", "Crew coordination"],
+    roleLabel: "Tour Manager / Live Production Lead",
+    scaleLabel: "8 dates · 13-person touring party",
+    caseStudy: {
+      brief: "Deliver a reliable multi-date tour across the UK and Europe while balancing the audience experience, artist needs, technical systems and commercial constraints.",
+      role: "Tour Manager, Production Lead and Performing Artist.",
+      responsibilities: [
+        "Planned routing, transport, schedules and accommodation",
+        "Coordinated a 13-person touring party",
+        "Managed venue communication, guestlists and show-day timings",
+        "Built playback, wireless microphone, monitoring and visual systems",
+        "Oversaw load-ins, soundchecks, merchandise and practical troubleshooting"
+      ],
+      scale: [
+        "3 UK dates and 5 European dates",
+        "13-person touring party",
+        "Tour budget: [PLACEHOLDER: publishable range]",
+        "Merchandise operation: [PLACEHOLDER]",
+        "Venues and countries: [PLACEHOLDER]"
+      ],
+      outcome: "[PLACEHOLDER: commercial result, team feedback and delivery outcome]",
+      credits: "Tour personnel, venues and agency relationships to be listed with permission.",
+      tools: ["Playback systems", "Wireless microphones", "IEM systems", "Shopify", "Tour logistics"]
+    }
+  },
+  {
+    id: "narrative-video",
+    title: "Narrative Music Video",
+    eyebrow: "External brief and audience delivery",
+    category: "Video Production",
+    description: "A narrative-led music video produced from creative interpretation through filming, post-production and platform release.",
+    longDescription: "A case-study placeholder for the strongest narrative music video responding to an external artist brief. The final version should demonstrate concept development, planning, direction, technical execution and measurable audience impact.",
     video: "/media/video/featured-reel.mp4",
     poster: "/media/images/featured-portrait.webp",
     accent: "#b89cff",
-    year: "2026",
-    roles: ["Direction", "Camera", "Edit", "Colour"],
+    year: "[YEAR]",
+    roles: ["Creative production", "Direction", "Camera", "Edit"],
+    roleLabel: "Creative Producer / Director / Camera / Editor",
+    scaleLabel: "[AUDIENCE RESULT] · [CREW SIZE]",
+    caseStudy: {
+      brief: "Translate an artist's track and release objective into a distinctive narrative film suitable for a major music platform.",
+      role: "Creative Producer, Director, Camera Operator and Editor.",
+      responsibilities: [
+        "Interpreted the artist and release brief",
+        "Developed the concept and visual treatment",
+        "Planned locations, contributors and production requirements",
+        "Directed and filmed the project",
+        "Managed edit, colour and final platform delivery"
+      ],
+      scale: [
+        "Crew size: [PLACEHOLDER]",
+        "Locations: [PLACEHOLDER]",
+        "Production timeline: [PLACEHOLDER]",
+        "Budget range: [PLACEHOLDER]",
+        "Distribution platform: [PLACEHOLDER]"
+      ],
+      outcome: "[PLACEHOLDER: project name, audience result, client response and release impact]",
+      credits: "[PLACEHOLDER: artist, production collaborators and specialist crew]",
+      tools: ["Sony cinema camera system", "Premiere Pro", "After Effects", "DaVinci Resolve"]
+    },
     links: [
-      { label: "Knock Knock", href: "https://youtu.be/zpG-qxqRjKM?si=nDwrnhHmMFBI7nev" },
-      { label: "Forget Me Not", href: "https://youtu.be/o-TUznwr8-0?si=aXdZCvLhwdYSEe5z" },
-      { label: "Shameless", href: "https://youtu.be/iFle5zvjvn0?si=9XUb0hqCZBo_rxMp" },
-      { label: "HEN$HAW - MAD", href: "https://youtu.be/Opy8g7hdI7k?si=UIMqh_LTATuCb0Pi" }
+      { label: "Fizzler - Minimum Wage", href: "https://youtu.be/VAFgDe54ptE?si=4-obZrUrxoaZ69xB" },
+      { label: "Knock Knock", href: "https://youtu.be/zpG-qxqRjKM?si=nDwrnhHmMFBI7nev" }
     ]
   },
   {
     id: "multicam",
-    title: "Live performance film",
-    eyebrow: "Multicam production and post",
-    category: "Live",
-    description: "A live edit shaped from multiple cameras, aligned audio, colour and the energy of the room.",
-    longDescription: "End-to-end live performance coverage including camera planning, capture, multicam synchronisation, edit decisions, audio alignment and colour. Built to feel immediate without losing the clarity needed for a full-length performance film.",
+    title: "Multicam Live Capture",
+    eyebrow: "Live direction, capture and post",
+    category: "Multicam",
+    description: "A complete live-performance workflow covering camera planning, synchronisation, audio alignment, editorial structure and final delivery.",
+    longDescription: "End-to-end live performance production designed to preserve the energy of the room while delivering the visual and sonic clarity expected from a finished multicam film.",
     video: "/media/video/portfolio-multicam.mp4",
     poster: "/media/images/multicam-poster.webp",
     accent: "#65d9ff",
     year: "2025",
-    roles: ["Multicam", "Live audio", "Edit", "Grade"],
+    roles: ["Video production", "Multicam direction", "Live capture", "Post-production"],
+    roleLabel: "Video Producer / Multicam Director / Editor",
+    scaleLabel: "[CAMERA COUNT] cameras · [DELIVERY COUNT] assets",
+    caseStudy: {
+      brief: "Capture a live performance from multiple viewpoints and turn it into a coherent audience-facing film with aligned sound, colour and pacing.",
+      role: "Video Producer, Multicam Director, Camera Operator and Editor.",
+      responsibilities: [
+        "Planned camera positions and coverage priorities",
+        "Coordinated operators and capture requirements",
+        "Managed media, synchronisation and proxy workflows",
+        "Edited the performance and aligned live audio",
+        "Completed colour, cleanup and final exports"
+      ],
+      scale: [
+        "Camera count: [PLACEHOLDER]",
+        "Crew size: [PLACEHOLDER]",
+        "Performance length: [PLACEHOLDER]",
+        "Turnaround: [PLACEHOLDER]",
+        "Delivery platforms: [PLACEHOLDER]"
+      ],
+      outcome: "[PLACEHOLDER: delivery result, audience performance and client response]",
+      credits: "[PLACEHOLDER: venue, camera operators, FOH engineer and performers]",
+      tools: ["Multicam workflow", "DaVinci Resolve", "Premiere Pro", "Live audio synchronisation"]
+    },
     links: [
       { label: "BVDLVD London set", href: "https://youtu.be/cRYERtR_lSM" },
       { label: "Within Reach live", href: "https://www.youtube.com/watch?v=bwHCpbbzyo4" }
     ]
   },
   {
-    id: "campaign",
-    title: "Release campaign",
-    eyebrow: "Short-form system and social delivery",
-    category: "Campaign",
-    description: "A repeatable vertical content language designed to carry a release across multiple touchpoints.",
-    longDescription: "A campaign system that turns one central visual idea into a useful set of short-form assets. The work covers concept planning, filming, edit variations, reframing and delivery for social-first use without making every asset feel identical.",
-    video: "/media/video/vertical-content-showcase.mp4",
-    poster: "/media/images/vertical-content-poster.webp",
-    accent: "#8dffca",
-    year: "2024",
-    roles: ["Concept", "Vertical video", "Social", "Delivery"]
-  },
-  {
-    id: "studio",
-    title: "Studio session",
-    eyebrow: "Recording, vocal production and mix support",
-    category: "Audio",
-    description: "Technical studio work that keeps the session moving and the performance at the centre.",
-    longDescription: "Recording and vocal production support across session setup, routing, comping, tuning, cleanup and mix preparation. The priority is reliable signal flow, fast decisions and a comfortable environment for the artist.",
-    video: "/media/video/studio-session.mp4",
-    poster: "/media/images/studio-session-poster.webp",
-    accent: "#ff9e80",
-    year: "2025",
-    roles: ["Recording", "Vocals", "Mix prep", "Signal flow"]
-  },
-  {
-    id: "album-world",
-    title: "Album world-building",
-    eyebrow: "Music and visual direction",
-    category: "Direction",
-    description: "A complete visual world developed around the emotional logic of an album campaign.",
-    longDescription: "Concept development across trailers, artwork, visualisers and campaign imagery. Rather than treating each asset as a separate deliverable, the work begins with a clear emotional and visual rule-set so the whole release feels connected.",
+    id: "presence-campaign",
+    title: "PRESENCE Campaign World",
+    eyebrow: "Album campaign and visual system",
+    category: "Creative Direction",
+    description: "A joined-up campaign world connecting a ten-track album, trailers, artwork, visualisers and audience-facing release content.",
+    longDescription: "A complete visual and release system built around the emotional logic of the PRESENCE album. The project demonstrates how one creative rule-set can guide multiple formats without losing consistency.",
     video: "/media/video/concept-building-portfolio.mp4",
     poster: "/media/images/concept-building-poster.webp",
     accent: "#ff7aa8",
     year: "2026",
-    roles: ["Creative direction", "Artwork", "Identity", "Edit"],
+    roles: ["Campaign production", "Creative direction", "Visual identity", "Delivery"],
+    roleLabel: "Campaign Producer / Creative Director / Editor",
+    scaleLabel: "10 tracks · [DELIVERABLE COUNT] campaign assets",
+    caseStudy: {
+      brief: "Create a complete album campaign that could communicate a raw, varied ten-track project through one recognisable visual and emotional system.",
+      role: "Campaign Producer, Creative Director, Artist and Editor.",
+      responsibilities: [
+        "Defined the campaign's visual and emotional rule-set",
+        "Planned release phases and supporting content",
+        "Produced trailers, artwork, visualisers and campaign imagery",
+        "Managed post-production and platform-specific delivery",
+        "Connected the campaign to live performance and audience communication"
+      ],
+      scale: [
+        "10-track album",
+        "Campaign duration: [PLACEHOLDER]",
+        "Deliverable count: [PLACEHOLDER]",
+        "Contributors: [PLACEHOLDER]",
+        "Platforms: [PLACEHOLDER]"
+      ],
+      outcome: "[PLACEHOLDER: release performance, campaign outcome and audience response]",
+      credits: "[PLACEHOLDER: photographers, filmmakers, designers and release partners]",
+      tools: ["After Effects", "Premiere Pro", "DaVinci Resolve", "Adobe design tools"]
+    },
     links: [
       { label: "PRESENCE trailer", href: "https://youtu.be/EFJi4UYHVas?si=K9LXb1ebH4pPqPQ4" },
       { label: "DIRT visual", href: "https://youtu.be/Yd-vpVb5Cc8?si=7pgnWYvVUl15dF1K" },
@@ -107,59 +233,63 @@ export type Service = {
 export const services: Service[] = [
   {
     number: "01",
-    title: "Videography",
-    icon: "video-camera",
-    copy: "Production",
-    details: "Confident across the full production process, from initial storyboarding and location scouting through to filming and final execution. I have a strong technical understanding of Sony camera systems, exposure, recording formats, lighting output and the settings that shape an image. My on-set experience includes three-point cinematic lighting, gimbal operation, practical effects, call sheets and coordinated team productions. I can operate independently, contribute within an established crew or take responsibility for leading and overseeing the shoot."
+    title: "Creative production",
+    icon: "cursor",
+    copy: "Brief to delivery",
+    details: "Concepts, treatments, schedules, budgets, production planning, crew coordination, stakeholder communication and final delivery. I can take ownership of the complete project while keeping the creative objective, practical constraints and audience result aligned. Supporting evidence and producer-level project examples will be added during the case-study pass."
   },
   {
     number: "02",
-    title: "Editing + motion",
-    icon: "scissors",
-    copy: "Post",
-    details: "My editing is built around a deep understanding of pacing, anticipation, timing, impact and visual recoil. I combine precise editorial decision-making with experience in 2D and 3D animation using After Effects, Blender and Cinema 4D. My capabilities include time remapping, keyframe interpolation, VFX, motion graphics, fluid and smoke simulation, transitions, post-production effects and colour grading. I also maintain organised project workflows, reliable file-management systems and carefully optimised exports for different platforms and delivery requirements."
+    title: "Video + branded content",
+    icon: "video-camera",
+    copy: "Campaigns and film",
+    details: "Commercial video, music content, campaign films, interviews, social-first production, cinematography, photography and platform-specific assets. Direction, camera and editing remain visible here as delivery capabilities within a wider production role rather than separate job identities."
   },
   {
     number: "03",
-    title: "Audio production",
-    icon: "headphones",
-    copy: "Studio",
-    details: "With more than eight years of experience as a recording artist and producer, I understand audio from both the technical and performance perspectives. I produce instrumentals in Ableton Live and FL Studio and have extensive experience recording, engineering, mixing and mastering music for commercial platforms. My knowledge includes vocal production, dialogue levelling, gain matching, sound design, acoustic treatment, monitoring, audio interfaces, microphone selection, signal routing and LUFS-based loudness delivery. As a vocalist, I also understand the practical demands of singing, rapping, screaming and aggressive vocal performance."
+    title: "Live + technical production",
+    icon: "microphone",
+    copy: "Events and touring",
+    details: "Event planning, tour logistics, multicam capture, playback systems, wireless microphones, monitoring, venue liaison, FOH coordination, crew communication and show-day troubleshooting. This service should be supported by publishable tour scale, budget responsibility and collaborator feedback."
   },
   {
     number: "04",
-    title: "Live production",
-    icon: "microphone",
-    copy: "Stage",
-    details: "Experienced in building and operating reliable live-performance systems where preparation, communication and timing are essential. My work covers stage setup, cable routing, microphone systems, IEM configuration and mixing, playback rigs, screen visuals and coordination with lighting teams. I have worked across live shows and festival environments as a performer, DJ and production lead, giving me a practical understanding of both the technical operation and the pressure experienced by the artist on stage."
+    title: "Post-production + delivery",
+    icon: "scissors",
+    copy: "Finish and handover",
+    details: "Editorial structure, colour, audio cleanup, motion graphics, versioning, captions, social reframing, review management, exports and organised handover. The emphasis is on reliable completion and platform-ready delivery, with software and equipment treated as supporting tools rather than the headline service."
+  }
+];
+
+export const processStages = [
+  { number: "01", title: "Discover", copy: "Clarify the objective, audience, platform, stakeholders, constraints and measure of success." },
+  { number: "02", title: "Develop", copy: "Shape the concept, treatment, schedule, budget and practical production plan." },
+  { number: "03", title: "Produce", copy: "Coordinate contributors, crew, locations, equipment, filming and live delivery." },
+  { number: "04", title: "Post-produce", copy: "Manage edit, sound, colour, motion graphics, review rounds and approvals." },
+  { number: "05", title: "Deliver", copy: "Prepare final masters, platform versions, campaign assets and an organised handover." }
+];
+
+export const experienceHighlights = [
+  { label: "Professional practice", value: "Since 2017", copy: "100+ paid projects across production, post, campaigns, live work and artist development." },
+  { label: "Leadership scale", value: "Up to 15 people", copy: "Crew and touring-party coordination across time-sensitive productions and live environments." },
+  { label: "Commercial context", value: "Client + artist side", copy: "Direct experience of briefs, record labels, releases, audiences, budgets, touring and campaign delivery." }
+];
+
+export const testimonials = [
+  {
+    quote: "[PLACEHOLDER: a client testimonial covering organisation, communication and reliable delivery.]",
+    name: "[CLIENT NAME]",
+    role: "[ROLE / ORGANISATION]"
   },
   {
-    number: "05",
-    title: "Creative campaigns",
-    icon: "cursor",
-    copy: "Campaign",
-    details: "I develop creative campaigns from the first idea through to release, promotion and performance analysis. This includes concept development, pitch decks, social-media strategy, advertising, content production, account management, analytics and fast-turnaround delivery. I have planned complete album and single rollouts while also managing music distribution, merchandise design, manufacturing, packaging, fulfilment and e-commerce systems. The result is a joined-up campaign in which the visuals, content, products and release strategy all support the same identity."
+    quote: "[PLACEHOLDER: a collaborator testimonial covering leadership, judgement and problem-solving under pressure.]",
+    name: "[COLLABORATOR NAME]",
+    role: "[ROLE / PROJECT]"
   },
   {
-    number: "06",
-    title: "Tour support",
-    icon: "pencil",
-    copy: "Touring",
-    details: "With more than 40 days of touring experience, I understand the organisation and adaptability required to keep a show moving from one city to the next. My experience includes team management, venue and staff liaison, transport and accommodation booking, load-ins, stage setup, merchandise sales and payment handling. I am comfortable taking responsibility for schedules, logistics and practical problem-solving while supporting performers, crew members and venue teams throughout the production."
-  },
-  {
-    number: "07",
-    title: "Graphic design",
-    icon: "image",
-    copy: "Design",
-    details: "I create visual assets that give artists, products and campaigns a clear and recognisable identity. My work includes logo design, cover artwork, banners, clothing graphics, product artwork and Spotify Canvas content. I approach each design with a strong understanding of composition, hierarchy and how individual assets need to function as part of a wider visual system across digital platforms, physical products and promotional materials."
-  },
-  {
-    number: "08",
-    title: "Photography",
-    icon: "camera",
-    copy: "Photo",
-    details: "Experienced in both planned productions and fast-moving on-set environments, covering portraiture, landscapes, press photography and candid event imagery. I am comfortable directing posed photographs while also identifying natural moments as they happen. My experience includes digital and analogue photography, colour-space management, image finishing and the creation of 3D GIF-style imagery. I focus on producing photographs that feel intentional, atmospheric and consistent with the wider identity of the subject or campaign."
+    quote: "[PLACEHOLDER: a tour or venue testimonial covering preparation, technical reliability and teamwork.]",
+    name: "[TOUR / VENUE CONTACT]",
+    role: "[ROLE / ORGANISATION]"
   }
 ];
 
@@ -173,13 +303,11 @@ export type Recognition = {
 
 export const recognition: Recognition[] = [
   {
-    label: "National radio",
+    label: "Broadcast support",
     title: "BBC Radio 1",
     details: [
-      "My single “PRISON” was featured by BBC Radio 1 presenter Nels Hylton in May 2023, placing the release in front of a national audience. The accompanying music video also received television coverage, demonstrating the project’s ability to translate across both audio and visual platforms.",
-      "My track “Inevitable” received two plays on BBC Radio 1, alongside support from BBC Radio Sheffield. The track was described on air as: “Fusion of metal and trap, it works - and I’m OBSESSED with this track!”",
-      "“SLOZZA” was played on BBC Radio 1 Introducing Rock with Alyx Holcombe, who described it as: “Trap Metal goodness! Like being punched in the face - but in a good way.” The track also received further BBC Introducing support from Jess Izzatt.",
-      "“NUMB” was featured on BBC Radio 1 Future Alternative with Nels Hylton. Additional tracks from the album PRESENCE have also received regional BBC support across BBC Radio Derby, BBC Radio Leicester, BBC Radio Lincolnshire and BBC Radio Nottingham."
+      "Music released professionally as BVDLVD has received support across BBC Radio 1 and regional BBC Introducing programmes. This is presented as broadcast and platform recognition, not as a client relationship.",
+      "The final site should retain only the most concise, defensible examples and link to supporting sources where available."
     ],
     source: { label: "Source", href: "https://www.bbc.co.uk/programmes/m001lnv0" },
     media: [
@@ -188,53 +316,47 @@ export const recognition: Recognition[] = [
     ]
   },
   {
-    label: "Record label",
+    label: "Label relationship",
     title: "MOVES Recordings",
     details: [
-      "I began working with MOVES Recordings as a videographer, producing visual content for artists across the label’s roster. This relationship developed into a successful career as a signed recording artist, leading to three increasingly valuable record agreements between 2019 and 2021.",
-      "During this period, I created several EPs and the album LUNATIC, maintaining a consistent release schedule before and throughout the COVID-19 pandemic. Alongside writing and performing, I filmed music videos, edited advertising campaigns and managed production budgets and expenses. I progressed from an emerging signing into one of the label’s most prominent artists, alongside acts including Naira Marley and Skengdo & AM."
+      "The relationship began through videography for label artists and developed into three recording agreements between 2019 and 2021.",
+      "Relevant producer evidence includes consistent release delivery, campaign content, budget awareness and experience working within a label structure."
     ],
-    media: [
-      { src: "/media/recognition/moves-recordings.webp", alt: "MOVES Recordings logo", fit: "contain" }
-    ]
+    media: [{ src: "/media/recognition/moves-recordings.webp", alt: "MOVES Recordings logo", fit: "contain" }]
   },
   {
-    label: "Record label",
+    label: "Label relationship",
     title: "Earache Records",
     details: [
-      "I signed a two-option record agreement with Earache Records, including advances of $70,000 and a potential further $120,000, to create and release the album ABSENCE. I took an active role in budgeting production, equipment and creative expenses, ensuring the project’s visual and musical ambitions remained achievable within the available resources.",
-      "I developed a detailed conceptual art direction for the campaign, including a mobile London bus advertisement featuring a scannable QR code. The campaign also included several ambitious music videos using FPV drone cinematography, large-scale locations and the hire of a functioning prison. These productions required close collaboration with external crews, including production company XANIMA, while maintaining a consistent creative identity across the album."
+      "A two-option recording agreement supported the development and release of the ABSENCE album campaign.",
+      "Producer-relevant context includes production budgeting, external crew collaboration, campaign concepts, ambitious locations and maintaining a consistent identity across music and visual delivery."
     ],
-    media: [
-      { src: "/media/recognition/earache-records.webp", alt: "Earache Records logo", fit: "contain" }
-    ]
+    media: [{ src: "/media/recognition/earache-records.webp", alt: "Earache Records logo", fit: "contain" }]
   },
   {
-    label: "Creative campaign",
+    label: "Client campaign",
     title: "BAGATUNE - M-Beat & Missing",
     details: [
-      "Legendary producer M-Beat, known for General Levy’s “Incredible”, partnered with producer Missing to create the collaborative project BAGATUNE. I was hired to translate their creative vision into a tangible social-media campaign, while also contributing to the project as a featured artist on the track “No Halo”.",
-      "The campaign was built around the ethos “Fusion Without Formula”, which needed to remain clearly represented across every piece of content. I filmed and delivered more than 60 assets for the release, working with and coordinating a wide range of artists and personalities, including Teezandos, PS Hitsquad, Deecien and Kwengface. The project required creative interpretation, artist management, adaptable production planning and consistent delivery across a complex collaborative campaign."
+      "Hired to translate the Fusion Without Formula identity into a multi-artist social campaign for the collaborative BAGATUNE project.",
+      "The project included more than 60 delivered assets and required creative interpretation, artist coordination, adaptable planning, filming, post-production and consistent campaign delivery."
     ],
-    media: [
-      { src: "/media/recognition/bagatune-square.webp", alt: "M-Beat and Missing photographed for the BAGATUNE project" }
-    ]
+    media: [{ src: "/media/recognition/bagatune-square.webp", alt: "M-Beat and Missing photographed for the BAGATUNE project" }]
   },
   {
-    label: "Live performance",
-    title: "Festivals - BOOMTOWN & Kendal Calling",
+    label: "Festival experience",
+    title: "Boomtown + Kendal Calling",
     details: [
-      "I have performed at established UK festivals including Boomtown Festival 2022, Kendal Calling 2022 and AltFest 2021. At AltFest, I was also hired to interview American rapper Smokepurpp live ahead of his performance. These appearances required confident communication, professional live-set preparation and the ability to operate effectively within large-scale, time-sensitive festival environments alongside artists, stage crews, engineers and production teams."
+      "Professional festival experience as a performer within large-scale, time-sensitive environments involving stage crews, engineers, artists and production teams.",
+      "The final wording should make the nature of the relationship explicit and avoid presenting festival appearances as production clients."
     ],
-    media: [
-      { src: "/media/recognition/boomtown-2022.webp", alt: "Boomtown Festival 2022 Earache Takeover lineup featuring BVDLVD" }
-    ]
+    media: [{ src: "/media/recognition/boomtown-2022.webp", alt: "Boomtown Festival 2022 Earache Takeover lineup featuring BVDLVD" }]
   },
   {
-    label: "Live representation",
-    title: "CAA & Primary Talent",
+    label: "Agency relationship",
+    title: "CAA + Primary Talent",
     details: [
-      "I have completed contracted live work involving both CAA and Primary Talent, two internationally recognised booking agencies. This experience has included dozens of live shows, festival appearances, headline performances and touring dates, requiring consistent communication with agents, promoters, venues and production teams."
+      "Contracted live work has involved both agencies across headline shows, touring dates and festival appearances.",
+      "The final site should identify the precise booking or representation context in one sentence."
     ],
     media: [
       { src: "/media/recognition/caa.png", alt: "CAA logo", fit: "contain" },
@@ -242,32 +364,30 @@ export const recognition: Recognition[] = [
     ]
   },
   {
-    label: "Music video",
+    label: "Platform release",
     title: "GRM Daily",
     details: [
-      "I created the music video for Fizzler’s “Minimum Wage”, which was released through GRM Daily and has since surpassed one million views. I was responsible for translating the track into an engaging visual project suitable for one of the UK’s most influential urban-music platforms."
+      "Created the music video for Fizzler's Minimum Wage, released through GRM Daily and viewed more than one million times.",
+      "The project should become a fuller case study once crew, timeline, budget range, role boundaries and client response are confirmed."
     ],
     source: { label: "Source", href: "https://youtu.be/VAFgDe54ptE?si=4-obZrUrxoaZ69xB" },
-    media: [
-      { src: "/media/recognition/grm-daily.png", alt: "GRM Daily logo", fit: "contain" }
-    ]
+    media: [{ src: "/media/recognition/grm-daily.png", alt: "GRM Daily logo", fit: "contain" }]
   },
   {
     label: "International feature",
-    title: "WorldStar HipHop",
+    title: "WorldStarHipHop",
     details: [
-      "My track and accompanying music video “Forget Me Not” were featured by WorldStarHipHop, introducing the release to the platform’s international audience and expanding its visibility beyond the UK music market."
+      "The BVDLVD track and video Forget Me Not were featured by WorldStarHipHop, extending the release beyond the UK market.",
+      "This remains supporting audience and platform recognition rather than a client credit."
     ],
-    media: [
-      { src: "/media/recognition/worldstarhiphop.png", alt: "WorldStarHipHop logo", fit: "contain" }
-    ]
+    media: [{ src: "/media/recognition/worldstarhiphop.png", alt: "WorldStarHipHop logo", fit: "contain" }]
   }
 ];
 
 export const proof = [
-  { value: "100+", label: "freelance projects" },
+  { value: "100+", label: "paid creative projects" },
   { value: "74M+", label: "catalogue streams" },
-  { value: "30+", label: "days toured" },
-  { value: "5", label: "albums released" },
-  { value: "2", label: "artists managed" }
+  { value: "15", label: "people coordinated" },
+  { value: "60+", label: "assets in one campaign" },
+  { value: "8", label: "date UK + EU managed run" }
 ];

@@ -8,32 +8,32 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? (deploymentHost ? `https://$
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Joshua Pearman - Film, Music and Live Production",
-  description: "Creative direction, videography, editing, audio and live production by Joshua Pearman, professionally known as BVDLVD.",
+  title: "Joshua Pearman - Creative Producer",
+  description: "Creative Producer specialising in video production, live events and branded content. Projects delivered from concept and planning through production, post and final delivery.",
   alternates: { canonical: "/" },
   icons: {
     icon: "/icons/favicon-30.png",
     apple: "/icons/apple-touch-icon-180.png"
   },
   openGraph: {
-    title: "Joshua Pearman - Creative Production",
-    description: "Film, music and live production with atmosphere.",
+    title: "Joshua Pearman - Creative Producer",
+    description: "Creative production across video, live events and branded content.",
     type: "website",
-    siteName: "Joshua Pearman Creative Production",
+    siteName: "Joshua Pearman - Creative Producer",
     url: "/",
     images: [
       {
         url: "/social-preview.jpg",
         width: 1200,
         height: 630,
-        alt: "Joshua Pearman - film, music and live production"
+        alt: "Joshua Pearman - Creative Producer"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Joshua Pearman - Creative Production",
-    description: "Film, music and live production with atmosphere.",
+    title: "Joshua Pearman - Creative Producer",
+    description: "Creative production across video, live events and branded content.",
     images: ["/social-preview.jpg"]
   }
 };

@@ -14,7 +14,7 @@ import IntroScreen from "./IntroScreen";
 import LandingWordmark from "./LandingWordmark";
 import LandingParticles from "./LandingParticles";
 import GlobeOrbitSystem from "./GlobeOrbitSystem";
-import { projects, proof, recognition, services, type Project } from "@/data/content";
+import { experienceHighlights, processStages, projects, proof, recognition, services, testimonials, type Project } from "@/data/content";
 
 const ease = [0.2, 0.75, 0.2, 1] as const;
 
@@ -150,17 +150,17 @@ function RecognitionMediaRotator({
 const REEL_FRAME_ROTATIONS = [-2.6, 1.9, -1.35, 2.25, -1.7, 1.15, -0.7] as const;
 
 const LANDING_ROLES = [
-  "Direction",
-  "Camera",
-  "Edit",
-  "Colour",
-  "Recording",
-  "Vocal production",
-  "Live systems",
+  "Creative production",
+  "Video production",
+  "Live events",
+  "Branded content",
+  "Production planning",
+  "Crew coordination",
+  "Campaign delivery",
   "Multicam",
-  "Motion",
-  "Campaign worlds",
-  "Touring"
+  "Post-production",
+  "Technical systems",
+  "Audience development"
 ];
 
 function LandingName({ reduceMotion }: { reduceMotion: boolean }) {
@@ -197,11 +197,11 @@ function LandingName({ reduceMotion }: { reduceMotion: boolean }) {
   );
 }
 
-const APPROACH_WORDS = "The strongest work is not decoration. It is a complete atmosphere built around the artist, the audience and the moment.".split(" ");
+const APPROACH_WORDS = "From brief to delivery, every stage is planned around the audience, the objective and the people making it happen.".split(" ");
 
 const manifestoContainerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.085, delayChildren: 0.12 } }
+  visible: { transition: { staggerChildren: 0.065, delayChildren: 0.1 } }
 };
 
 const manifestoWordVariants = {
@@ -211,33 +211,47 @@ const manifestoWordVariants = {
 
 function ApproachManifesto({ reduceMotion }: { reduceMotion: boolean }) {
   return (
-    <section className="manifesto section" aria-label="Creative approach">
-      <p className="section-index" data-cursor-mask>01 / Approach</p>
-      <div className="manifesto-copy">
-        <p className="manifesto-ghost" aria-hidden="true">
-          {APPROACH_WORDS.map((word, index) => (
-            <span className="manifesto-word" key={`ghost-${word}-${index}`}>{word}</span>
-          ))}
+    <section className="manifesto section" aria-label="How I work">
+      <p className="section-index" data-cursor-mask>01 / How I work</p>
+      <div className="manifesto-body">
+        <div className="manifesto-copy">
+          <p className="manifesto-ghost" aria-hidden="true">
+            {APPROACH_WORDS.map((word, index) => (
+              <span className="manifesto-word" key={`ghost-${word}-${index}`}>{word}</span>
+            ))}
+          </p>
+          <motion.p
+            className="manifesto-line"
+            variants={reduceMotion ? undefined : manifestoContainerVariants}
+            initial={reduceMotion ? false : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.58 }}
+          >
+            {APPROACH_WORDS.map((word, index) => (
+              <motion.span
+                className="manifesto-word"
+                key={`${word}-${index}`}
+                data-cursor-mask
+                variants={reduceMotion ? undefined : manifestoWordVariants}
+                transition={{ duration: 0.5, ease }}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </motion.p>
+        </div>
+        <p className="manifesto-support" data-cursor-mask>
+          I take ownership of the practical route from the first conversation to the final handover, while keeping the creative objective visible at every stage.
         </p>
-        <motion.p
-          className="manifesto-line"
-          variants={reduceMotion ? undefined : manifestoContainerVariants}
-          initial={reduceMotion ? false : "hidden"}
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.58 }}
-        >
-          {APPROACH_WORDS.map((word, index) => (
-            <motion.span
-              className="manifesto-word"
-              key={`${word}-${index}`}
-              data-cursor-mask
-              variants={reduceMotion ? undefined : manifestoWordVariants}
-              transition={{ duration: 0.56, ease }}
-            >
-              {word}
-            </motion.span>
+        <div className="process-grid">
+          {processStages.map((stage) => (
+            <article className="process-stage" key={stage.number}>
+              <span>{stage.number}</span>
+              <h3 data-cursor-mask>{stage.title}</h3>
+              <p>{stage.copy}</p>
+            </article>
           ))}
-        </motion.p>
+        </div>
       </div>
       <div className="manifesto-marquee" aria-hidden="true">
         <div className="manifesto-marquee-track">
@@ -1412,13 +1426,14 @@ export default function Portfolio() {
       <header className="site-header glass">
         <a className="identity" href="#top" aria-label="Joshua Pearman, back to top" data-cursor="nav">
           <span className="identity-mark identity-mark-image"><Image src="/icons/favicon-30.png" alt="" width={30} height={30} priority /></span>
-          <span className="identity-copy"><strong data-cursor-mask>Joshua Pearman</strong><small data-cursor-mask>Creative production</small></span>
+          <span className="identity-copy"><strong data-cursor-mask>Joshua Pearman</strong><small data-cursor-mask>Creative Producer</small></span>
         </a>
         <nav className="desktop-nav" aria-label="Primary navigation">
           <a href="#work"><span data-cursor-mask>Work</span></a>
-          <a href="#capabilities"><span data-cursor-mask>Capabilities</span></a>
+          <a href="#capabilities"><span data-cursor-mask>Services</span></a>
           <a href="#about"><span data-cursor-mask>About</span></a>
-          <a className="nav-pill" href="#contact"><span data-cursor-mask>Start a project</span></a>
+          <a href="#experience"><span data-cursor-mask>Experience</span></a>
+          <a className="nav-pill" href="#contact"><span data-cursor-mask>Contact</span></a>
         </nav>
         <button className="menu-button" type="button" aria-expanded={menuOpen} aria-label="Toggle menu" onClick={() => setMenuOpen((value) => !value)} data-cursor="nav">
           <span /><span />
@@ -1428,7 +1443,7 @@ export default function Portfolio() {
       <AnimatePresence>
         {menuOpen ? (
           <motion.nav className="mobile-menu glass" aria-label="Mobile navigation" initial={{ opacity: 0, y: -14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-            {[["Work", "#work"], ["Capabilities", "#capabilities"], ["About", "#about"], ["Contact", "#contact"]].map(([label, href]) => (
+            {[["Work", "#work"], ["Services", "#capabilities"], ["About", "#about"], ["Experience", "#experience"], ["Contact", "#contact"]].map(([label, href]) => (
               <a key={href} href={href} onClick={() => setMenuOpen(false)}><span data-cursor-mask>{label}</span><span>↘</span></a>
             ))}
           </motion.nav>
@@ -1447,9 +1462,18 @@ export default function Portfolio() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.12, ease }}
           >
-            Musician · Video editor · Live production - Lincolnshire, UK
+            Creative Producer - Lincolnshire, UK
           </motion.p>
           <LandingName reduceMotion={Boolean(shouldReduceMotion)} />
+          <motion.div
+            className="landing-positioning"
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.58, ease }}
+          >
+            <strong data-cursor-mask>Creative Producer</strong>
+            <span data-cursor-mask>Video production, live events and branded content</span>
+          </motion.div>
           <div className="landing-sub">
             <motion.p
               className="landing-lede"
@@ -1458,7 +1482,7 @@ export default function Portfolio() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.68, ease }}
             >
-              Artist-led creative production from first concept to final delivery. Also known as <em>BVDLVD</em> - direction, camera, edit, audio and live systems under one roof.
+              I develop and deliver creative projects from concept to completion, combining production planning, filmmaking, post-production and live-event experience.
             </motion.p>
             <motion.div
               className="landing-actions"
@@ -1466,10 +1490,23 @@ export default function Portfolio() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.78, ease }}
             >
-              <a className="button button-primary" href="#reel"><span data-cursor-mask>View featured reel</span><span>↘</span></a>
-              <a className="button button-quiet" href="mailto:JoshuaPearmanMGMT@gmail.com"><span data-cursor-mask>Start a project</span><span>↗</span></a>
+              <a className="button button-primary" href="#work"><span data-cursor-mask>View selected work</span><span>↘</span></a>
+              <a className="button button-quiet" href="#contact"><span data-cursor-mask>Discuss a project</span><span>↗</span></a>
+              <a className="button button-quiet button-placeholder" href="#credentials"><span data-cursor-mask>Download CV</span><small>Placeholder</small></a>
             </motion.div>
           </div>
+          <motion.div
+            className="landing-credibility"
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.9, ease }}
+            aria-label="Selected career statistics"
+          >
+            <span><strong>100+</strong> paid projects</span>
+            <span><strong>74M+</strong> catalogue streams</span>
+            <span><strong>Up to 15</strong> people coordinated</span>
+            <span><strong>UK + EU</strong> touring</span>
+          </motion.div>
         </div>
         <motion.div
           className="landing-marquee"
@@ -1505,8 +1542,8 @@ export default function Portfolio() {
               ))}
             </div>
             <div className="landing-reel-heading" aria-hidden="true">
-              <strong data-cursor-mask>Featured reel</strong>
-              <span data-cursor-mask>Direction / Camera / Edit / Sound</span>
+              <strong data-cursor-mask>Creative Producer Reel</strong>
+              <span data-cursor-mask>Video / Branded content / Live / Multicam / Post</span>
             </div>
             <div className="landing-reel-frame">
               <motion.div
@@ -1531,7 +1568,7 @@ export default function Portfolio() {
       </section>
 
       <section className="proof-section section" aria-label="Track record">
-        <p className="proof-title" data-cursor-mask>Quick Digest</p>
+        <p className="proof-title" data-cursor-mask>Producer snapshot</p>
         <motion.div
           className="proof-strip glass"
           initial={{ opacity: 0, y: 20 }}
@@ -1543,7 +1580,7 @@ export default function Portfolio() {
           style={{ rotateX: proofTiltX, rotateY: proofTiltY }}
         >
           {proof.map((item) => <StatCounter key={item.label} item={item} />)}
-          <a className="proof-spotify" href="https://open.spotify.com/artist/1BhfikyrtSTch1r9upYGlS" target="_blank" rel="noreferrer"><span data-cursor-mask>Spotify profile</span><span>↗</span></a>
+          <a className="proof-spotify" href="https://open.spotify.com/artist/1BhfikyrtSTch1r9upYGlS" target="_blank" rel="noreferrer"><span data-cursor-mask>Artist context</span><span>↗</span></a>
         </motion.div>
       </section>
 
@@ -1552,8 +1589,8 @@ export default function Portfolio() {
         <div className="project-carousel" aria-label="Selected projects carousel">
           <div className="project-carousel-pin">
             <div className="section-heading project-carousel-heading">
-              <div><p className="section-index" data-cursor-mask>02 / Selected work</p><SwipeTitle>Projects that move between disciplines without losing their identity.</SwipeTitle></div>
-              <p data-cursor-mask>Each piece combines practical production with a clear visual or sonic point of view. Select a project to watch and explore the role behind it.</p>
+              <div><p className="section-index" data-cursor-mask>02 / Selected work</p><SwipeTitle>Producer-led projects from brief to delivery.</SwipeTitle></div>
+              <p data-cursor-mask>Five flagship case studies showing creative direction, production planning, delivery scale, team coordination and technical ownership.</p>
             </div>
             <div className="project-carousel-viewport">
               <div className="project-carousel-track">
@@ -1578,7 +1615,10 @@ export default function Portfolio() {
                       <div className="project-meta">
                         <div><span>{project.category} / {project.year}</span><h3>{project.title}</h3></div>
                         <p>{project.description}</p>
-                        <div className="project-role-list">{project.roles.slice(0, 3).map((role) => <span key={role}>{role}</span>)}</div>
+                        <div className="project-role-list project-role-summary">
+                          <span>{project.roleLabel}</span>
+                          <span>{project.scaleLabel}</span>
+                        </div>
                       </div>
                     </motion.button>
                   </div>
@@ -1598,7 +1638,7 @@ export default function Portfolio() {
 
       <section className="capabilities section" id="capabilities">
         <div className="section-heading compact">
-          <div><p className="section-index" data-cursor-mask>03 / Capabilities</p><SwipeTitle>One creative partner, multiple disciplines.</SwipeTitle></div>
+          <div><p className="section-index" data-cursor-mask>03 / Services</p><SwipeTitle>Production ownership from brief to delivery.</SwipeTitle></div>
         </div>
         <div className="services-grid">
           {Array.from({ length: Math.ceil(services.length / 2) }, (_, rowIndex) => {
@@ -1683,21 +1723,62 @@ export default function Portfolio() {
             <div className="about-image-media">
               <Image src="/media/images/profile-pic.webp" alt="Joshua Pearman" fill sizes="(max-width: 800px) 90vw, 40vw" />
             </div>
-            <span className="image-label">BVDLVD / Joshua Pearman</span>
+            <span className="image-label">Joshua Pearman / Creative Producer</span>
           </div>
           <div className="about-copy">
             <p className="section-index" data-cursor-mask>04 / About</p>
-            <SwipeTitle>Artist instincts. Production discipline.</SwipeTitle>
-            <p data-cursor-mask>I’m Joshua Pearman, a UK-based creative working professionally as BVDLVD. Since 2018, I’ve built a career across music, film, live shows and artist development.</p>
-            <p data-cursor-mask>That experience means I understand both sides of a project: the creative pressure to make something distinct, and the practical pressure to deliver it properly. I can move from concept and camera to post-production, audio, stage systems and tour logistics without losing sight of the core idea.</p>
-            <div className="about-tags"><span>DaVinci Resolve</span><span>Premiere Pro</span><span>After Effects</span><span>Ableton Live</span><span>Live systems</span></div>
+            <SwipeTitle>Creative ownership. Production discipline.</SwipeTitle>
+            <p data-cursor-mask>I am a Creative Producer specialising in video production, live events and branded content. Since 2017, I have delivered more than 100 paid projects across music videos, commercial content, social campaigns, multicamera production, studio work and touring.</p>
+            <p data-cursor-mask>My experience covers the full production process, from creative development and planning through filming, post-production and final delivery. I have coordinated teams of up to 15 people, managed touring logistics and budgets, and built technical systems for live performance.</p>
+            <p data-cursor-mask>Recording and performing professionally as BVDLVD, with a 74M+ stream catalogue and experience across record labels, touring, campaign production and audience development. That gives me direct experience of both sides of the brief: creating the work and understanding how audiences, artists and campaigns operate.</p>
+            <div className="about-tags"><span>Production planning</span><span>Crew coordination</span><span>Video production</span><span>Live systems</span><span>Post-production</span></div>
           </div>
         </article>
       </section>
 
+      <section className="experience section" id="experience">
+        <div className="section-heading experience-heading">
+          <div>
+            <p className="section-index" data-cursor-mask>05 / Experience</p>
+            <SwipeTitle>Scale, leadership and commercial context.</SwipeTitle>
+          </div>
+          <p data-cursor-mask>Producer-level evidence should be fast to scan. This test layout separates ownership, scale and third-party validation from the visual portfolio.</p>
+        </div>
+        <div className="experience-grid">
+          {experienceHighlights.map((item) => (
+            <article className="experience-card glass" key={item.label}>
+              <span>{item.label}</span>
+              <strong data-cursor-mask>{item.value}</strong>
+              <p>{item.copy}</p>
+            </article>
+          ))}
+        </div>
+        <article className="credentials-card glass" id="credentials">
+          <div>
+            <span>Application material</span>
+            <h3 data-cursor-mask>Producer CV + credentials PDF</h3>
+            <p>[PLACEHOLDER: link the final role-targeted CV and a concise producer credentials document containing key statistics, three flagship projects, recognition and contact details.]</p>
+          </div>
+          <span className="credentials-status">Placeholder asset</span>
+        </article>
+        <div className="testimonial-heading">
+          <p className="section-index" data-cursor-mask>References in progress</p>
+          <h3 data-cursor-mask>What collaborators should verify.</h3>
+        </div>
+        <div className="testimonial-grid">
+          {testimonials.map((testimonial) => (
+            <article className="testimonial-card glass" key={testimonial.name}>
+              <blockquote>{testimonial.quote}</blockquote>
+              <footer><strong>{testimonial.name}</strong><span>{testimonial.role}</span></footer>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="recognition section">
-        <p className="section-index" data-cursor-mask>05 / Recognition</p>
-        <SwipeTitle className="recognition-title">Selected recognition</SwipeTitle>
+        <p className="section-index" data-cursor-mask>06 / Recognition</p>
+        <SwipeTitle className="recognition-title">Recognition, platforms and industry relationships.</SwipeTitle>
+        <p className="recognition-intro" data-cursor-mask>Each name is labelled by the actual relationship so broadcast support, clients, labels, agencies and platform features remain clear and defensible.</p>
         <div className="recognition-list">
           {recognition.map((item, index) => {
             const key = `${item.label}-${item.title}`;
@@ -1766,22 +1847,34 @@ export default function Portfolio() {
           style={{ rotateX: contactTiltX, rotateY: contactTiltY }}
         >
           <div>
-            <p className="section-index" data-cursor-mask>06 / Contact</p>
+            <p className="section-index" data-cursor-mask>07 / Contact</p>
             <ContactFocusTitle />
-            <p data-cursor-mask>For videography, editing, audio, campaign work, live production and touring enquiries.</p>
+            <p data-cursor-mask>Available for permanent, fixed-term, contract and freelance creative production opportunities across Manchester, the East Midlands, London and remote UK.</p>
+          </div>
+          <div className="contact-routes">
+            <article>
+              <span>Employment + contracts</span>
+              <strong data-cursor-mask>Creative Producer roles</strong>
+              <p>Permanent, fixed-term and contract opportunities across video, content, campaigns and live production.</p>
+            </article>
+            <article>
+              <span>Freelance enquiries</span>
+              <strong data-cursor-mask>Production projects</strong>
+              <p>Video production, branded content, campaign delivery, multicam capture and live technical work.</p>
+            </article>
           </div>
           <a className="contact-email" href="mailto:JoshuaPearmanMGMT@gmail.com"><span data-cursor-mask>JoshuaPearmanMGMT</span><span data-cursor-mask>@gmail.com ↗</span></a>
           <div className="contact-bottom">
-            <span data-cursor-mask>Based in Lincolnshire - working across the UK and remotely</span>
+            <span data-cursor-mask>Lincolnshire - available across Manchester, the East Midlands, London, touring and remote UK</span>
             <div><a href="https://www.instagram.com/bvdlvd/" target="_blank" rel="noreferrer" data-cursor-mask>Instagram</a><a href="https://www.youtube.com/@BVDLVD" target="_blank" rel="noreferrer" data-cursor-mask>YouTube</a><a href="https://www.linkedin.com/in/bvdlvd/" target="_blank" rel="noreferrer" data-cursor-mask>LinkedIn</a></div>
           </div>
         </motion.div>
       </section>
 
       <footer className="footer section">
-        <a className="identity" href="#top" data-cursor="nav"><span className="identity-mark identity-mark-image"><Image src="/icons/favicon-30.png" alt="" width={30} height={30} /></span><span className="identity-copy"><strong data-cursor-mask>Joshua Pearman</strong><small data-cursor-mask>Creative production</small></span></a>
+        <a className="identity" href="#top" data-cursor="nav"><span className="identity-mark identity-mark-image"><Image src="/icons/favicon-30.png" alt="" width={30} height={30} /></span><span className="identity-copy"><strong data-cursor-mask>Joshua Pearman</strong><small data-cursor-mask>Creative Producer</small></span></a>
         <div className="footer-meta">
-          <p data-cursor-mask>© {new Date().getFullYear()} Joshua Pearman. Built for motion, sound and the stage.</p>
+          <p data-cursor-mask>© {new Date().getFullYear()} Joshua Pearman. Creative production from brief to delivery.</p>
           <div className="footer-socials" aria-label="Social links">
             {FOOTER_SOCIALS.map((social) => (
               <a key={social.name} href={social.href} target="_blank" rel="noreferrer" aria-label={social.label} title={social.label}>
@@ -1791,7 +1884,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.2.5 · Build 010</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.3.0 · Build 011</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />
