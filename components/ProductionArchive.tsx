@@ -116,7 +116,7 @@ export default function ProductionArchive() {
             <p className="section-index" data-cursor-mask>06 / Production archive</p>
             <h2 data-cursor-mask>Freelance delivery beyond the flagship case studies.</h2>
           </div>
-          <p data-cursor-mask>A growing contact sheet for one-off production, filming, editing, live-capture and campaign commissions. Confirmed media can sit alongside clearly marked placeholders while the archive is completed.</p>
+          <p data-cursor-mask>A growing contact sheet for one-off production, filming, editing, live-capture and campaign commissions.</p>
         </div>
 
         <div className="production-archive-key" aria-label="Production archive categories">
@@ -127,7 +127,7 @@ export default function ProductionArchive() {
         </div>
 
         <div className={`production-archive-reveal${hasMore ? " has-more" : ""}`}>
-          <div className="production-archive-grid">
+          <div className={`production-archive-grid${productionArchive.length <= 2 ? " is-compact" : ""}`}>
           {visibleItems.map((item, index) => {
             const isPreviewing = previewId === item.id;
             const style = {
@@ -157,12 +157,12 @@ export default function ProductionArchive() {
                 <span className="archive-tile-shade" aria-hidden="true" />
                 <span className="archive-tile-index">{String(index + 1).padStart(2, "0")}</span>
                 <span className="archive-tile-copy">
-                  <small>{item.client}</small>
+                  {item.client ? <small>{item.client}</small> : null}
                   <strong data-cursor-mask>{item.title}</strong>
-                  <span>{item.category} · {item.year}</span>
+                  <span>{item.year ? `${item.category} · ${item.year}` : item.category}</span>
                 </span>
                 <span className="archive-tile-hover">
-                  <small>{item.role}</small>
+                  <small>{item.role ?? item.category}</small>
                   <span>View details ↗</span>
                 </span>
               </motion.button>
@@ -228,16 +228,15 @@ export default function ProductionArchive() {
               <div className="archive-dialog-content">
                 <div className="archive-dialog-kicker">
                   <span>{activeItem.category}</span>
-                  <span>{activeItem.year}</span>
+                  {activeItem.year ? <span>{activeItem.year}</span> : null}
                 </div>
                 <h2 id="archive-dialog-title">{activeItem.title}</h2>
-                <p className="archive-dialog-client">{activeItem.client}</p>
+                {activeItem.client ? <p className="archive-dialog-client">{activeItem.client}</p> : null}
                 <dl>
-                  <div><dt>Role</dt><dd>{activeItem.role}</dd></div>
+                  {activeItem.role ? <div><dt>Role</dt><dd>{activeItem.role}</dd></div> : null}
                   <div><dt>Format</dt><dd>{activeItem.orientation === "portrait" ? "Portrait / vertical" : "Landscape / horizontal"}</dd></div>
-                  <div><dt>Delivery context</dt><dd>{activeItem.note}</dd></div>
+                  {activeItem.note ? <div><dt>Delivery context</dt><dd>{activeItem.note}</dd></div> : null}
                 </dl>
-                <p className="archive-dialog-note">Replace the placeholder fields in <code>data/content.ts</code>, then add an optimised poster and short preview clip when the final media is ready.</p>
               </div>
             </motion.article>
           </motion.div>

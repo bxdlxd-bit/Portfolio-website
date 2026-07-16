@@ -280,19 +280,9 @@ export const experienceHighlights = [
 
 export const testimonials = [
   {
-    quote: "[PLACEHOLDER: a client testimonial covering organisation, communication and reliable delivery.]",
-    name: "[CLIENT NAME]",
-    role: "[ROLE / ORGANISATION]"
-  },
-  {
     quote: "Working with Josh / BVDLVD across projects from Aisle 13 in Croatia to My House has consistently been the right choice for us. He excels at self-management, organisation and leading teams to meet deadlines and briefs. Josh is a creative collaborator we will always come back to.",
     name: "Noah Da Silva",
     role: "XANIMA"
-  },
-  {
-    quote: "[PLACEHOLDER: a tour or venue testimonial covering preparation, technical reliability and teamwork.]",
-    name: "[TOUR / VENUE CONTACT]",
-    role: "[ROLE / ORGANISATION]"
   }
 ];
 
@@ -408,36 +398,35 @@ export const proof = [
 export type ProductionArchiveItem = {
   id: string;
   title: string;
-  client: string;
-  role: string;
+  client?: string;
+  role?: string;
   category: "Video production" | "Live capture" | "Campaign content" | "Post-production";
-  year: string;
+  year?: string;
   orientation: "landscape" | "portrait";
   size: "standard" | "wide" | "feature";
-  note: string;
+  note?: string;
   poster?: string;
   video?: string;
 };
 
 export const productionArchive: ProductionArchiveItem[] = [
-  { id: "archive-01", title: "Shameless VFX Reel", client: "[CLIENT / PROJECT]", role: "[VFX / POST-PRODUCTION ROLE]", category: "Post-production", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE VFX OR DELIVERY CONTEXT]", poster: "/media/archive/shameless-vfx-reel.webp", video: "/media/archive/shameless-vfx-reel.mp4" },
-  { id: "archive-02", title: "PS Performance Reel", client: "PS Hitsquad", role: "[PRODUCTION / CAMERA / EDIT ROLE]", category: "Campaign content", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PERFORMANCE CONTENT CONTEXT]", poster: "/media/archive/ps-performance-reel.webp", video: "/media/archive/ps-performance-reel.mp4" },
-  { id: "archive-03", title: "Freelance project 03", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Live capture", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-04", title: "Freelance project 04", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Post-production", year: "[YEAR]", orientation: "landscape", size: "wide", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-05", title: "Freelance project 05", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Video production", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-06", title: "Freelance project 06", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Campaign content", year: "[YEAR]", orientation: "landscape", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-07", title: "Freelance project 07", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Post-production", year: "[YEAR]", orientation: "landscape", size: "wide", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-08", title: "Freelance project 08", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Live capture", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-09", title: "Freelance project 09", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Video production", year: "[YEAR]", orientation: "landscape", size: "feature", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-10", title: "Freelance project 10", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Campaign content", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-11", title: "Freelance project 11", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Post-production", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-12", title: "Freelance project 12", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Live capture", year: "[YEAR]", orientation: "landscape", size: "wide", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-13", title: "Freelance project 13", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Video production", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-14", title: "Freelance project 14", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Campaign content", year: "[YEAR]", orientation: "landscape", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-15", title: "Freelance project 15", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Post-production", year: "[YEAR]", orientation: "landscape", size: "feature", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-16", title: "Freelance project 16", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Live capture", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-17", title: "Freelance project 17", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Video production", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-18", title: "Freelance project 18", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Campaign content", year: "[YEAR]", orientation: "landscape", size: "wide", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-19", title: "Freelance project 19", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Post-production", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
-  { id: "archive-20", title: "Freelance project 20", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Live capture", year: "[YEAR]", orientation: "landscape", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" }
+  {
+    id: "archive-01",
+    title: "Shameless VFX Reel",
+    category: "Post-production",
+    orientation: "portrait",
+    size: "standard",
+    poster: "/media/archive/shameless-vfx-reel.webp",
+    video: "/media/archive/shameless-vfx-reel.mp4"
+  },
+  {
+    id: "archive-02",
+    title: "PS Performance Reel",
+    client: "PS Hitsquad",
+    category: "Campaign content",
+    orientation: "portrait",
+    size: "standard",
+    poster: "/media/archive/ps-performance-reel.webp",
+    video: "/media/archive/ps-performance-reel.mp4"
+  }
 ];

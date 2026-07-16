@@ -1877,7 +1877,7 @@ export default function Portfolio() {
           <div>
             <span>Application material</span>
             <h3 data-cursor-mask>Creative Producer CV</h3>
-            <p>A one-page, role-targeted CV covering production ownership, leadership scale, case studies, capabilities, recognition, equipment and UK-wide availability. [PLACEHOLDER: add a separate producer credentials PDF after the flagship case-study copy is final.]</p>
+            <p>A one-page, role-targeted CV covering production ownership, leadership scale, case studies, capabilities, recognition, equipment and UK-wide availability.</p>
           </div>
           <div className="credentials-actions">
             <a href="/documents/joshua-pearman-creative-producer-cv.pdf" target="_blank" rel="noreferrer">View CV <span>↗</span></a>
@@ -1893,7 +1893,7 @@ export default function Portfolio() {
           <p className="section-index" data-cursor-mask>References</p>
           <h3 data-cursor-mask>What collaborators should verify.</h3>
         </div>
-        <div className="testimonial-grid">
+        <div className={`testimonial-grid${testimonials.length === 1 ? " is-single" : ""}`}>
           {testimonials.map((testimonial) => (
             <article className="testimonial-card glass" key={testimonial.name}>
               <blockquote>{testimonial.quote}</blockquote>
@@ -2012,7 +2012,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.5.2 · Build 017</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.5.4 · Build 019</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />

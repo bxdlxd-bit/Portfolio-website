@@ -2353,6 +2353,13 @@ html.intro-locked .intro-logo {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
+.testimonial-grid.is-single {
+  grid-template-columns: minmax(0, 820px);
+  justify-content: center;
+}
+.testimonial-grid.is-single .testimonial-card {
+  min-height: 0;
+}
 .testimonial-card {
   min-height: 260px;
   padding: clamp(24px, 2.8vw, 36px);
@@ -3235,6 +3242,10 @@ html.mobile-service-open .globe-orbit-segment-path {
 .archive-landscape.archive-wide { grid-column: span 6; grid-row: span 4; }
 .archive-landscape.archive-feature { grid-column: span 8; grid-row: span 5; }
 .archive-portrait { grid-column: span 3; grid-row: span 5; }
+.production-archive-grid.is-compact .archive-portrait {
+  grid-column: span 6;
+  grid-row: span 7;
+}
 .archive-tile:nth-child(7n + 2),
 .archive-tile:nth-child(7n + 6) { border-radius: 33px 19px 28px 19px; }
 .archive-tile:nth-child(6n + 4) { border-radius: 18px 31px 18px 27px; }
@@ -3524,6 +3535,7 @@ html.mobile-service-open .globe-orbit-segment-path {
   .archive-landscape.archive-wide,
   .archive-landscape.archive-feature { grid-column: span 6; grid-row: span 4; }
   .archive-portrait { grid-column: span 2; grid-row: span 5; }
+  .production-archive-grid.is-compact .archive-portrait { grid-column: span 3; grid-row: span 6; }
   .archive-dialog { grid-template-columns: 1fr; max-width: 780px; }
   .archive-dialog.archive-portrait { grid-template-columns: 1fr; }
   .archive-dialog-media,
@@ -3583,6 +3595,10 @@ html.mobile-service-open .globe-orbit-segment-path {
     grid-column: span 1;
     grid-row: auto;
     aspect-ratio: 9 / 16;
+  }
+  .production-archive-grid.is-compact .archive-portrait {
+    grid-column: span 1;
+    grid-row: auto;
   }
   .archive-tile,
   .archive-tile:nth-child(n) { border-radius: 16px; }
