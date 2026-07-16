@@ -2889,3 +2889,195 @@ html.intro-locked .intro-logo {
   .testimonial-card { min-height: 230px; }
   .testimonial-card footer { padding-top: 22px; }
 }
+
+/* Mobile performance and transition stability - Build 014 */
+.hero-canvas { pointer-events: none; }
+.signal-field,
+.signal-field canvas,
+.globe-orbit-system,
+.globe-orbit-ring,
+.noise,
+.project-carousel-pin,
+.capabilities,
+.service-card,
+.service-drawer {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.signal-field,
+.globe-orbit-system { contain: paint; }
+.signal-field {
+  -webkit-mask-image: radial-gradient(circle, #000 0 42%, transparent 72%);
+}
+.noise { transform: translate3d(0, 0, 0); }
+.capabilities { isolation: isolate; }
+
+/* Hidden orbit accents no longer consume animation time. */
+.globe-orbit-segment-path { animation-play-state: paused; }
+.globe-orbit-system[data-mode="carousel"] .globe-orbit-segment-path,
+.globe-orbit-system[data-mode="detached"] .globe-orbit-segment-path { animation-play-state: running; }
+
+/* Pause continuous decorative work after a period without interaction. */
+html.is-site-idle .landing-marquee-track,
+html.is-site-idle .manifesto-marquee-track,
+html.is-site-idle .globe-orbit-segment-path,
+html.is-site-idle .landing-reel-scroll-track i,
+html.is-site-idle .landing-reel-scroll-arrow,
+html.mobile-service-open .globe-orbit-segment-path {
+  animation-play-state: paused !important;
+}
+
+@media (max-width: 800px) {
+  /* Landing canvas remains visual but no longer intercepts or responds to touch. */
+  .landing-particles { display: none; }
+  .hero-canvas { touch-action: pan-y; }
+
+  /* The fifth process stage completes the two-column composition. */
+  .process-stage:last-child {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  /* Keep the pinned composition away from the physical screen edges. */
+  .project-carousel-pin {
+    padding: 24px 0 22px;
+    gap: 12px;
+  }
+  .project-carousel-heading { padding-inline: 18px; }
+  .project-carousel-viewport {
+    padding-block: 4px;
+    touch-action: pan-y;
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: auto;
+  }
+  .project-carousel-footer {
+    padding-inline: 10vw;
+    padding-bottom: 3px;
+  }
+  .project-carousel-hint { font-size: 6.8px; }
+
+  /* Mobile project view keeps the title within the first visible panel. */
+  .dialog-backdrop {
+    padding: 8px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .dialog-particles { display: none; }
+  .project-dialog {
+    display: block;
+    max-height: calc(100dvh - 16px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .dialog-media {
+    width: 100%;
+    height: min(38dvh, 300px);
+    max-height: 38dvh;
+    aspect-ratio: 16 / 9;
+  }
+  .dialog-media video {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    object-fit: cover;
+  }
+  .dialog-content { padding: 18px 20px 30px; }
+  .dialog-kicker { margin-top: 0; }
+  .dialog-content h2 {
+    margin: 12px 0 14px;
+    font-size: clamp(31px, 9.2vw, 45px);
+  }
+
+  /* The mobile portrait stays flush with the top of its crop. */
+  .about-image-media {
+    inset: -5%;
+    transform: none !important;
+  }
+  .about-image img {
+    object-position: center 12%;
+    transform: scale(1.12);
+  }
+
+  /* No live glass sampling inside an open compound drawer on touch devices. */
+  .service-card-connector,
+  .service-card-connector::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .service-drawer,
+  .service-drawer-content { will-change: auto; }
+}
+
+@media (max-width: 520px) {
+  /* Mobile reel uses a one-time in-view morph rather than a scrubbed pinned timeline. */
+  .landing-reel { min-height: 100svh; }
+  .landing-reel-pin {
+    height: 100svh;
+    min-height: 640px;
+    overflow: hidden;
+  }
+  .landing-reel-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    padding: 42px 14px 34px;
+  }
+  .landing-reel-radiance { display: none; }
+  .landing-reel-scroll,
+  .landing-reel-heading {
+    position: relative;
+    left: auto;
+    top: auto;
+    translate: none;
+    width: min(92vw, 420px);
+    opacity: 1;
+    transform: none !important;
+    will-change: auto;
+  }
+  .landing-reel-scroll {
+    order: 0;
+    align-self: center;
+    justify-content: center;
+    width: max-content;
+    max-width: calc(100vw - 28px);
+    margin-bottom: 1px;
+  }
+  .landing-reel-heading {
+    order: 1;
+    z-index: 5;
+    text-align: center;
+  }
+  .landing-reel-frame {
+    order: 2;
+    width: min(68vw, 286px);
+    height: min(57svh, 440px);
+    aspect-ratio: auto;
+    transform: none !important;
+    border-radius: 24px;
+    will-change: auto;
+    transition:
+      width 1.05s cubic-bezier(.2,.75,.2,1),
+      height 1.05s cubic-bezier(.2,.75,.2,1),
+      border-radius .8s ease;
+  }
+  .landing-reel.is-mobile-reel-active .landing-reel-frame {
+    width: 90vw;
+    height: calc(90vw * .5625);
+    border-radius: 21px;
+  }
+  .landing-reel-pivot { transform: none !important; will-change: auto; }
+  .landing-reel-heading strong { font-size: clamp(24px, 7.4vw, 34px); }
+  .landing-reel-heading span { font-size: 6.4px; }
+  .landing-reel.is-mobile-reel-active .landing-reel-scroll { opacity: .58; }
+
+  .project-carousel-pin {
+    padding-top: 20px;
+    padding-bottom: 18px;
+  }
+  .project-carousel-heading { padding-inline: 16px; }
+  .project-carousel-footer { padding-inline: 9vw; }
+
+  .process-stage:last-child { width: 100%; }
+}

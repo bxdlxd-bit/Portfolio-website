@@ -21,6 +21,8 @@ export default function LandingParticles() {
     if (!canvas) return;
     const context = canvas.getContext("2d");
     if (!context) return;
+    const mobile = window.matchMedia("(max-width: 800px), (pointer: coarse)").matches;
+    if (mobile) return;
 
     let width = 1;
     let height = 1;
@@ -29,6 +31,7 @@ export default function LandingParticles() {
     let lastDraw = 0;
     let isVisible = true;
     let pageVisible = !document.hidden;
+    let siteIdle = document.documentElement.classList.contains("is-site-idle");
     let pointerActive = false;
     let pointerX = 0;
     let pointerY = 0;
@@ -78,12 +81,22 @@ export default function LandingParticles() {
 
     const onVisibility = () => {
       pageVisible = !document.hidden;
-      if (pageVisible && isVisible && !frame) frame = requestAnimationFrame(draw);
+      if (pageVisible && isVisible && !siteIdle && !frame) frame = requestAnimationFrame(draw);
+    };
+
+    const onIdleChange = (event: Event) => {
+      siteIdle = Boolean((event as CustomEvent<{ idle?: boolean }>).detail?.idle);
+      if (siteIdle && frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      } else if (!siteIdle && pageVisible && isVisible && !frame) {
+        frame = requestAnimationFrame(draw);
+      }
     };
 
     const draw = (time: number) => {
       frame = 0;
-      if (!pageVisible || !isVisible) return;
+      if (!pageVisible || !isVisible || siteIdle) return;
       if (time - lastDraw < 32) {
         frame = requestAnimationFrame(draw);
         return;
@@ -158,7 +171,7 @@ export default function LandingParticles() {
 
     const observer = new IntersectionObserver(([entry]) => {
       isVisible = Boolean(entry?.isIntersecting);
-      if (isVisible && pageVisible && !frame) frame = requestAnimationFrame(draw);
+      if (isVisible && pageVisible && !siteIdle && !frame) frame = requestAnimationFrame(draw);
       if (!isVisible && frame) {
         cancelAnimationFrame(frame);
         frame = 0;
@@ -171,6 +184,7 @@ export default function LandingParticles() {
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     document.documentElement.addEventListener("mouseleave", onPointerLeave);
     document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("portfolio-idle-change", onIdleChange);
     frame = requestAnimationFrame(draw);
 
     return () => {
@@ -179,6 +193,7 @@ export default function LandingParticles() {
       window.removeEventListener("pointermove", onPointerMove);
       document.documentElement.removeEventListener("mouseleave", onPointerLeave);
       document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("portfolio-idle-change", onIdleChange);
       if (frame) cancelAnimationFrame(frame);
     };
   }, []);

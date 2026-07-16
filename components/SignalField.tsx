@@ -69,11 +69,14 @@ export default function SignalField() {
     let frame = 0;
     let sceneActive = mount.dataset.active === "true";
     let pageVisible = !document.hidden;
+    let siteIdle = document.documentElement.classList.contains("is-site-idle");
     let lastRenderAt = 0;
     let lastCarouselIndex = -1;
     let lastPhase = mount.dataset.phase ?? "hidden";
     let pendingRingCall: gsap.core.Tween | null = null;
-    const frameInterval = 1000 / 45;
+    const frameInterval = 1000 / (window.innerWidth <= 800 ? 30 : 45);
+    let lastResizePhase = mount.dataset.phase ?? "hidden";
+    let lastResizeScale = mount.dataset.renderScale ?? "1";
 
     const orbitSystem = () => document.querySelector<HTMLElement>(".globe-orbit-system");
 
@@ -169,7 +172,7 @@ export default function SignalField() {
 
     const render = (now: number) => {
       frame = 0;
-      if (!sceneActive || !pageVisible) return;
+      if (!sceneActive || !pageVisible || siteIdle) return;
 
       if (!reduceMotion && now - lastRenderAt >= frameInterval) {
         lastRenderAt = now;
@@ -187,7 +190,7 @@ export default function SignalField() {
     };
 
     const start = () => {
-      if (!sceneActive || !pageVisible || frame) return;
+      if (!sceneActive || !pageVisible || siteIdle || frame) return;
       if (reduceMotion) {
         renderer.render(scene, camera);
         return;
@@ -198,10 +201,14 @@ export default function SignalField() {
     const syncState = () => {
       sceneActive = mount.dataset.active === "true";
       const phase = mount.dataset.phase ?? "hidden";
+      const renderScale = mount.dataset.renderScale ?? "1";
       const carouselIndex = Number(mount.dataset.carouselIndex ?? -1);
 
-      resize();
-
+      if (phase !== lastResizePhase || renderScale !== lastResizeScale) {
+        lastResizePhase = phase;
+        lastResizeScale = renderScale;
+        resize();
+      }
 
       if (phase === "travel" && lastPhase === "carousel") {
         lastCarouselIndex = -1;
@@ -219,8 +226,14 @@ export default function SignalField() {
 
     const onVisibility = () => {
       pageVisible = !document.hidden;
-      if (pageVisible) start();
+      if (pageVisible && !siteIdle) start();
       else stop();
+    };
+
+    const onIdleChange = (event: Event) => {
+      siteIdle = Boolean((event as CustomEvent<{ idle?: boolean }>).detail?.idle);
+      if (siteIdle) stop();
+      else start();
     };
 
     const resizeObserver = new ResizeObserver(resize);
@@ -234,6 +247,7 @@ export default function SignalField() {
 
     window.addEventListener("pointermove", onPointer, { passive: true });
     document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("portfolio-idle-change", onIdleChange);
     resize();
     syncState();
 
@@ -246,6 +260,7 @@ export default function SignalField() {
       activityObserver.disconnect();
       window.removeEventListener("pointermove", onPointer);
       document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("portfolio-idle-change", onIdleChange);
       particlesGeometry.dispose();
       (particles.material as THREE.Material).dispose();
       shell.geometry.dispose();

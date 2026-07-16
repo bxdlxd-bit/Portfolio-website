@@ -322,6 +322,80 @@ export default function Portfolio() {
     return () => query.removeEventListener("change", sync);
   }, []);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    const active = compactViewport && expandedService !== null;
+    root.classList.toggle("mobile-service-open", active);
+    return () => root.classList.remove("mobile-service-open");
+  }, [compactViewport, expandedService]);
+
+  useEffect(() => {
+    if (!introComplete) return;
+    const root = document.documentElement;
+    let idle = false;
+    let lastActivity = performance.now();
+
+    const publish = (nextIdle: boolean) => {
+      if (idle === nextIdle) return;
+      idle = nextIdle;
+      root.classList.toggle("is-site-idle", idle);
+      window.dispatchEvent(new CustomEvent("portfolio-idle-change", { detail: { idle } }));
+    };
+
+    const markActivity = () => {
+      lastActivity = performance.now();
+      if (idle) publish(false);
+    };
+
+    const checkIdle = () => {
+      if (document.hidden) {
+        publish(true);
+        return;
+      }
+      if (performance.now() - lastActivity >= 18000) publish(true);
+    };
+
+    const onVisibility = () => {
+      if (document.hidden) publish(true);
+      else markActivity();
+    };
+
+    const activityEvents: (keyof WindowEventMap)[] = ["pointermove", "pointerdown", "touchstart", "wheel", "keydown", "scroll"];
+    activityEvents.forEach((eventName) => window.addEventListener(eventName, markActivity, { passive: true }));
+    document.addEventListener("visibilitychange", onVisibility);
+    const interval = window.setInterval(checkIdle, 2000);
+    markActivity();
+
+    return () => {
+      window.clearInterval(interval);
+      activityEvents.forEach((eventName) => window.removeEventListener(eventName, markActivity));
+      document.removeEventListener("visibilitychange", onVisibility);
+      root.classList.remove("is-site-idle");
+      window.dispatchEvent(new CustomEvent("portfolio-idle-change", { detail: { idle: false } }));
+    };
+  }, [introComplete]);
+
+  useEffect(() => {
+    if (!introComplete) return;
+    const mobile = window.matchMedia("(max-width: 520px)");
+    if (!mobile.matches) return;
+    const reel = rootRef.current?.querySelector<HTMLElement>(".landing-reel");
+    if (!reel) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting && entry.intersectionRatio >= 0.18) {
+        reel.classList.add("is-mobile-reel-active");
+        observer.disconnect();
+      }
+    }, { threshold: [0.18, 0.35] });
+
+    observer.observe(reel);
+    return () => {
+      observer.disconnect();
+      reel.classList.remove("is-mobile-reel-active");
+    };
+  }, [introComplete]);
+
   const closeProject = useCallback(() => setActiveProject(null), []);
   const completeIntro = useCallback(() => setIntroComplete(true), []);
 
@@ -374,14 +448,13 @@ export default function Portfolio() {
     let cleanupOrbitPointer = () => {};
     let cleanupOrbitMotion = () => {};
     let cleanupReelIdle = () => {};
-    let cleanupCarouselTouch = () => {};
 
     const context = gsap.context(() => {
       let projectCarouselScrollTrigger: ScrollTrigger | null = null;
       let carouselActiveIndex = 0;
       const aboutCard = document.querySelector<HTMLElement>(".about-card");
       const aboutMedia = document.querySelector<HTMLElement>(".about-image-media");
-      if (aboutCard && aboutMedia) {
+      if (aboutCard && aboutMedia && window.innerWidth > 800) {
         gsap.fromTo(aboutMedia, {
           y: () => -aboutCard.offsetHeight * 0.105
         }, {
@@ -424,7 +497,7 @@ export default function Portfolio() {
       const reelScroll = document.querySelector<HTMLElement>(".landing-reel-scroll");
       const reelOutlines = gsap.utils.toArray<HTMLElement>(".landing-reel-outline");
       const reelOutlineIdleShells = gsap.utils.toArray<HTMLElement>(".landing-reel-outline-idle");
-      if (reel && reelPin && reelFrame) {
+      if (reel && reelPin && reelFrame && window.innerWidth > 520) {
         const mobileReel = window.innerWidth <= 520;
         const initialScale = mobileReel ? 1 : window.innerWidth <= 1050 ? 0.54 : 0.42;
         const finalReelWidth = () => mobileReel ? window.innerWidth * 0.9 : window.innerWidth * 0.8;
@@ -469,7 +542,7 @@ export default function Portfolio() {
         };
 
         const startReelIdle = () => {
-          if (reelIdleActive || !reelOutlineIdleShells.length) return;
+          if (reelIdleActive || !reelOutlineIdleShells.length || document.documentElement.classList.contains("is-site-idle")) return;
           reelIdleActive = true;
 
           reelOutlineIdleShells.forEach((shell, index) => {
@@ -528,8 +601,16 @@ export default function Portfolio() {
         });
         reelIdleObserver.observe(reel);
 
+        const onReelIdleChange = (event: Event) => {
+          const idle = Boolean((event as CustomEvent<{ idle?: boolean }>).detail?.idle);
+          if (idle) stopReelIdle(false);
+          else if (reelIdleInView && reelScrollProgress <= 0.012) startReelIdle();
+        };
+        window.addEventListener("portfolio-idle-change", onReelIdleChange);
+
         cleanupReelIdle = () => {
           reelIdleObserver.disconnect();
+          window.removeEventListener("portfolio-idle-change", onReelIdleChange);
           stopReelIdle(false);
           gsap.set(reelOutlineIdleShells, { clearProps: "transform" });
           gsap.set(reelOutlines, { clearProps: "filter,boxShadow" });
@@ -695,7 +776,7 @@ export default function Portfolio() {
             start: "top top",
             end: () => {
               const horizontalDistance = Math.abs((slideTargets[slideTargets.length - 1] ?? 0) - (slideTargets[0] ?? 0));
-              return `+=${Math.max(window.innerHeight * (projectSlides.length - 1) * 0.78, horizontalDistance * 1.08)}`;
+              return `+=${Math.max(window.innerHeight * (projectSlides.length - 1) * 0.68, horizontalDistance)}`;
             },
             pin: projectCarouselPin,
             pinSpacing: true,
@@ -716,70 +797,6 @@ export default function Portfolio() {
           });
           projectCarouselScrollTrigger = mobileTrigger;
 
-          let pointerId = -1;
-          let startX = 0;
-          let startY = 0;
-          let startProgress = 0;
-          let horizontalGesture = false;
-          let gestureResolved = false;
-
-          const releasePointer = (event?: PointerEvent) => {
-            if (pointerId < 0) return;
-            if (event && projectCarouselViewport.hasPointerCapture(pointerId)) {
-              projectCarouselViewport.releasePointerCapture(pointerId);
-            }
-            if (horizontalGesture) {
-              const snapped = Math.round(mobileTrigger.progress * (projectSlides.length - 1)) / (projectSlides.length - 1);
-              const targetScroll = mobileTrigger.start + snapped * (mobileTrigger.end - mobileTrigger.start);
-              window.scrollTo({ top: targetScroll, behavior: "smooth" });
-            }
-            pointerId = -1;
-            horizontalGesture = false;
-            gestureResolved = false;
-          };
-
-          const onPointerDown = (event: PointerEvent) => {
-            if (event.pointerType !== "touch" || !mobileTrigger.isActive) return;
-            pointerId = event.pointerId;
-            startX = event.clientX;
-            startY = event.clientY;
-            startProgress = mobileTrigger.progress;
-            horizontalGesture = false;
-            gestureResolved = false;
-          };
-
-          const onPointerMove = (event: PointerEvent) => {
-            if (event.pointerId !== pointerId) return;
-            const dx = event.clientX - startX;
-            const dy = event.clientY - startY;
-            if (!gestureResolved && (Math.abs(dx) > 9 || Math.abs(dy) > 9)) {
-              horizontalGesture = Math.abs(dx) > Math.abs(dy) * 1.15;
-              gestureResolved = true;
-              if (horizontalGesture) projectCarouselViewport.setPointerCapture(pointerId);
-            }
-            if (!horizontalGesture) return;
-            event.preventDefault();
-            const slideDelta = -dx / Math.max(projectCarouselViewport.clientWidth * 0.72, 1);
-            const nextProgress = gsap.utils.clamp(0, 1, startProgress + slideDelta / (projectSlides.length - 1));
-            const targetScroll = mobileTrigger.start + nextProgress * (mobileTrigger.end - mobileTrigger.start);
-            window.scrollTo(0, targetScroll);
-          };
-
-          const onPointerUp = (event: PointerEvent) => {
-            if (event.pointerId === pointerId) releasePointer(event);
-          };
-
-          projectCarouselViewport.addEventListener("pointerdown", onPointerDown);
-          projectCarouselViewport.addEventListener("pointermove", onPointerMove, { passive: false });
-          projectCarouselViewport.addEventListener("pointerup", onPointerUp);
-          projectCarouselViewport.addEventListener("pointercancel", onPointerUp);
-
-          cleanupCarouselTouch = () => {
-            projectCarouselViewport.removeEventListener("pointerdown", onPointerDown);
-            projectCarouselViewport.removeEventListener("pointermove", onPointerMove);
-            projectCarouselViewport.removeEventListener("pointerup", onPointerUp);
-            projectCarouselViewport.removeEventListener("pointercancel", onPointerUp);
-          };
         } else {
           const carouselTween = gsap.to(projectCarouselTrack, {
             x: () => -maximumTravel,
@@ -987,6 +1004,7 @@ export default function Portfolio() {
         let orbitMotionStart = 0;
         let orbitTickerTime = 0;
         let orbitFinalBlend = 0;
+        let orbitIdlePausedAt: number | null = null;
 
         const orbitMotionPoint = (motion: OrbitFloatMotion, elapsed: number) => {
           const cycle = ((elapsed - motion.delay) % motion.duration + motion.duration) % motion.duration;
@@ -1001,6 +1019,17 @@ export default function Portfolio() {
         const updateOrbitMotion = (time: number) => {
           orbitTickerTime = time;
           if (!orbitMotionActive) return;
+          const shouldPause = document.documentElement.classList.contains("is-site-idle")
+            || document.documentElement.classList.contains("mobile-service-open")
+            || document.hidden;
+          if (shouldPause) {
+            if (orbitIdlePausedAt === null) orbitIdlePausedAt = time;
+            return;
+          }
+          if (orbitIdlePausedAt !== null) {
+            orbitMotionStart += time - orbitIdlePausedAt;
+            orbitIdlePausedAt = null;
+          }
           const elapsed = Math.max(0, time - orbitMotionStart);
           orbitFloats.forEach((float, index) => {
             const detachedPoint = orbitMotionPoint(detachedFloatMotions[index], elapsed);
@@ -1095,10 +1124,11 @@ export default function Portfolio() {
           carouselIndex = -1
         ) => {
           gsap.set(signal, { x, y, scale, rotate, autoAlpha: opacity });
-          const active = opacity > 0.018;
-          signal.dataset.active = active ? "true" : "false";
-          signal.dataset.phase = phase;
-          signal.dataset.carouselIndex = String(carouselIndex);
+          const activeValue = opacity > 0.018 ? "true" : "false";
+          const carouselValue = String(carouselIndex);
+          if (signal.dataset.active !== activeValue) signal.dataset.active = activeValue;
+          if (signal.dataset.phase !== phase) signal.dataset.phase = phase;
+          if (signal.dataset.carouselIndex !== carouselValue) signal.dataset.carouselIndex = carouselValue;
           const requestedRenderScale = phase === "final" ? Math.max(1, layout?.finalScale ?? scale) : 1;
           const renderScaleValue = requestedRenderScale.toFixed(2);
           if (signal.dataset.renderScale !== renderScaleValue) signal.dataset.renderScale = renderScaleValue;
@@ -1323,7 +1353,7 @@ export default function Portfolio() {
             setSignal(
               layout.pos3X,
               layout.pos3Y,
-              mobileCarouselLite ? 0.01 : interpolate(layout.pos3Scale, 0, Math.min(1, raw / 0.64)),
+              mobileCarouselLite ? 0.01 : Math.max(0.08, interpolate(layout.pos3Scale, 0.08, Math.min(1, raw / 0.64))),
               interpolate(0, 26, amount),
               mobileCarouselLite ? 0 : visibleOpacity * (1 - Math.min(1, raw / 0.58)),
               "detached"
@@ -1425,7 +1455,6 @@ export default function Portfolio() {
 
     return () => {
       cleanupReelIdle();
-      cleanupCarouselTouch();
       cleanupOrbitPointer();
       cleanupOrbitMotion();
       context.revert();
@@ -1437,9 +1466,11 @@ export default function Portfolio() {
     const projectSlides = Array.from(rootRef.current?.querySelectorAll<HTMLElement>(".project-slide") ?? []);
     const landingVideo = rootRef.current?.querySelector<HTMLVideoElement>(".landing-reel video");
     const visibility = new Map<HTMLElement, number>();
+    let siteIdle = document.documentElement.classList.contains("is-site-idle");
+    let landingVisible = false;
 
     const safelyPlay = (video: HTMLVideoElement) => {
-      if (!video.paused) return;
+      if (siteIdle || !video.paused) return;
       void video.play().catch(() => undefined);
     };
 
@@ -1458,7 +1489,7 @@ export default function Portfolio() {
       projectSlides.forEach((slide) => {
         const video = slide.querySelector<HTMLVideoElement>("video");
         if (!video) return;
-        if (!activeProject && ranked.includes(slide)) safelyPlay(video);
+        if (!siteIdle && !activeProject && ranked.includes(slide)) safelyPlay(video);
         else pauseVideo(video);
       });
     };
@@ -1478,15 +1509,31 @@ export default function Portfolio() {
 
     const landingObserver = landingVideo
       ? new IntersectionObserver(([entry]) => {
-          if (!entry || activeProject) {
+          landingVisible = Boolean(entry?.isIntersecting && entry.intersectionRatio > 0.04);
+          if (!entry || activeProject || siteIdle) {
             pauseVideo(landingVideo);
             return;
           }
-          if (entry.isIntersecting && entry.intersectionRatio > 0.04) safelyPlay(landingVideo);
+          if (landingVisible) safelyPlay(landingVideo);
           else pauseVideo(landingVideo);
         }, { threshold: [0, 0.04, 0.2] })
       : null;
 
+    const onIdleChange = (event: Event) => {
+      siteIdle = Boolean((event as CustomEvent<{ idle?: boolean }>).detail?.idle);
+      if (siteIdle) {
+        projectSlides.forEach((slide) => {
+          const video = slide.querySelector<HTMLVideoElement>("video");
+          if (video) pauseVideo(video);
+        });
+        if (landingVideo) pauseVideo(landingVideo);
+      } else {
+        syncProjectPlayback();
+        if (landingVideo && landingVisible && !activeProject) safelyPlay(landingVideo);
+      }
+    };
+
+    window.addEventListener("portfolio-idle-change", onIdleChange);
     if (landingVideo) landingObserver?.observe(landingVideo);
     if (activeProject) {
       projectSlides.forEach((slide) => {
@@ -1499,6 +1546,7 @@ export default function Portfolio() {
     return () => {
       projectObserver?.disconnect();
       landingObserver?.disconnect();
+      window.removeEventListener("portfolio-idle-change", onIdleChange);
       projectSlides.forEach((slide) => {
         const video = slide.querySelector<HTMLVideoElement>("video");
         if (video) pauseVideo(video);
@@ -1699,7 +1747,7 @@ export default function Portfolio() {
               <div className="project-carousel-dots">
                 {projects.map((project, index) => <span className="project-carousel-dot" key={`${project.id}-dot`} data-index={index} />)}
               </div>
-              <span className="project-carousel-hint">Scroll or swipe to advance</span>
+              <span className="project-carousel-hint">Scroll to advance</span>
             </div>
           </div>
         </div>
@@ -1755,12 +1803,11 @@ export default function Portfolio() {
                     <motion.div
                       className="service-drawer glass"
                       id={`service-detail-${rowIndex}`}
-                      initial={compactViewport ? { opacity: 0, scaleY: 0.985 } : { height: 0, opacity: 0, y: -10 }}
-                      animate={compactViewport ? { opacity: 1, scaleY: 1 } : { height: "auto", opacity: 1, y: 0 }}
-                      exit={compactViewport ? { opacity: 0, scaleY: 0.985 } : { height: 0, opacity: 0, y: -10 }}
-                      style={compactViewport ? { transformOrigin: "top" } : undefined}
+                      initial={compactViewport ? false : { height: 0, opacity: 0, y: -10 }}
+                      animate={compactViewport ? { opacity: 1 } : { height: "auto", opacity: 1, y: 0 }}
+                      exit={compactViewport ? { opacity: 0 } : { height: 0, opacity: 0, y: -10 }}
                       transition={compactViewport
-                        ? { duration: 0.18, ease }
+                        ? { duration: 0.1, ease }
                         : { height: { duration: 0.52, ease }, opacity: { duration: 0.28 }, y: { duration: 0.42, ease } }}
                     >
                       <div className="service-drawer-inner">
@@ -1768,10 +1815,10 @@ export default function Portfolio() {
                           <motion.div
                             className="service-drawer-content"
                             key={activeService.number}
-                            initial={compactViewport ? { opacity: 0 } : { opacity: 0, y: 10 }}
-                            animate={compactViewport ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                            initial={compactViewport ? false : { opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
                             exit={compactViewport ? { opacity: 0 } : { opacity: 0, y: -8 }}
-                            transition={{ duration: compactViewport ? 0.14 : 0.3, ease }}
+                            transition={{ duration: compactViewport ? 0.08 : 0.3, ease }}
                           >
                             <div className="service-drawer-heading">
                               <span>{activeService.number} / Experience note</span>
@@ -1959,7 +2006,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.4.0 · Build 013</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.4.1 · Build 014</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />

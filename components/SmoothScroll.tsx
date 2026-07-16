@@ -31,8 +31,9 @@ export default function SmoothScroll() {
 
     const syncLockState = () => {
       const introLocked = document.documentElement.classList.contains("intro-locked");
+      const siteIdle = document.documentElement.classList.contains("is-site-idle");
       const modalLocked = document.body.style.overflow === "hidden";
-      if (introLocked || modalLocked) lenis.stop();
+      if (introLocked || modalLocked || siteIdle) lenis.stop();
       else lenis.start();
     };
 

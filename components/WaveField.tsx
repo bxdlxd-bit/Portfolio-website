@@ -16,6 +16,7 @@ export default function WaveField() {
     if (!mount) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mobile = window.matchMedia("(max-width: 800px), (pointer: coarse)").matches;
 
     const scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x08070c, 6.5, 15);
@@ -25,7 +26,7 @@ export default function WaveField() {
     camera.lookAt(0, 0.2, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, mobile ? 1.2 : 2));
     mount.appendChild(renderer.domElement);
 
     // --- build lines -------------------------------------------------
@@ -87,8 +88,10 @@ export default function WaveField() {
     };
     const onPointerLeave = () => { target.strength = 0; };
 
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
-    window.addEventListener("pointerout", onPointerLeave, { passive: true });
+    if (!mobile) {
+      window.addEventListener("pointermove", onPointerMove, { passive: true });
+      window.addEventListener("pointerout", onPointerLeave, { passive: true });
+    }
 
     // --- resize ------------------------------------------------------
     const resize = () => {
@@ -104,8 +107,10 @@ export default function WaveField() {
     // --- animate -----------------------------------------------------
     let raf = 0;
     let visible = true;
-    const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
-    io.observe(mount);
+    let pageVisible = !document.hidden;
+    let siteIdle = document.documentElement.classList.contains("is-site-idle");
+    let lastFrame = 0;
+    const frameInterval = 1000 / (mobile ? 24 : 45);
 
     const displace = (time: number) => {
       pointer.x += (target.x - pointer.x) * 0.06;
@@ -131,26 +136,65 @@ export default function WaveField() {
       }
     };
 
+    const stop = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+    };
+
+    const tick = (now: number) => {
+      raf = 0;
+      if (!visible || !pageVisible || siteIdle) return;
+      if (now - lastFrame >= frameInterval) {
+        lastFrame = now;
+        displace(now / 1000);
+        renderer.render(scene, camera);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    const start = () => {
+      if (reduceMotion || raf || !visible || !pageVisible || siteIdle) return;
+      raf = requestAnimationFrame(tick);
+    };
+
+    const onVisibility = () => {
+      pageVisible = !document.hidden;
+      if (pageVisible) start();
+      else stop();
+    };
+
+    const onIdleChange = (event: Event) => {
+      siteIdle = Boolean((event as CustomEvent<{ idle?: boolean }>).detail?.idle);
+      if (siteIdle) stop();
+      else start();
+    };
+
+    const io = new IntersectionObserver(([entry]) => {
+      visible = Boolean(entry?.isIntersecting);
+      if (visible) start();
+      else stop();
+    }, { threshold: 0.01 });
+    io.observe(mount);
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("portfolio-idle-change", onIdleChange);
+
     if (reduceMotion) {
       displace(2.4);
       renderer.render(scene, camera);
     } else {
-      const start = performance.now();
-      const tick = () => {
-        raf = requestAnimationFrame(tick);
-        if (!visible || document.hidden) return;
-        displace((performance.now() - start) / 1000);
-        renderer.render(scene, camera);
-      };
-      tick();
+      start();
     }
 
     return () => {
       cancelAnimationFrame(raf);
       resizeObserver.disconnect();
       io.disconnect();
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerout", onPointerLeave);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("portfolio-idle-change", onIdleChange);
+      if (!mobile) {
+        window.removeEventListener("pointermove", onPointerMove);
+        window.removeEventListener("pointerout", onPointerLeave);
+      }
       rows.forEach((row) => {
         row.line.geometry.dispose();
         (row.line.material as THREE.Material).dispose();

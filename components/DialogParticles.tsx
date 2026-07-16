@@ -21,6 +21,8 @@ export default function DialogParticles() {
     if (!canvas) return;
     const context = canvas.getContext("2d");
     if (!context) return;
+    const mobile = window.matchMedia("(max-width: 800px), (pointer: coarse)").matches;
+    if (mobile) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const pointer = { x: -1000, y: -1000, active: false };
@@ -29,6 +31,8 @@ export default function DialogParticles() {
     let height = 0;
     let frame = 0;
     let running = true;
+    let pageVisible = !document.hidden;
+    let siteIdle = document.documentElement.classList.contains("is-site-idle");
 
     const createParticle = (fromEdge = false): Particle => {
       const speed = 0.45 + Math.random() * 1.15;
@@ -68,7 +72,8 @@ export default function DialogParticles() {
     };
 
     const draw = () => {
-      if (!running) return;
+      frame = 0;
+      if (!running || !pageVisible || siteIdle) return;
       context.clearRect(0, 0, width, height);
 
       for (const particle of particles) {
@@ -114,19 +119,45 @@ export default function DialogParticles() {
       frame = window.requestAnimationFrame(draw);
     };
 
+    const start = () => {
+      if (!running || !pageVisible || siteIdle || frame) return;
+      frame = window.requestAnimationFrame(draw);
+    };
+
+    const stop = () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      frame = 0;
+    };
+
+    const onVisibility = () => {
+      pageVisible = !document.hidden;
+      if (pageVisible) start();
+      else stop();
+    };
+
+    const onIdleChange = (event: Event) => {
+      siteIdle = Boolean((event as CustomEvent<{ idle?: boolean }>).detail?.idle);
+      if (siteIdle) stop();
+      else start();
+    };
+
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(canvas);
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     document.documentElement.addEventListener("mouseleave", onPointerLeave);
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("portfolio-idle-change", onIdleChange);
     resize();
-    draw();
+    start();
 
     return () => {
       running = false;
-      window.cancelAnimationFrame(frame);
+      stop();
       resizeObserver.disconnect();
       window.removeEventListener("pointermove", onPointerMove);
       document.documentElement.removeEventListener("mouseleave", onPointerLeave);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("portfolio-idle-change", onIdleChange);
     };
   }, []);
 
