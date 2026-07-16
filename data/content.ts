@@ -12,7 +12,7 @@ export type Project = {
   id: string;
   title: string;
   eyebrow: string;
-  category: "Branded Content" | "Live Production" | "Video Production" | "Multicam" | "Creative Direction";
+  category: "Branded Content" | "Live Production" | "Video Production" | "Content Production" | "Multicam" | "Creative Direction";
   description: string;
   longDescription: string;
   video: string;
@@ -103,42 +103,45 @@ export const projects: Project[] = [
   },
   {
     id: "narrative-video",
-    title: "Narrative Music Video",
-    eyebrow: "External brief and audience delivery",
-    category: "Video Production",
-    description: "A narrative-led music video produced from creative interpretation through filming, post-production and platform release.",
-    longDescription: "A case-study placeholder for the strongest narrative music video responding to an external artist brief. The final version should demonstrate concept development, planning, direction, technical execution and measurable audience impact.",
+    title: "PS HITSQUAD Content Run",
+    eyebrow: "HOUSE ANXIETY album content series",
+    category: "Content Production",
+    description: "A repeat vertical-content commission combining performance reels and interviews for PS HITSQUAD's Life on License album campaign.",
+    longDescription: "A recurring vertical series commissioned by HOUSE ANXIETY for PS HITSQUAD's album Life on License. Performance-led reels and interview content presented PS as a multidimensional artist, placing personality, humour and personal growth alongside the music.",
     video: "/media/video/featured-reel.mp4",
     poster: "/media/images/featured-portrait.webp",
     accent: "#b89cff",
-    year: "[YEAR]",
-    roles: ["Creative production", "Direction", "Camera", "Edit"],
+    year: "2026",
+    roles: ["Content production", "Direction", "Social content", "Post-production"],
     roleLabel: "Creative Producer / Director / Camera / Editor",
-    scaleLabel: "[AUDIENCE RESULT] · [CREW SIZE]",
+    scaleLabel: "5+ shoots · 60+ deliverables · Repeat client",
     caseStudy: {
-      brief: "Translate an artist's track and release objective into a distinctive narrative film suitable for a major music platform.",
+      brief: "Produce the maximum amount of high-quality vertical content within each filming day without visual repetition. The campaign supported the album release, humanised the artist beyond reductive perceptions of his background and maintained a consistent TikTok and Instagram Reels pipeline.",
       role: "Creative Producer, Director, Camera Operator and Editor.",
       responsibilities: [
-        "Interpreted the artist and release brief",
-        "Developed the concept and visual treatment",
-        "Planned locations, contributors and production requirements",
-        "Directed and filmed the project",
-        "Managed edit, colour and final platform delivery"
+        "Developed treatments, shot lists, production routes and efficient run-and-gun schedules",
+        "Coordinated PS and four HOUSE ANXIETY team members, including interview preparation, printed questions and on-set responsibilities",
+        "Directed performance and interview content across changing locations, lighting conditions and outfits",
+        "Managed camera, lighting, travel and wardrobe coordination, including selected clothing",
+        "Edited, colour graded, captioned and delivered every asset, adding motion graphics to improve interview retention"
       ],
       scale: [
-        "Crew size: [PLACEHOLDER]",
-        "Locations: [PLACEHOLDER]",
-        "Production timeline: [PLACEHOLDER]",
-        "Budget range: [PLACEHOLDER]",
-        "Distribution platform: [PLACEHOLDER]"
+        "5+ commissioned shoots across approximately four to five months",
+        "15+ locations used to create a wider multi-day campaign feel",
+        "60+ completed vertical deliverables",
+        "One shoot delivered 12 performance reels and 12 interview reels",
+        "One-person production crew, supported by PS and four label representatives",
+        "Every content run delivered in under one week"
       ],
-      outcome: "[PLACEHOLDER: project name, audience result, client response and release impact]",
-      credits: "[PLACEHOLDER: artist, production collaborators and specialist crew]",
-      tools: ["Sony cinema camera system", "Premiere Pro", "After Effects", "DaVinci Resolve"]
+      outcome: "Posts generated approximately 5,000 to 60,000 views across TikTok and Instagram, with the strongest Reel exceeding 360,000 views. The initial commission developed into a trusted repeat-client relationship, with HOUSE ANXIETY returning for the speed, efficiency and consistent quality of delivery.",
+      credits: "Artist: PS HITSQUAD; Commissioning label: HOUSE ANXIETY; Creative production, direction, camera and post-production: Joshua Pearman; Interview support and on-set coordination: HOUSE ANXIETY team.",
+      tools: ["Sony FX30", "DaVinci Resolve", "After Effects", "Aputure MC / Neewer 120W"]
     },
     links: [
-      { label: "Fizzler - Minimum Wage", href: "https://youtu.be/VAFgDe54ptE?si=4-obZrUrxoaZ69xB" },
-      { label: "Knock Knock", href: "https://youtu.be/zpG-qxqRjKM?si=nDwrnhHmMFBI7nev" }
+      { label: "PS Vertical Content 01", href: "https://www.tiktok.com/@pshsq15/video/7535399165623536919?is_from_webapp=1&sender_device=pc" },
+      { label: "PS Vertical Content 02", href: "https://www.tiktok.com/@pshsq15/video/7594908135127600406?is_from_webapp=1&sender_device=pc&web_id=7640696877750502934" },
+      { label: "PS Vertical Content 03", href: "https://www.tiktok.com/@pshsq15/video/7613559341160926486?is_from_webapp=1&sender_device=pc&web_id=7640696877750502934" },
+      { label: "PS Vertical Content 04", href: "https://www.instagram.com/reel/DUTh_fRiirh/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" }
     ]
   },
   {
@@ -184,43 +187,46 @@ export const projects: Project[] = [
   },
   {
     id: "presence-campaign",
-    title: "PRESENCE Campaign World",
-    eyebrow: "Album campaign and visual system",
+    title: "PRESENCE Campaign World-Building",
+    eyebrow: "Independent album campaign and visual system",
     category: "Creative Direction",
-    description: "A joined-up campaign world connecting a ten-track album, trailers, artwork, visualisers and audience-facing release content.",
-    longDescription: "A complete visual and release system built around the emotional logic of the PRESENCE album. The project demonstrates how one creative rule-set can guide multiple formats without losing consistency.",
+    description: "A self-directed world connecting a ten-track album, four-single rollout, physical products, digital storytelling and an eight-date tour.",
+    longDescription: "A self-directed campaign world created for BVDLVD's ten-track album PRESENCE after becoming fully independent. Metal and indie-rock influences were unified through an intimate, handmade visual language, combining warm amber, muted neutrals and deep black with low-light grain, home-video intimacy and cinematic framing.",
     video: "/media/video/concept-building-portfolio.mp4",
     poster: "/media/images/concept-building-poster.webp",
     accent: "#ff7aa8",
     year: "2026",
-    roles: ["Campaign production", "Creative direction", "Visual identity", "Delivery"],
-    roleLabel: "Campaign Producer / Creative Director / Editor",
-    scaleLabel: "10 tracks · [DELIVERABLE COUNT] campaign assets",
+    roles: ["Campaign production", "Creative direction", "Visual identity", "World-building"],
+    roleLabel: "Campaign Producer / Creative Director / Artist / Editor",
+    scaleLabel: "10 tracks · 4-single rollout · 8-date tour",
     caseStudy: {
-      brief: "Create a complete album campaign that could communicate a raw, varied ten-track project through one recognisable visual and emotional system.",
+      brief: "Create a complete visual and release system for an emotionally raw album developed across one of the darkest periods of the artist's life. The campaign prioritised honest, self-contained storytelling over conventional algorithm-led promotion, allowing each single to feel distinct while remaining part of one recognisable world.",
       role: "Campaign Producer, Creative Director, Artist and Editor.",
       responsibilities: [
-        "Defined the campaign's visual and emotional rule-set",
-        "Planned release phases and supporting content",
-        "Produced trailers, artwork, visualisers and campaign imagery",
-        "Managed post-production and platform-specific delivery",
-        "Connected the campaign to live performance and audience communication"
+        "Defined the visual, emotional and sonic direction across music, artwork, video, merchandise, social media and live presentation",
+        "Built and managed the rollout in Milanote, coordinating deadlines, contributors, singles, album release, merchandise and touring",
+        "Produced two music videos, ten lyric visualisers, an album trailer, two interviews, twelve reels, ten Spotify Canvases and campaign graphics",
+        "Created or supervised artwork, colour, self-filming, social content, clothing graphics and complete CD and vinyl packaging",
+        "Extended the narrative into an interactive Discord world with lore videos, roleplaying staff and a custom artificial intelligence called S.C.A.M.",
+        "Oversaw final music production, mixing and mastering while coordinating the campaign team and eight-date UK and European tour"
       ],
       scale: [
-        "10-track album",
-        "Campaign duration: [PLACEHOLDER]",
-        "Deliverable count: [PLACEHOLDER]",
-        "Contributors: [PLACEHOLDER]",
-        "Platforms: [PLACEHOLDER]"
+        "Three years of development; public rollout began 19 November 2025",
+        "10-track album, four monthly singles and album release on 18 February 2026",
+        "2 music videos, 10 lyric visualisers, 12 reels, 1 trailer, 2 interviews and 10 Spotify Canvases",
+        "40+ selected press photographs, 3 Discord lore videos and a custom interactive AI experience",
+        "Clothing graphics, merchandise imagery and complete CD and vinyl artwork",
+        "8-date UK and European supporting tour"
       ],
-      outcome: "[PLACEHOLDER: release performance, campaign outcome and audience response]",
-      credits: "[PLACEHOLDER: photographers, filmmakers, designers and release partners]",
-      tools: ["After Effects", "Premiere Pro", "DaVinci Resolve", "Adobe design tools"]
+      outcome: "Generated more than 2,000 presaves and at least five BBC Radio 1 plays. Three tracked tour dates produced approximately £5,000 in ticket sales, while 200 CDs and 50 vinyl records sold out alongside strong clothing and merchandise sales. One cohesive identity connected the release, digital world, physical products and live presentation.",
+      credits: "Joshua Pearman: Campaign production, creative direction, artist, editing, colour grading, artwork, merchandise design, social content, music production, final mixing and mastering, release planning, team coordination and tour production. Rian Conophy: Co-planning, DIRT cinematography and co-editing, plus tour stage visuals. Sara Irvine: SLOZZA cinematography. Mist: Development of the S.C.A.M. artificial intelligence used within the Discord world.",
+      tools: ["After Effects", "DaVinci Resolve", "Ableton Live", "Photoshop"]
     },
     links: [
-      { label: "PRESENCE trailer", href: "https://youtu.be/EFJi4UYHVas?si=K9LXb1ebH4pPqPQ4" },
-      { label: "DIRT visual", href: "https://youtu.be/Yd-vpVb5Cc8?si=7pgnWYvVUl15dF1K" },
-      { label: "Lyric visualisers", href: "https://www.youtube.com/playlist?list=PLYSVE43dOnyajCOxZmovGWY_pXuggjkyU" }
+      { label: "Album", href: "https://open.spotify.com/album/0iEO3Ykg2eAbeRrY0b6QqZ?si=4qtuLCY6TRaBwE57DNmefQ" },
+      { label: "SLOZZA Music Video", href: "https://youtu.be/kugt9UhyVVQ" },
+      { label: "PRESENCE album trailer", href: "https://youtu.be/EFJi4UYHVas?si=K9LXb1ebH4pPqPQ4" },
+      { label: "DIRT music video", href: "https://youtu.be/Yd-vpVb5Cc8?si=7pgnWYvVUl15dF1K" }
     ]
   }
 ];

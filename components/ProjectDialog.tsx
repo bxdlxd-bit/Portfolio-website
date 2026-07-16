@@ -106,7 +106,7 @@ export default function ProjectDialog({ project, onClose }: { project: Project |
                 <div className="dialog-links">
                   <p>Selected links</p>
                   {project.links.map((link, index) => (
-                    <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
+                    <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">
                       <span>{String(index + 1).padStart(2, "0")}</span>
                       {link.label}
                       <strong>↗</strong>
