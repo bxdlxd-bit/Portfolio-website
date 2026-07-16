@@ -299,6 +299,7 @@ export default function Portfolio() {
   const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const scrollProgress = useSpring(scrollYProgress, { stiffness: 130, damping: 28, mass: 0.2 });
+  const simplifyLandingMotion = Boolean(shouldReduceMotion || compactViewport);
 
   const heroTiltXInput = useMotionValue(0);
   const heroTiltYInput = useMotionValue(0);
@@ -398,7 +399,31 @@ export default function Portfolio() {
   }, [introComplete]);
 
   const closeProject = useCallback(() => setActiveProject(null), []);
-  const completeIntro = useCallback(() => setIntroComplete(true), []);
+  const completeIntro = useCallback(() => {
+    document.documentElement.classList.remove("intro-locked");
+    setIntroComplete(true);
+  }, []);
+
+  useEffect(() => {
+    if (!introComplete) return;
+
+    let secondFrame = 0;
+    const firstFrame = window.requestAnimationFrame(() => {
+      const root = rootRef.current;
+      if (!root) return;
+      root.classList.add("is-intro-ready");
+      void root.offsetHeight;
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      window.dispatchEvent(new Event("resize"));
+      window.dispatchEvent(new Event("scroll"));
+      secondFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
+    });
+
+    return () => {
+      window.cancelAnimationFrame(firstFrame);
+      if (secondFrame) window.cancelAnimationFrame(secondFrame);
+    };
+  }, [introComplete]);
 
   const pivotFeaturedReel = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     if (shouldReduceMotion || event.pointerType === "touch") return;
@@ -1576,16 +1601,16 @@ export default function Portfolio() {
           <motion.p
             className="landing-kicker"
             data-cursor-mask
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            initial={simplifyLandingMotion ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.12, ease }}
           >
             Creative Producer - Lincolnshire, UK
           </motion.p>
-          <LandingName reduceMotion={Boolean(shouldReduceMotion)} />
+          <LandingName reduceMotion={simplifyLandingMotion} />
           <motion.div
             className="landing-positioning"
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            initial={simplifyLandingMotion ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.58, ease }}
           >
@@ -1596,7 +1621,7 @@ export default function Portfolio() {
             <motion.p
               className="landing-lede"
               data-cursor-mask
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+              initial={simplifyLandingMotion ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.68, ease }}
             >
@@ -1604,7 +1629,7 @@ export default function Portfolio() {
             </motion.p>
             <motion.div
               className="landing-actions"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+              initial={simplifyLandingMotion ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.78, ease }}
             >
@@ -1615,7 +1640,7 @@ export default function Portfolio() {
           </div>
           <motion.div
             className="landing-credibility"
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 14 }}
+            initial={simplifyLandingMotion ? false : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.9, ease }}
             aria-label="Selected career statistics"
@@ -1629,7 +1654,7 @@ export default function Portfolio() {
         <motion.div
           className="landing-marquee"
           aria-hidden="true"
-          initial={shouldReduceMotion ? false : { opacity: 0 }}
+          initial={simplifyLandingMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.92 }}
         >
@@ -2012,7 +2037,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.5.5 · Build 020</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.5.6 · Build 021</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />

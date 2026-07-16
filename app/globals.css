@@ -3639,3 +3639,59 @@ html.mobile-service-open .globe-orbit-segment-path {
 @media (prefers-reduced-motion: reduce) {
   .archive-tile { transition: none; }
 }
+
+
+/* Build 021 - public content polish and mobile intro repaint */
+.references .testimonial-heading {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+.references .testimonial-heading .section-index { margin: 0; }
+.references .testimonial-heading h3 {
+  max-width: none;
+  margin-inline: auto;
+  white-space: nowrap;
+  text-align: center;
+  font-size: clamp(24px, 3.5vw, 54px);
+}
+.production-archive {
+  padding-top: 110px;
+  padding-bottom: 230px;
+}
+
+@media (max-width: 800px) {
+  .production-archive {
+    padding-top: 78px;
+    padding-bottom: 175px;
+  }
+  .references .testimonial-heading {
+    align-items: center;
+  }
+  .references .testimonial-heading h3 {
+    font-size: clamp(18px, 5vw, 34px);
+  }
+
+  /* Force a WebKit compositor refresh after the fixed intro overlay is removed. */
+  .site-root.is-intro-ready {
+    animation: mobile-intro-repaint .01s linear both;
+  }
+}
+
+@media (max-width: 520px) {
+  .production-archive {
+    padding-top: 58px;
+    padding-bottom: 150px;
+  }
+  .references .testimonial-heading h3 {
+    font-size: clamp(16px, 5.15vw, 25px);
+    letter-spacing: -.04em;
+  }
+}
+
+@keyframes mobile-intro-repaint {
+  from { opacity: .999; }
+  to { opacity: 1; }
+}
