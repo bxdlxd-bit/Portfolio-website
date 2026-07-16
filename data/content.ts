@@ -404,3 +404,40 @@ export const proof = [
   { value: "60+", label: "assets in one campaign" },
   { value: "8", label: "date UK + EU managed run" }
 ];
+
+export type ProductionArchiveItem = {
+  id: string;
+  title: string;
+  client: string;
+  role: string;
+  category: "Video production" | "Live capture" | "Campaign content" | "Post-production";
+  year: string;
+  orientation: "landscape" | "portrait";
+  size: "standard" | "wide" | "feature";
+  note: string;
+  poster?: string;
+  video?: string;
+};
+
+export const productionArchive: ProductionArchiveItem[] = [
+  { id: "archive-01", title: "Freelance project 01", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Video production", year: "[YEAR]", orientation: "landscape", size: "feature", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-02", title: "Freelance project 02", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Campaign content", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-03", title: "Freelance project 03", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Live capture", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-04", title: "Freelance project 04", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Post-production", year: "[YEAR]", orientation: "landscape", size: "wide", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-05", title: "Freelance project 05", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Video production", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-06", title: "Freelance project 06", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Campaign content", year: "[YEAR]", orientation: "landscape", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-07", title: "Freelance project 07", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Post-production", year: "[YEAR]", orientation: "landscape", size: "wide", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-08", title: "Freelance project 08", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Live capture", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-09", title: "Freelance project 09", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Video production", year: "[YEAR]", orientation: "landscape", size: "feature", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-10", title: "Freelance project 10", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Campaign content", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-11", title: "Freelance project 11", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Post-production", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-12", title: "Freelance project 12", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Live capture", year: "[YEAR]", orientation: "landscape", size: "wide", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-13", title: "Freelance project 13", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Video production", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-14", title: "Freelance project 14", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Campaign content", year: "[YEAR]", orientation: "landscape", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-15", title: "Freelance project 15", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Post-production", year: "[YEAR]", orientation: "landscape", size: "feature", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-16", title: "Freelance project 16", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Live capture", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-17", title: "Freelance project 17", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Video production", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-18", title: "Freelance project 18", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Campaign content", year: "[YEAR]", orientation: "landscape", size: "wide", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-19", title: "Freelance project 19", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Post-production", year: "[YEAR]", orientation: "portrait", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" },
+  { id: "archive-20", title: "Freelance project 20", client: "[CLIENT / ARTIST]", role: "[YOUR ROLE / DELIVERY]", category: "Live capture", year: "[YEAR]", orientation: "landscape", size: "standard", note: "[ONE-SENTENCE PRODUCTION OR DELIVERY CONTEXT]" }
+];

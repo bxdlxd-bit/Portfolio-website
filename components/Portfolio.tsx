@@ -14,6 +14,7 @@ import IntroScreen from "./IntroScreen";
 import LandingWordmark from "./LandingWordmark";
 import LandingParticles from "./LandingParticles";
 import GlobeOrbitSystem from "./GlobeOrbitSystem";
+import ProductionArchive from "./ProductionArchive";
 import { experienceHighlights, processStages, projects, proof, recognition, services, testimonials, type Project } from "@/data/content";
 
 const ease = [0.2, 0.75, 0.2, 1] as const;
@@ -1883,6 +1884,11 @@ export default function Portfolio() {
             <a href="/documents/joshua-pearman-creative-producer-cv.pdf" download="Joshua-Pearman-Creative-Producer-CV.pdf">Download PDF <span>↓</span></a>
           </div>
         </article>
+      </section>
+
+      <ProductionArchive />
+
+      <section className="references section" aria-label="References">
         <div className="testimonial-heading">
           <p className="section-index" data-cursor-mask>References</p>
           <h3 data-cursor-mask>What collaborators should verify.</h3>
@@ -1898,7 +1904,7 @@ export default function Portfolio() {
       </section>
 
       <section className="recognition section">
-        <p className="section-index" data-cursor-mask>06 / Recognition</p>
+        <p className="section-index" data-cursor-mask>07 / Recognition</p>
         <SwipeTitle className="recognition-title">Recognition, platforms and industry relationships.</SwipeTitle>
         <p className="recognition-intro" data-cursor-mask>Selected broadcast support, label relationships, client campaigns, festival experience, agency work and platform features across my creative career.</p>
         <div className="recognition-list">
@@ -1969,7 +1975,7 @@ export default function Portfolio() {
           style={{ rotateX: contactTiltX, rotateY: contactTiltY }}
         >
           <div>
-            <p className="section-index" data-cursor-mask>07 / Contact</p>
+            <p className="section-index" data-cursor-mask>08 / Contact</p>
             <ContactFocusTitle />
             <p data-cursor-mask>Available for permanent, fixed-term, contract and freelance creative production opportunities across Manchester, the East Midlands, London and remote UK.</p>
           </div>
@@ -2006,7 +2012,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.4.1 · Build 014</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.5.0 · Build 015</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />
