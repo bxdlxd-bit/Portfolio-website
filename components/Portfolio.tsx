@@ -1702,7 +1702,7 @@ export default function Portfolio() {
             </div>
             <div className="landing-reel-scroll" aria-hidden="true">
               <span className="landing-reel-scroll-copy landing-reel-scroll-copy-wheel">Scroll to open reel</span>
-              <span className="landing-reel-scroll-copy landing-reel-scroll-copy-touch">Swipe up to open reel</span>
+              <span className="landing-reel-scroll-copy landing-reel-scroll-copy-touch">Keep Swiping</span>
               <span className="landing-reel-scroll-track"><i /></span>
               <span className="landing-reel-scroll-arrow">↓</span>
             </div>
@@ -2037,7 +2037,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.5.6 · Build 021</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.5.7 · Build 022</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />

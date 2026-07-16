@@ -411,6 +411,9 @@ export type ProductionArchiveItem = {
   orientation: "landscape" | "portrait";
   size: "standard" | "wide" | "feature";
   note?: string;
+  tags?: string[];
+  link?: string;
+  linkLabel?: string;
   poster?: string;
   video?: string;
 };
@@ -419,20 +422,44 @@ export const productionArchive: ProductionArchiveItem[] = [
   {
     id: "archive-01",
     title: "Shameless VFX Reel",
+    client: "BVDLVD",
+    role: "VFX / Editor / Vocalist",
     category: "Post-production",
     orientation: "portrait",
     size: "standard",
+    note: "Created a VFX-intensive reel, manipulating a London tower block to move and dance to BVDLVD’s song “Shameless.”",
+    tags: ["VFX", "Edit", "After Effects", "Vocals"],
+    link: "https://www.instagram.com/reel/DIyjwaRisnm/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    linkLabel: "View on Instagram",
     poster: "/media/archive/shameless-vfx-reel.webp",
     video: "/media/archive/shameless-vfx-reel.mp4"
   },
   {
     id: "archive-02",
     title: "PS Performance Reel",
-    client: "PS Hitsquad",
+    client: "PS HITSQUAD",
+    role: "Direction / Camera / Edit",
     category: "Campaign content",
     orientation: "portrait",
     size: "standard",
+    note: "Built moody lighting during a 12-hour PS shoot using a portable power station and Aputure MC fixtures.",
+    tags: ["Colour grade", "Three-point lighting", "Edit", "DaVinci Resolve", "Direction", "Camera Operator"],
+    link: "https://www.instagram.com/reel/DTvfb4lCvhV/?utm_source=ig_web_copy_link",
+    linkLabel: "View on Instagram",
     poster: "/media/archive/ps-performance-reel.webp",
     video: "/media/archive/ps-performance-reel.mp4"
+  },
+  {
+    id: "archive-03",
+    title: "M-Beat - Creating “Incredible”",
+    client: "M-BEAT",
+    role: "Creative oversight / Direction / Edit",
+    category: "Video production",
+    orientation: "portrait",
+    size: "standard",
+    note: "Teamed with Alfie Cartwright to create a multicamera interview with the producer behind General Levy’s “Incredible.”",
+    tags: ["Creative oversight", "Direction", "Edit", "Interview", "Camera Operator"],
+    poster: "/media/archive/mbeat-creating-incredible.webp",
+    video: "/media/archive/mbeat-creating-incredible.mp4"
   }
 ];

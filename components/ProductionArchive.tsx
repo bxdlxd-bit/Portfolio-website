@@ -8,6 +8,13 @@ import { productionArchive, type ProductionArchiveItem } from "@/data/content";
 const archiveEase = [0.2, 0.75, 0.2, 1] as const;
 const ARCHIVE_BATCH_SIZE = 5;
 
+function formatVideoTime(value: number) {
+  if (!Number.isFinite(value) || value < 0) return "0:00";
+  const minutes = Math.floor(value / 60);
+  const seconds = Math.floor(value % 60).toString().padStart(2, "0");
+  return `${minutes}:${seconds}`;
+}
+
 function ArchivePlaceholder({ item, index, modal = false }: { item: ProductionArchiveItem; index: number; modal?: boolean }) {
   return (
     <span className={`archive-placeholder${modal ? " is-modal" : ""}`} aria-hidden="true">
@@ -22,23 +29,100 @@ function ArchivePlaceholder({ item, index, modal = false }: { item: ProductionAr
   );
 }
 
+function ArchiveModalVideo({ item }: { item: ProductionArchiveItem }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = false;
+    video.loop = true;
+    const playback = video.play();
+    if (playback) playback.catch(() => setIsPlaying(false));
+  }, [item.video]);
+
+  const togglePlayback = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play().catch(() => setIsPlaying(false));
+    } else {
+      video.pause();
+    }
+  };
+
+  const toggleMute = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setIsMuted(video.muted);
+  };
+
+  const seekVideo = (value: number) => {
+    const video = videoRef.current;
+    if (!video || !Number.isFinite(value)) return;
+    video.currentTime = value;
+    setCurrentTime(value);
+  };
+
+  const progress = duration > 0 ? Math.min(100, Math.max(0, currentTime / duration * 100)) : 0;
+
+  return (
+    <div className="archive-modal-video">
+      <video
+        ref={videoRef}
+        autoPlay
+        loop
+        playsInline
+        preload="metadata"
+        poster={item.poster}
+        onLoadedMetadata={(event) => setDuration(event.currentTarget.duration || 0)}
+        onDurationChange={(event) => setDuration(event.currentTarget.duration || 0)}
+        onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onVolumeChange={(event) => setIsMuted(event.currentTarget.muted)}
+      >
+        <source src={item.video} type="video/mp4" />
+      </video>
+      <div className="archive-video-controls" aria-label="Video controls">
+        <button type="button" onClick={togglePlayback} aria-label={isPlaying ? "Pause video" : "Play video"}>
+          {isPlaying ? "Pause" : "Play"}
+        </button>
+        <input
+          type="range"
+          min="0"
+          max={duration || 0}
+          step="0.01"
+          value={Math.min(currentTime, duration || 0)}
+          onChange={(event) => seekVideo(Number(event.currentTarget.value))}
+          aria-label="Video progress"
+          style={{ "--archive-video-progress": `${progress}%` } as CSSProperties}
+        />
+        <span>{formatVideoTime(currentTime)} / {formatVideoTime(duration)}</span>
+        <button type="button" onClick={toggleMute} aria-label={isMuted ? "Turn sound on" : "Mute video"}>
+          {isMuted ? "Sound on" : "Mute"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function ArchiveMedia({ item, index, activePreview = false, modal = false }: {
   item: ProductionArchiveItem;
   index: number;
   activePreview?: boolean;
   modal?: boolean;
 }) {
+  if (modal && item.video) return <ArchiveModalVideo item={item} />;
+
   if (item.video && activePreview) {
     return (
-      <video
-        autoPlay
-        muted={!modal}
-        loop={!modal}
-        controls={modal}
-        playsInline
-        preload={modal ? "metadata" : "none"}
-        poster={item.poster}
-      >
+      <video autoPlay muted loop playsInline preload="none" poster={item.poster}>
         <source src={item.video} type="video/mp4" />
       </video>
     );
@@ -127,7 +211,7 @@ export default function ProductionArchive() {
         </div>
 
         <div className={`production-archive-reveal${hasMore ? " has-more" : ""}`}>
-          <div className={`production-archive-grid${productionArchive.length <= 2 ? " is-compact" : ""}`}>
+          <div className={`production-archive-grid${productionArchive.length <= 3 ? " is-compact" : ""}`}>
           {visibleItems.map((item, index) => {
             const isPreviewing = previewId === item.id;
             const style = {
@@ -237,6 +321,16 @@ export default function ProductionArchive() {
                   <div><dt>Format</dt><dd>{activeItem.orientation === "portrait" ? "Portrait / vertical" : "Landscape / horizontal"}</dd></div>
                   {activeItem.note ? <div><dt>Delivery context</dt><dd>{activeItem.note}</dd></div> : null}
                 </dl>
+                {activeItem.tags?.length ? (
+                  <div className="archive-dialog-tags" aria-label="Project tags">
+                    {activeItem.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                  </div>
+                ) : null}
+                {activeItem.link ? (
+                  <a className="archive-dialog-link" href={activeItem.link} target="_blank" rel="noopener noreferrer">
+                    {activeItem.linkLabel ?? "View published work"} <span>↗</span>
+                  </a>
+                ) : null}
               </div>
             </motion.article>
           </motion.div>
