@@ -159,39 +159,6 @@ img, video { display: block; max-width: 100%; }
 @keyframes globe-orbit-segment-tail-spin { to { stroke-dashoffset: -112.6; } }
 .scroll-progress { position: fixed; z-index: 50; top: 0; left: 0; right: 0; height: 2px; transform-origin: left center; background: linear-gradient(90deg, var(--violet), var(--cyan)); }
 
-.site-header {
-  position: fixed; z-index: 900; top: 18px; left: 50%; transform: translate(-50%, -145%);
-  opacity: 0; visibility: hidden;
-  width: min(calc(100% - 36px), 1160px); min-height: 70px; padding: 10px 12px 10px 16px;
-  border-radius: 22px; display: flex; align-items: center; justify-content: space-between;
-}
-.identity { display: inline-flex; align-items: center; gap: 12px; min-width: 0; }
-.identity-mark {
-  width: 43px; height: 43px; display: grid; place-items: center; flex: 0 0 auto;
-  border-radius: 14px; border: 1px solid rgba(255,255,255,.18);
-  background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.035));
-  font-size: 12px; font-weight: 800; letter-spacing: .08em;
-  overflow: hidden;
-}
-.identity-mark-image { padding: 5px; }
-.identity-mark-image img { width: 100%; height: 100%; object-fit: cover; border-radius: 9px; }
-.identity-copy { display: grid; line-height: 1.1; gap: 4px; }
-.identity-copy strong { font-size: 13px; letter-spacing: .01em; }
-.identity-copy small { color: var(--faint); font-size: 10px; text-transform: uppercase; letter-spacing: .12em; }
-.desktop-nav { display: flex; align-items: center; gap: 5px; }
-.desktop-nav a { padding: 11px 14px; border-radius: 13px; color: var(--muted); font-size: 12px; transition: color .25s ease, background .25s ease; }
-.desktop-nav a:hover { color: var(--text); background: rgba(255,255,255,.055); }
-.desktop-nav .nav-pill { color: var(--text); background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.09); padding-inline: 17px; }
-.menu-button { display: none; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,.09); border-radius: 13px; background: rgba(11,12,18,.58); padding: 0; position: relative; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
-.menu-button span { position: absolute; width: 18px; height: 1px; left: 13px; background: white; transition: transform .3s ease, top .3s ease; }
-.menu-button span:first-child { top: 18px; }
-.menu-button span:last-child { top: 25px; }
-.menu-button[aria-expanded="true"] span:first-child { top: 22px; transform: rotate(45deg); }
-.menu-button[aria-expanded="true"] span:last-child { top: 22px; transform: rotate(-45deg); }
-.mobile-menu { position: fixed; display: none; z-index: 899; top: 98px; left: 18px; right: 18px; padding: 10px; border-radius: 22px; background: rgba(8,9,14,.82); border: 1px solid rgba(255,255,255,.14); box-shadow: 0 28px 80px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.06); backdrop-filter: blur(34px) saturate(150%); -webkit-backdrop-filter: blur(34px) saturate(150%); }
-.mobile-menu a { display: flex; align-items: center; justify-content: space-between; padding: 17px 14px; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 14px; }
-.mobile-menu a:last-child { border-bottom: 0; }
-
 .hero { padding-top: 150px; min-height: 980px; }
 .hero-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(480px, 1.1fr); gap: clamp(36px, 6vw, 90px); align-items: center; min-height: 690px; }
 .eyebrow, .section-index { margin: 0; color: rgba(237,237,244,.5); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .18em; }
@@ -583,9 +550,6 @@ img, video { display: block; max-width: 100%; }
 
 @media (max-width: 800px) {
   .section { width: min(calc(100% - 28px), var(--max)); }
-  .site-header { top: 12px; width: calc(100% - 24px); }
-  .desktop-nav { display: none; }
-  .menu-button, .mobile-menu { display: block; }
   .hero { padding-top: 130px; }
   .hero-grid { min-height: 0; }
   .hero h1 { font-size: clamp(53px, 14vw, 82px); }
@@ -645,8 +609,6 @@ img, video { display: block; max-width: 100%; }
 }
 
 @media (max-width: 520px) {
-  .identity-copy small { display: none; }
-  .identity-mark { width: 40px; height: 40px; }
   .hero h1 { font-size: 16.3vw; }
   .hero-actions { flex-direction: column; }
   .button { width: 100%; }
@@ -2594,4 +2556,336 @@ html.intro-locked .intro-logo {
   .contact-routes article { min-height: 0; }
   .dialog-content { padding: 42px 20px 30px; }
   .dialog-case-study section { padding: 18px; }
+}
+
+/* Mobile experience and hierarchy refinement - Build 013 */
+.signal-field canvas {
+  image-rendering: auto;
+  transform: translateZ(0);
+}
+
+/* Centre the complete How I Work composition. */
+.manifesto {
+  min-height: auto;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+  padding-top: clamp(105px, 13vh, 165px);
+  padding-bottom: clamp(140px, 16vh, 205px);
+}
+.manifesto-body {
+  width: min(100%, 1120px);
+  justify-items: center;
+}
+.manifesto-index { margin-bottom: -18px; }
+.manifesto-copy { width: 100%; justify-items: center; }
+.manifesto-line,
+.manifesto-ghost {
+  width: 100%;
+  max-width: 1080px;
+  text-align: center;
+}
+.manifesto-support {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
+}
+.process-grid {
+  width: 100%;
+  text-align: left;
+}
+
+/* The reel title now sits behind the media, while the cue remains above it. */
+.landing-reel-heading { z-index: 2; }
+.landing-reel-frame { z-index: 3; }
+.landing-reel-scroll { z-index: 5; }
+
+/* References retain placeholder copy, but the attribution is anchored and centred. */
+.testimonial-card footer {
+  width: 100%;
+  margin-top: auto;
+  padding-top: 28px;
+  justify-items: center;
+  text-align: center;
+}
+
+@media (max-width: 800px) {
+  /* Smaller, denser section typography across touch layouts. */
+  .section-heading h2,
+  .about-copy h2,
+  .contact-card h2,
+  .recognition-title {
+    font-size: clamp(31px, 8.8vw, 48px);
+  }
+
+  .manifesto {
+    padding-top: 88px;
+    padding-bottom: 126px;
+  }
+  .manifesto-body { gap: 22px; }
+  .manifesto-index { margin-bottom: -8px; }
+  .manifesto-line,
+  .manifesto-ghost {
+    max-width: 690px;
+    font-size: clamp(31px, 7.2vw, 49px);
+    line-height: 1.04;
+  }
+  .manifesto-support {
+    max-width: 620px;
+    margin-top: -2px;
+    font-size: 12px;
+    line-height: 1.62;
+  }
+  .process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .process-stage {
+    min-height: 126px;
+    padding: 14px;
+    border-radius: 17px;
+  }
+  .process-stage:last-child {
+    grid-column: 1 / -1;
+    width: calc(50% - 4px);
+    justify-self: center;
+  }
+  .process-stage h3 {
+    margin-bottom: 12px;
+    font-size: clamp(15px, 3.8vw, 19px);
+  }
+  .process-stage p {
+    font-size: 10px;
+    line-height: 1.48;
+  }
+
+  /* Pin the selected-work heading to the actual viewport top and reserve room for copy. */
+  .work.section { width: 100%; }
+  .project-carousel-pin {
+    height: 100svh;
+    min-height: 0;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 10px 0 9px;
+  }
+  .project-carousel-heading {
+    align-self: start;
+    gap: 7px;
+    padding-inline: 14px;
+  }
+  .project-carousel-heading h2 {
+    margin-top: 9px;
+    font-size: clamp(27px, 7.2vw, 38px);
+    line-height: .98;
+  }
+  .project-carousel-heading > p {
+    max-width: 620px;
+    font-size: 9.5px;
+    line-height: 1.42;
+  }
+  .project-carousel-viewport {
+    min-height: 0;
+    padding-block: 2px;
+    align-items: center;
+    touch-action: pan-y;
+    overscroll-behavior-x: contain;
+  }
+  .project-carousel-track {
+    gap: 13px;
+    padding-inline: 9vw;
+  }
+  .project-slide {
+    flex-basis: 82vw;
+    width: 82vw;
+  }
+  .project-media {
+    aspect-ratio: 16 / 10;
+    border-radius: 20px;
+  }
+  .project-number { top: 10px; left: 10px; height: 27px; min-width: 39px; }
+  .project-open { right: 10px; bottom: 10px; padding: 8px 10px; font-size: 8px; }
+  .project-meta {
+    grid-template-columns: 1fr;
+    gap: 7px;
+    padding: 10px 1px 5px;
+  }
+  .project-meta > div:first-child > span { font-size: 7px; }
+  .project-meta h3 {
+    margin-top: 5px;
+    font-size: clamp(22px, 6vw, 30px);
+  }
+  .project-meta > p {
+    margin-top: 0;
+    font-size: 10px;
+    line-height: 1.42;
+  }
+  .project-role-list {
+    gap: 5px;
+    margin-top: 1px;
+  }
+  .project-role-list span {
+    padding: 5px 7px;
+    font-size: 6.7px;
+  }
+  .project-carousel-footer {
+    grid-template-columns: auto 1fr;
+    gap: 6px 12px;
+    padding-inline: 9vw;
+    font-size: 7px;
+  }
+  .project-carousel-dot { width: 15px; }
+  .project-carousel-dot.is-active { width: 32px; }
+  .project-carousel-hint {
+    display: block;
+    grid-column: 1 / -1;
+    justify-self: center;
+    font-size: 6.5px;
+  }
+
+  /* Mobile About becomes an editorial card rather than a full-screen panel. */
+  .about { padding-bottom: 125px; }
+  .about-card {
+    min-height: 0;
+    --service-compound-surface: rgba(18, 20, 30, .48);
+    backdrop-filter: blur(13px) saturate(118%);
+    -webkit-backdrop-filter: blur(13px) saturate(118%);
+  }
+  .about-image {
+    min-height: 0;
+    height: clamp(320px, 48svh, 430px);
+  }
+  .about-image-media { inset: -10% -5%; }
+  .about-image img {
+    object-position: center 20%;
+    transform: scale(1.06);
+  }
+  .about-copy { padding: 30px 22px 36px; }
+  .about-copy h2 {
+    max-width: 540px;
+    margin-top: 13px;
+  }
+  .about-copy > p:not(.section-index) {
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 1.62;
+  }
+  .about-tags { margin-top: 22px; gap: 6px; }
+  .about-tags span { padding: 6px 8px; font-size: 7px; }
+
+  /* Keep producer evidence scannable in two columns on phones and tablets. */
+  .experience-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+  .experience-card {
+    min-height: 0;
+    padding: 17px;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    align-content: start;
+    border-radius: 20px;
+  }
+  .experience-card:last-child { grid-column: 1 / -1; }
+  .experience-card strong {
+    margin-top: 13px;
+    font-size: clamp(24px, 6.6vw, 34px);
+  }
+  .experience-card p {
+    margin-top: 10px;
+    align-self: end;
+    font-size: 10.5px;
+    line-height: 1.5;
+  }
+
+  /* Avoid large live blur regions while drawers are open on touch devices. */
+  .service-card.glass,
+  .service-drawer.glass {
+    background: rgba(18, 20, 30, .94);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.065), 0 18px 42px rgba(0,0,0,.22);
+  }
+  .service-card:hover,
+  .service-card.is-expanded {
+    background: rgba(21, 23, 34, .96);
+  }
+  .service-card::after { display: none; }
+}
+
+@media (max-width: 520px) {
+  /* Portrait-first reel makes the scroll-driven shape change obvious on a phone. */
+  .landing-reel-frame {
+    width: min(68vw, 286px);
+    height: min(67svh, 500px);
+    aspect-ratio: auto;
+    transform: scale(1);
+    border-radius: 24px;
+  }
+  .landing-reel-outline {
+    width: min(68vw, 286px);
+    height: min(67svh, 500px);
+    aspect-ratio: auto;
+    border-radius: 25px;
+  }
+  .landing-reel-heading {
+    width: 96vw;
+    gap: 7px;
+  }
+  .landing-reel-heading strong {
+    font-size: clamp(25px, 8vw, 35px);
+  }
+  .landing-reel-heading span { font-size: 6.5px; }
+  .landing-reel-scroll {
+    max-width: calc(100vw - 28px);
+    white-space: nowrap;
+  }
+
+  .manifesto.section { padding-inline: 10px; }
+  .manifesto-line,
+  .manifesto-ghost {
+    font-size: clamp(28px, 8.4vw, 37px);
+  }
+  .process-grid { gap: 7px; }
+  .process-stage {
+    min-height: 116px;
+    padding: 12px;
+    border-radius: 15px;
+  }
+  .process-stage:last-child { width: calc(50% - 3.5px); }
+  .process-stage-heading { gap: 7px; }
+  .process-stage-heading > span { font-size: 6.5px; }
+  .process-stage h3 {
+    margin-bottom: 9px;
+    font-size: clamp(14px, 4.2vw, 17px);
+  }
+  .process-stage p {
+    font-size: 9px;
+    line-height: 1.42;
+  }
+
+  .project-carousel-pin { padding-top: 7px; }
+  .project-carousel-heading { padding-inline: 12px; }
+  .project-carousel-heading h2 { font-size: 7.1vw; }
+  .project-carousel-heading > p { font-size: 8.7px; }
+  .project-slide { flex-basis: 84vw; width: 84vw; }
+  .project-carousel-track { padding-inline: 8vw; }
+  .project-meta h3 { font-size: 5.8vw; }
+  .project-meta > p { font-size: 9.4px; line-height: 1.38; }
+  .project-role-summary span { font-size: 6.1px; }
+
+  .about-image { height: min(31svh, 250px); }
+  .about-copy { padding: 25px 18px 30px; }
+  .about-copy h2 { font-size: 8.5vw; }
+  .about-copy > p:not(.section-index) { font-size: 11.3px; line-height: 1.56; }
+
+  .experience { padding-bottom: 125px; }
+  .experience-heading { margin-bottom: 26px; }
+  .experience-grid { gap: 7px; }
+  .experience-card { padding: 14px; border-radius: 17px; }
+  .experience-card > span { font-size: 6.5px; }
+  .experience-card strong { margin-top: 10px; font-size: 6.2vw; }
+  .experience-card p { margin-top: 8px; font-size: 9.4px; line-height: 1.43; }
+  .testimonial-card { min-height: 230px; }
+  .testimonial-card footer { padding-top: 22px; }
 }

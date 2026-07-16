@@ -5,9 +5,6 @@ import { useEffect, useRef } from "react";
 const maskSelector = [
   "[data-cursor-mask]",
   "[data-cursor-mask-shell]",
-  ".site-header .identity-copy strong",
-  ".site-header .identity-copy small",
-  ".mobile-menu a > span:first-child",
   ".section-index",
   ".section-heading > p",
   ".project-meta h3",

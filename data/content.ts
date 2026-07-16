@@ -306,11 +306,13 @@ export type Recognition = {
 
 export const recognition: Recognition[] = [
   {
-    label: "Broadcast support",
+    label: "National radio",
     title: "BBC Radio 1",
     details: [
-      "Music released professionally as BVDLVD has received support across BBC Radio 1 and regional BBC Introducing programmes. This is presented as broadcast and platform recognition, not as a client relationship.",
-      "The final site should retain only the most concise, defensible examples and link to supporting sources where available."
+      "My single “PRISON” was featured by BBC Radio 1 presenter Nels Hylton in May 2023, placing the release in front of a national audience. The accompanying music video also received television coverage, demonstrating the project’s ability to translate across both audio and visual platforms.",
+      "My track “Inevitable” received two plays on BBC Radio 1, alongside support from BBC Radio Sheffield. The track was described on air as: “Fusion of metal and trap, it works - and I’m OBSESSED with this track!”",
+      "“SLOZZA” was played on BBC Radio 1 Introducing Rock with Alyx Holcombe, who described it as: “Trap Metal goodness! Like being punched in the face - but in a good way.” The track also received further BBC Introducing support from Jess Izzatt.",
+      "“NUMB” was featured on BBC Radio 1 Future Alternative with Nels Hylton. Additional tracks from the album PRESENCE have also received regional BBC support across BBC Radio Derby, BBC Radio Leicester, BBC Radio Lincolnshire and BBC Radio Nottingham."
     ],
     source: { label: "Source", href: "https://www.bbc.co.uk/programmes/m001lnv0" },
     media: [
@@ -319,47 +321,53 @@ export const recognition: Recognition[] = [
     ]
   },
   {
-    label: "Label relationship",
+    label: "Record label",
     title: "MOVES Recordings",
     details: [
-      "The relationship began through videography for label artists and developed into three recording agreements between 2019 and 2021.",
-      "Relevant producer evidence includes consistent release delivery, campaign content, budget awareness and experience working within a label structure."
+      "I began working with MOVES Recordings as a videographer, producing visual content for artists across the label’s roster. This relationship developed into a successful career as a signed recording artist, leading to three increasingly valuable record agreements between 2019 and 2021.",
+      "During this period, I created several EPs and the album LUNATIC, maintaining a consistent release schedule before and throughout the COVID-19 pandemic. Alongside writing and performing, I filmed music videos, edited advertising campaigns and managed production budgets and expenses. I progressed from an emerging signing into one of the label’s most prominent artists, alongside acts including Naira Marley and Skengdo & AM."
     ],
-    media: [{ src: "/media/recognition/moves-recordings.webp", alt: "MOVES Recordings logo", fit: "contain" }]
+    media: [
+      { src: "/media/recognition/moves-recordings.webp", alt: "MOVES Recordings logo", fit: "contain" }
+    ]
   },
   {
-    label: "Label relationship",
+    label: "Record label",
     title: "Earache Records",
     details: [
-      "A two-option recording agreement supported the development and release of the ABSENCE album campaign.",
-      "Producer-relevant context includes production budgeting, external crew collaboration, campaign concepts, ambitious locations and maintaining a consistent identity across music and visual delivery."
+      "I signed a two-option record agreement with Earache Records, including advances of $70,000 and a potential further $120,000, to create and release the album ABSENCE. I took an active role in budgeting production, equipment and creative expenses, ensuring the project’s visual and musical ambitions remained achievable within the available resources.",
+      "I developed a detailed conceptual art direction for the campaign, including a mobile London bus advertisement featuring a scannable QR code. The campaign also included several ambitious music videos using FPV drone cinematography, large-scale locations and the hire of a functioning prison. These productions required close collaboration with external crews, including production company XANIMA, while maintaining a consistent creative identity across the album."
     ],
-    media: [{ src: "/media/recognition/earache-records.webp", alt: "Earache Records logo", fit: "contain" }]
+    media: [
+      { src: "/media/recognition/earache-records.webp", alt: "Earache Records logo", fit: "contain" }
+    ]
   },
   {
-    label: "Client campaign",
+    label: "Creative campaign",
     title: "BAGATUNE - M-Beat & Missing",
     details: [
-      "Hired to translate the Fusion Without Formula identity into a multi-artist social campaign for the collaborative BAGATUNE project.",
-      "The project included more than 60 delivered assets and required creative interpretation, artist coordination, adaptable planning, filming, post-production and consistent campaign delivery."
+      "Legendary producer M-Beat, known for General Levy’s “Incredible”, partnered with producer Missing to create the collaborative project BAGATUNE. I was hired to translate their creative vision into a tangible social-media campaign, while also contributing to the project as a featured artist on the track “No Halo”.",
+      "The campaign was built around the ethos “Fusion Without Formula”, which needed to remain clearly represented across every piece of content. I filmed and delivered more than 60 assets for the release, working with and coordinating a wide range of artists and personalities, including Teezandos, PS Hitsquad, Deecien and Kwengface. The project required creative interpretation, artist management, adaptable production planning and consistent delivery across a complex collaborative campaign."
     ],
-    media: [{ src: "/media/recognition/bagatune-square.webp", alt: "M-Beat and Missing photographed for the BAGATUNE project" }]
+    media: [
+      { src: "/media/recognition/bagatune-square.webp", alt: "M-Beat and Missing photographed for the BAGATUNE project" }
+    ]
   },
   {
-    label: "Festival experience",
-    title: "Boomtown + Kendal Calling",
+    label: "Live performance",
+    title: "Festivals - BOOMTOWN & Kendal Calling",
     details: [
-      "Professional festival experience as a performer within large-scale, time-sensitive environments involving stage crews, engineers, artists and production teams.",
-      "The final wording should make the nature of the relationship explicit and avoid presenting festival appearances as production clients."
+      "I have performed at established UK festivals including Boomtown Festival 2022, Kendal Calling 2022 and AltFest 2021. At AltFest, I was also hired to interview American rapper Smokepurpp live ahead of his performance. These appearances required confident communication, professional live-set preparation and the ability to operate effectively within large-scale, time-sensitive festival environments alongside artists, stage crews, engineers and production teams."
     ],
-    media: [{ src: "/media/recognition/boomtown-2022.webp", alt: "Boomtown Festival 2022 Earache Takeover lineup featuring BVDLVD" }]
+    media: [
+      { src: "/media/recognition/boomtown-2022.webp", alt: "Boomtown Festival 2022 Earache Takeover lineup featuring BVDLVD" }
+    ]
   },
   {
-    label: "Agency relationship",
-    title: "CAA + Primary Talent",
+    label: "Live representation",
+    title: "CAA & Primary Talent",
     details: [
-      "Contracted live work has involved both agencies across headline shows, touring dates and festival appearances.",
-      "The final site should identify the precise booking or representation context in one sentence."
+      "I have completed contracted live work involving both CAA and Primary Talent, two internationally recognised booking agencies. This experience has included dozens of live shows, festival appearances, headline performances and touring dates, requiring consistent communication with agents, promoters, venues and production teams."
     ],
     media: [
       { src: "/media/recognition/caa.png", alt: "CAA logo", fit: "contain" },
@@ -367,23 +375,25 @@ export const recognition: Recognition[] = [
     ]
   },
   {
-    label: "Platform release",
+    label: "Music video",
     title: "GRM Daily",
     details: [
-      "Created the music video for Fizzler's Minimum Wage, released through GRM Daily and viewed more than one million times.",
-      "The project should become a fuller case study once crew, timeline, budget range, role boundaries and client response are confirmed."
+      "I created the music video for Fizzler’s “Minimum Wage”, which was released through GRM Daily and has since surpassed one million views. I was responsible for translating the track into an engaging visual project suitable for one of the UK’s most influential urban-music platforms."
     ],
     source: { label: "Source", href: "https://youtu.be/VAFgDe54ptE?si=4-obZrUrxoaZ69xB" },
-    media: [{ src: "/media/recognition/grm-daily.png", alt: "GRM Daily logo", fit: "contain" }]
+    media: [
+      { src: "/media/recognition/grm-daily.png", alt: "GRM Daily logo", fit: "contain" }
+    ]
   },
   {
     label: "International feature",
-    title: "WorldStarHipHop",
+    title: "WorldStar HipHop",
     details: [
-      "The BVDLVD track and video Forget Me Not were featured by WorldStarHipHop, extending the release beyond the UK market.",
-      "This remains supporting audience and platform recognition rather than a client credit."
+      "My track and accompanying music video “Forget Me Not” were featured by WorldStarHipHop, introducing the release to the platform’s international audience and expanding its visibility beyond the UK music market."
     ],
-    media: [{ src: "/media/recognition/worldstarhiphop.png", alt: "WorldStarHipHop logo", fit: "contain" }]
+    media: [
+      { src: "/media/recognition/worldstarhiphop.png", alt: "WorldStarHipHop logo", fit: "contain" }
+    ]
   }
 ];
 

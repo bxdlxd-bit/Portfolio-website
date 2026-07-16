@@ -23,6 +23,7 @@ export default function SignalField() {
 
     const basePixelRatio = Math.min(window.devicePixelRatio, 1.25);
     let currentPixelRatio = basePixelRatio;
+    let currentRenderScale = Number(mount.dataset.renderScale ?? 1);
     renderer.setPixelRatio(currentPixelRatio);
     renderer.setClearColor(0x000000, 0);
     mount.appendChild(renderer.domElement);
@@ -131,9 +132,26 @@ export default function SignalField() {
     };
 
     const resize = () => {
-      const rect = mount.getBoundingClientRect();
-      renderer.setSize(rect.width, rect.height, false);
-      camera.aspect = rect.width / Math.max(rect.height, 1);
+      const cssWidth = Math.max(1, mount.offsetWidth);
+      const cssHeight = Math.max(1, mount.offsetHeight);
+      const phase = mount.dataset.phase ?? "hidden";
+      const requestedScale = Math.max(1, Number(mount.dataset.renderScale ?? currentRenderScale));
+      currentRenderScale = requestedScale;
+
+      const requestedPixelRatio = phase === "final"
+        ? window.devicePixelRatio * requestedScale
+        : basePixelRatio;
+      const maxDimensionRatio = 4096 / Math.max(cssWidth, cssHeight);
+      const maxAreaRatio = Math.sqrt(14_500_000 / Math.max(cssWidth * cssHeight, 1));
+      const targetPixelRatio = Math.max(1, Math.min(requestedPixelRatio, maxDimensionRatio, maxAreaRatio));
+
+      if (Math.abs(targetPixelRatio - currentPixelRatio) > 0.01) {
+        currentPixelRatio = targetPixelRatio;
+        renderer.setPixelRatio(currentPixelRatio);
+      }
+
+      renderer.setSize(cssWidth, cssHeight, false);
+      camera.aspect = cssWidth / cssHeight;
       camera.updateProjectionMatrix();
       if (sceneActive && pageVisible) renderer.render(scene, camera);
     };
@@ -182,15 +200,8 @@ export default function SignalField() {
       const phase = mount.dataset.phase ?? "hidden";
       const carouselIndex = Number(mount.dataset.carouselIndex ?? -1);
 
-      const finalPixelRatioCap = window.innerWidth <= 520 ? 1.75 : 2;
-      const targetPixelRatio = phase === "final"
-        ? Math.min(window.devicePixelRatio, finalPixelRatioCap)
-        : basePixelRatio;
-      if (Math.abs(targetPixelRatio - currentPixelRatio) > 0.01) {
-        currentPixelRatio = targetPixelRatio;
-        renderer.setPixelRatio(currentPixelRatio);
-        resize();
-      }
+      resize();
+
 
       if (phase === "travel" && lastPhase === "carousel") {
         lastCarouselIndex = -1;
@@ -218,7 +229,7 @@ export default function SignalField() {
     const activityObserver = new MutationObserver(syncState);
     activityObserver.observe(mount, {
       attributes: true,
-      attributeFilter: ["data-active", "data-phase", "data-carousel-index"]
+      attributeFilter: ["data-active", "data-phase", "data-carousel-index", "data-render-scale"]
     });
 
     window.addEventListener("pointermove", onPointer, { passive: true });
@@ -251,6 +262,7 @@ export default function SignalField() {
       data-active="false"
       data-phase="hidden"
       data-carousel-index="-1"
+      data-render-scale="1"
       aria-hidden="true"
     />
   );

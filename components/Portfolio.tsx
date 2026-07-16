@@ -212,8 +212,8 @@ const manifestoWordVariants = {
 function ApproachManifesto({ reduceMotion }: { reduceMotion: boolean }) {
   return (
     <section className="manifesto section" aria-label="How I work">
-      <p className="section-index" data-cursor-mask>01 / How I work</p>
       <div className="manifesto-body">
+        <p className="section-index manifesto-index" data-cursor-mask>01 / How I work</p>
         <div className="manifesto-copy">
           <p className="manifesto-ghost" aria-hidden="true">
             {APPROACH_WORDS.map((word, index) => (
@@ -292,7 +292,7 @@ export default function Portfolio() {
   const rootRef = useRef<HTMLElement>(null);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [introComplete, setIntroComplete] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [compactViewport, setCompactViewport] = useState(false);
   const [expandedService, setExpandedService] = useState<string | null>(null);
   const [expandedRecognition, setExpandedRecognition] = useState<string | null>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -313,6 +313,14 @@ export default function Portfolio() {
   const contactTiltYInput = useMotionValue(0);
   const contactTiltX = useSpring(contactTiltXInput, { stiffness: 170, damping: 21, mass: 0.45 });
   const contactTiltY = useSpring(contactTiltYInput, { stiffness: 170, damping: 21, mass: 0.45 });
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 800px)");
+    const sync = () => setCompactViewport(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
 
   const closeProject = useCallback(() => setActiveProject(null), []);
   const completeIntro = useCallback(() => setIntroComplete(true), []);
@@ -360,63 +368,13 @@ export default function Portfolio() {
   }, [contactTiltXInput, contactTiltYInput]);
 
   useEffect(() => {
-    if (!introComplete) return;
-    const header = rootRef.current?.querySelector<HTMLElement>(".site-header");
-    const landing = rootRef.current?.querySelector<HTMLElement>(".landing-hero");
-    if (!header || !landing) return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const context = gsap.context(() => {
-      gsap.set(header, { autoAlpha: 0, xPercent: -50, yPercent: -145 });
-
-      const showHeader = (animate = true) => {
-        gsap.to(header, {
-          autoAlpha: 1,
-          xPercent: -50,
-          yPercent: 0,
-          duration: animate && !shouldReduceMotion ? 0.72 : 0,
-          overwrite: true,
-          ease: "power3.out"
-        });
-      };
-
-      const hideHeader = (animate = true) => {
-        gsap.to(header, {
-          autoAlpha: 0,
-          xPercent: -50,
-          yPercent: -145,
-          duration: animate && !shouldReduceMotion ? 0.48 : 0,
-          overwrite: true,
-          ease: "power3.inOut"
-        });
-      };
-
-      ScrollTrigger.create({
-        trigger: landing,
-        start: "bottom top",
-        end: "max",
-        onEnter: () => showHeader(),
-        onLeaveBack: () => hideHeader(),
-        onRefresh: (self) => {
-          if (window.scrollY >= self.start) showHeader(false);
-          else hideHeader(false);
-        }
-      });
-
-      requestAnimationFrame(() => ScrollTrigger.refresh());
-    }, rootRef);
-
-    return () => context.revert();
-  }, [introComplete, shouldReduceMotion]);
-
-  useEffect(() => {
     if (!introComplete || shouldReduceMotion) return;
     gsap.registerPlugin(ScrollTrigger);
 
     let cleanupOrbitPointer = () => {};
     let cleanupOrbitMotion = () => {};
     let cleanupReelIdle = () => {};
+    let cleanupCarouselTouch = () => {};
 
     const context = gsap.context(() => {
       let projectCarouselScrollTrigger: ScrollTrigger | null = null;
@@ -467,13 +425,15 @@ export default function Portfolio() {
       const reelOutlines = gsap.utils.toArray<HTMLElement>(".landing-reel-outline");
       const reelOutlineIdleShells = gsap.utils.toArray<HTMLElement>(".landing-reel-outline-idle");
       if (reel && reelPin && reelFrame) {
-        const initialScale = window.innerWidth <= 520 ? 0.72 : window.innerWidth <= 1050 ? 0.54 : 0.42;
-        const finalScale = () => (window.innerWidth * 0.8) / reelFrame.offsetWidth;
+        const mobileReel = window.innerWidth <= 520;
+        const initialScale = mobileReel ? 1 : window.innerWidth <= 1050 ? 0.54 : 0.42;
+        const finalReelWidth = () => mobileReel ? window.innerWidth * 0.9 : window.innerWidth * 0.8;
+        const finalReelHeight = () => mobileReel ? finalReelWidth() * 9 / 16 : reelFrame.offsetHeight;
+        const finalScale = () => mobileReel ? 1 : finalReelWidth() / reelFrame.offsetWidth;
         const initialHalfHeight = () => reelFrame.offsetHeight * initialScale * 0.5;
-        const finalHalfHeight = () => reelFrame.offsetHeight * finalScale() * 0.5;
-        const headingGap = () => window.innerWidth <= 800 ? 76 : 86;
+        const finalHalfHeight = () => mobileReel ? finalReelHeight() * 0.5 : reelFrame.offsetHeight * finalScale() * 0.5;
 
-        const outlineBaseScale = () => initialScale + (window.innerWidth <= 520 ? 0.1 : 0.08);
+        const outlineBaseScale = () => initialScale + (mobileReel ? 0.06 : 0.08);
         const outlineScaleStep = () => window.innerWidth <= 520 ? 0.14 : window.innerWidth <= 800 ? 0.135 : 0.125;
         const outlineRotation = (element: HTMLElement) => Number.parseFloat(element.dataset.rotation ?? "0");
 
@@ -620,12 +580,12 @@ export default function Portfolio() {
           reelTimeline.fromTo(reelHeading, {
             autoAlpha: 0,
             y: 0,
-            scale: 0.9
+            scale: 0.88
           }, {
             autoAlpha: 1,
-            y: () => -(initialHalfHeight() + headingGap()),
+            y: 0,
             scale: 1,
-            duration: 0.16,
+            duration: 0.2,
             ease: "back.out(1.7)"
           }, 0.02);
         }
@@ -633,27 +593,43 @@ export default function Portfolio() {
         if (reelScroll) {
           reelTimeline.fromTo(reelScroll, {
             autoAlpha: 1,
-            y: () => initialHalfHeight() + 46,
+            y: () => mobileReel ? -window.innerHeight * 0.39 : initialHalfHeight() + 46,
             scale: 1
           }, {
             autoAlpha: 0,
-            y: () => finalHalfHeight() + 54,
+            y: () => mobileReel ? -window.innerHeight * 0.39 : finalHalfHeight() + 54,
             scale: 0.96,
             duration: 0.58,
             ease: "power1.out"
           }, 0.3);
         }
 
-        reelTimeline.to(reelFrame, {
+        const reelFrameTarget: gsap.TweenVars = {
           scale: finalScale,
           borderRadius: 26,
           duration: 0.82,
           ease: "none"
-        }, 0.18);
+        };
+        if (mobileReel) {
+          reelFrameTarget.width = finalReelWidth;
+          reelFrameTarget.height = finalReelHeight;
+        }
+        reelTimeline.to(reelFrame, reelFrameTarget, 0.18);
+
+        if (mobileReel && reelOutlines.length) {
+          reelTimeline.to(reelOutlines, {
+            width: finalReelWidth,
+            height: finalReelHeight,
+            duration: 0.82,
+            ease: "none"
+          }, 0.18);
+        }
 
         if (reelHeading) {
           reelTimeline.to(reelHeading, {
-            y: () => -(finalHalfHeight() + headingGap()),
+            y: 0,
+            scale: 1.12,
+            autoAlpha: 0.34,
             duration: 0.82,
             ease: "none"
           }, 0.18);
@@ -670,62 +646,168 @@ export default function Portfolio() {
       const projectCurrent = document.querySelector<HTMLElement>(".project-carousel-current");
 
       if (projectCarousel && projectCarouselPin && projectCarouselViewport && projectCarouselTrack && projectSlides.length > 1) {
+        const mobileCarousel = window.innerWidth <= 800;
         let maximumTravel = 0;
+        let slideTargets: number[] = [];
         let activeIndex = -1;
 
         const measureCarousel = () => {
-          const finalSlide = projectSlides[projectSlides.length - 1];
-          maximumTravel = Math.max(
-            0,
-            finalSlide.offsetLeft - (projectCarouselViewport.clientWidth - finalSlide.offsetWidth) / 2
-          );
+          slideTargets = projectSlides.map((slide) => -(slide.offsetLeft + slide.offsetWidth / 2 - projectCarouselViewport.clientWidth / 2));
+          const finalTarget = slideTargets[slideTargets.length - 1] ?? 0;
+          maximumTravel = Math.max(0, -finalTarget);
         };
 
         const setActiveCarouselProject = (index: number) => {
-          if (index === activeIndex) return;
-          activeIndex = index;
-          carouselActiveIndex = index;
+          const safeIndex = Math.max(0, Math.min(projectSlides.length - 1, index));
+          if (safeIndex === activeIndex) return;
+          activeIndex = safeIndex;
+          carouselActiveIndex = safeIndex;
           projectSlides.forEach((slide, slideIndex) => {
-            slide.classList.toggle("is-active", slideIndex === index);
+            slide.classList.toggle("is-active", slideIndex === safeIndex);
           });
           projectDots.forEach((dot, dotIndex) => {
-            const isCurrent = dotIndex === index;
+            const isCurrent = dotIndex === safeIndex;
             dot.classList.toggle("is-active", isCurrent);
             if (isCurrent) dot.setAttribute("aria-current", "true");
             else dot.removeAttribute("aria-current");
           });
-          if (projectCurrent) projectCurrent.textContent = String(index + 1).padStart(2, "0");
+          if (projectCurrent) projectCurrent.textContent = String(safeIndex + 1).padStart(2, "0");
+        };
+
+        const renderMobileCarousel = (progressValue: number) => {
+          const clamped = gsap.utils.clamp(0, 1, progressValue);
+          const scaled = clamped * (projectSlides.length - 1);
+          const lower = Math.floor(scaled);
+          const upper = Math.min(projectSlides.length - 1, lower + 1);
+          const local = scaled - lower;
+          const from = slideTargets[lower] ?? 0;
+          const to = slideTargets[upper] ?? from;
+          gsap.set(projectCarouselTrack, { x: gsap.utils.interpolate(from, to, local) });
+          setActiveCarouselProject(Math.round(scaled));
         };
 
         measureCarousel();
         setActiveCarouselProject(0);
 
-        const carouselTween = gsap.to(projectCarouselTrack, {
-          x: () => -maximumTravel,
-          ease: "none",
-          scrollTrigger: {
+        if (mobileCarousel) {
+          const mobileTrigger = ScrollTrigger.create({
             trigger: projectCarouselPin,
-            start: () => `top ${window.innerWidth <= 800 ? 82 : 104}px`,
-            end: () => `+=${Math.max(window.innerHeight * (projectSlides.length - 1) * 0.88, maximumTravel * 1.08)}`,
+            start: "top top",
+            end: () => {
+              const horizontalDistance = Math.abs((slideTargets[slideTargets.length - 1] ?? 0) - (slideTargets[0] ?? 0));
+              return `+=${Math.max(window.innerHeight * (projectSlides.length - 1) * 0.78, horizontalDistance * 1.08)}`;
+            },
             pin: projectCarouselPin,
             pinSpacing: true,
             anticipatePin: 1,
-            scrub: true,
             invalidateOnRefresh: true,
             onEnter: () => { projectCarouselTrack.style.willChange = "transform"; },
             onEnterBack: () => { projectCarouselTrack.style.willChange = "transform"; },
-            onLeave: () => { projectCarouselTrack.style.willChange = "auto"; },
+            onLeave: () => {
+              renderMobileCarousel(1);
+              projectCarouselTrack.style.willChange = "auto";
+            },
             onLeaveBack: () => { projectCarouselTrack.style.willChange = "auto"; },
             onRefresh: (self) => {
               measureCarousel();
-              gsap.set(projectCarouselTrack, { x: -maximumTravel * self.progress });
+              renderMobileCarousel(self.progress);
             },
-            onUpdate: (self) => {
-              setActiveCarouselProject(Math.round(self.progress * (projectSlides.length - 1)));
+            onUpdate: (self) => renderMobileCarousel(self.progress)
+          });
+          projectCarouselScrollTrigger = mobileTrigger;
+
+          let pointerId = -1;
+          let startX = 0;
+          let startY = 0;
+          let startProgress = 0;
+          let horizontalGesture = false;
+          let gestureResolved = false;
+
+          const releasePointer = (event?: PointerEvent) => {
+            if (pointerId < 0) return;
+            if (event && projectCarouselViewport.hasPointerCapture(pointerId)) {
+              projectCarouselViewport.releasePointerCapture(pointerId);
             }
-          }
-        });
-        projectCarouselScrollTrigger = carouselTween.scrollTrigger ?? null;
+            if (horizontalGesture) {
+              const snapped = Math.round(mobileTrigger.progress * (projectSlides.length - 1)) / (projectSlides.length - 1);
+              const targetScroll = mobileTrigger.start + snapped * (mobileTrigger.end - mobileTrigger.start);
+              window.scrollTo({ top: targetScroll, behavior: "smooth" });
+            }
+            pointerId = -1;
+            horizontalGesture = false;
+            gestureResolved = false;
+          };
+
+          const onPointerDown = (event: PointerEvent) => {
+            if (event.pointerType !== "touch" || !mobileTrigger.isActive) return;
+            pointerId = event.pointerId;
+            startX = event.clientX;
+            startY = event.clientY;
+            startProgress = mobileTrigger.progress;
+            horizontalGesture = false;
+            gestureResolved = false;
+          };
+
+          const onPointerMove = (event: PointerEvent) => {
+            if (event.pointerId !== pointerId) return;
+            const dx = event.clientX - startX;
+            const dy = event.clientY - startY;
+            if (!gestureResolved && (Math.abs(dx) > 9 || Math.abs(dy) > 9)) {
+              horizontalGesture = Math.abs(dx) > Math.abs(dy) * 1.15;
+              gestureResolved = true;
+              if (horizontalGesture) projectCarouselViewport.setPointerCapture(pointerId);
+            }
+            if (!horizontalGesture) return;
+            event.preventDefault();
+            const slideDelta = -dx / Math.max(projectCarouselViewport.clientWidth * 0.72, 1);
+            const nextProgress = gsap.utils.clamp(0, 1, startProgress + slideDelta / (projectSlides.length - 1));
+            const targetScroll = mobileTrigger.start + nextProgress * (mobileTrigger.end - mobileTrigger.start);
+            window.scrollTo(0, targetScroll);
+          };
+
+          const onPointerUp = (event: PointerEvent) => {
+            if (event.pointerId === pointerId) releasePointer(event);
+          };
+
+          projectCarouselViewport.addEventListener("pointerdown", onPointerDown);
+          projectCarouselViewport.addEventListener("pointermove", onPointerMove, { passive: false });
+          projectCarouselViewport.addEventListener("pointerup", onPointerUp);
+          projectCarouselViewport.addEventListener("pointercancel", onPointerUp);
+
+          cleanupCarouselTouch = () => {
+            projectCarouselViewport.removeEventListener("pointerdown", onPointerDown);
+            projectCarouselViewport.removeEventListener("pointermove", onPointerMove);
+            projectCarouselViewport.removeEventListener("pointerup", onPointerUp);
+            projectCarouselViewport.removeEventListener("pointercancel", onPointerUp);
+          };
+        } else {
+          const carouselTween = gsap.to(projectCarouselTrack, {
+            x: () => -maximumTravel,
+            ease: "none",
+            scrollTrigger: {
+              trigger: projectCarouselPin,
+              start: "top 104px",
+              end: () => `+=${Math.max(window.innerHeight * (projectSlides.length - 1) * 0.88, maximumTravel * 1.08)}`,
+              pin: projectCarouselPin,
+              pinSpacing: true,
+              anticipatePin: 1,
+              scrub: true,
+              invalidateOnRefresh: true,
+              onEnter: () => { projectCarouselTrack.style.willChange = "transform"; },
+              onEnterBack: () => { projectCarouselTrack.style.willChange = "transform"; },
+              onLeave: () => { projectCarouselTrack.style.willChange = "auto"; },
+              onLeaveBack: () => { projectCarouselTrack.style.willChange = "auto"; },
+              onRefresh: (self) => {
+                measureCarousel();
+                gsap.set(projectCarouselTrack, { x: -maximumTravel * self.progress });
+              },
+              onUpdate: (self) => {
+                setActiveCarouselProject(Math.round(self.progress * (projectSlides.length - 1)));
+              }
+            }
+          });
+          projectCarouselScrollTrigger = carouselTween.scrollTrigger ?? null;
+        }
       }
 
       gsap.utils.toArray<HTMLElement>(".service-card").forEach((card, index) => {
@@ -1017,6 +1099,9 @@ export default function Portfolio() {
           signal.dataset.active = active ? "true" : "false";
           signal.dataset.phase = phase;
           signal.dataset.carouselIndex = String(carouselIndex);
+          const requestedRenderScale = phase === "final" ? Math.max(1, layout?.finalScale ?? scale) : 1;
+          const renderScaleValue = requestedRenderScale.toFixed(2);
+          if (signal.dataset.renderScale !== renderScaleValue) signal.dataset.renderScale = renderScaleValue;
         };
 
         const positionOrbitRing = (
@@ -1147,6 +1232,7 @@ export default function Portfolio() {
           if (!layout) return;
           const y = pageProgress * layout.maxScroll;
           const visibleOpacity = layout.viewportWidth <= 800 ? 0.42 : 0.62;
+          const mobileCarouselLite = layout.viewportWidth <= 720;
           orbitFinalBlend = 0;
 
           if (y < layout.approachStart) {
@@ -1183,6 +1269,11 @@ export default function Portfolio() {
           }
 
           if (y < layout.carouselStart) {
+            if (mobileCarouselLite) {
+              setMode("travel");
+              setSignal(layout.pos3X, layout.pos3Y, 0.01, 0, 0, "travel");
+              return;
+            }
             const raw = gsap.utils.clamp(0, 1, (y - layout.proofStart) / Math.max(1, layout.carouselStart - layout.proofStart));
             const amount = smooth(raw);
             const startX = layout.viewportWidth * (layout.viewportWidth <= 800 ? 0.18 : 0.16) - layout.width / 2;
@@ -1201,6 +1292,11 @@ export default function Portfolio() {
           }
 
           if (y <= layout.carouselEnd) {
+            if (mobileCarouselLite) {
+              setMode("travel");
+              setSignal(layout.pos3X, layout.pos3Y, 0.01, 0, 0, "travel");
+              return;
+            }
             setMode("carousel");
             setSignal(layout.pos3X, layout.pos3Y, layout.pos3Scale, 0, visibleOpacity, "carousel", carouselActiveIndex);
             positionRingsAtGlobe(layout.pos3X, layout.pos3Y, layout.pos3Scale);
@@ -1208,6 +1304,11 @@ export default function Portfolio() {
           }
 
           if (y < layout.capabilitiesStart) {
+            if (mobileCarouselLite) {
+              setMode("travel");
+              setSignal(layout.pos3X, layout.pos3Y, 0.01, 0, 0, "travel");
+              return;
+            }
             setMode("carousel");
             setSignal(layout.pos3X, layout.pos3Y, layout.pos3Scale, 0, visibleOpacity, "carousel", 4);
             positionRingsAtGlobe(layout.pos3X, layout.pos3Y, layout.pos3Scale);
@@ -1222,9 +1323,9 @@ export default function Portfolio() {
             setSignal(
               layout.pos3X,
               layout.pos3Y,
-              interpolate(layout.pos3Scale, 0, Math.min(1, raw / 0.64)),
+              mobileCarouselLite ? 0.01 : interpolate(layout.pos3Scale, 0, Math.min(1, raw / 0.64)),
               interpolate(0, 26, amount),
-              visibleOpacity * (1 - Math.min(1, raw / 0.58)),
+              mobileCarouselLite ? 0 : visibleOpacity * (1 - Math.min(1, raw / 0.58)),
               "detached"
             );
 
@@ -1324,6 +1425,7 @@ export default function Portfolio() {
 
     return () => {
       cleanupReelIdle();
+      cleanupCarouselTouch();
       cleanupOrbitPointer();
       cleanupOrbitMotion();
       context.revert();
@@ -1405,14 +1507,6 @@ export default function Portfolio() {
     };
   }, [activeProject]);
 
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
   return (
     <>
       {!introComplete ? <IntroScreen onComplete={completeIntro} /> : null}
@@ -1424,33 +1518,6 @@ export default function Portfolio() {
       <SignalField />
       <GlobeOrbitSystem />
       <InteractiveCursor />
-
-      <header className="site-header glass">
-        <a className="identity" href="#top" aria-label="Joshua Pearman, back to top" data-cursor="nav">
-          <span className="identity-mark identity-mark-image"><Image src="/icons/favicon-30.png" alt="" width={30} height={30} priority /></span>
-          <span className="identity-copy"><strong data-cursor-mask>Joshua Pearman</strong><small data-cursor-mask>Creative Producer</small></span>
-        </a>
-        <nav className="desktop-nav" aria-label="Primary navigation">
-          <a href="#work"><span data-cursor-mask>Work</span></a>
-          <a href="#capabilities"><span data-cursor-mask>Services</span></a>
-          <a href="#about"><span data-cursor-mask>About</span></a>
-          <a href="#experience"><span data-cursor-mask>Experience</span></a>
-          <a className="nav-pill" href="#contact"><span data-cursor-mask>Contact</span></a>
-        </nav>
-        <button className="menu-button" type="button" aria-expanded={menuOpen} aria-label="Toggle menu" onClick={() => setMenuOpen((value) => !value)} data-cursor="nav">
-          <span /><span />
-        </button>
-      </header>
-
-      <AnimatePresence>
-        {menuOpen ? (
-          <motion.nav className="mobile-menu glass" aria-label="Mobile navigation" initial={{ opacity: 0, y: -14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-            {[["Work", "#work"], ["Services", "#capabilities"], ["About", "#about"], ["Experience", "#experience"], ["Contact", "#contact"]].map(([label, href]) => (
-              <a key={href} href={href} onClick={() => setMenuOpen(false)}><span data-cursor-mask>{label}</span><span>↘</span></a>
-            ))}
-          </motion.nav>
-        ) : null}
-      </AnimatePresence>
 
       <section className="landing-hero" id="top" aria-label="Introduction">
         <WaveField />
@@ -1632,7 +1699,7 @@ export default function Portfolio() {
               <div className="project-carousel-dots">
                 {projects.map((project, index) => <span className="project-carousel-dot" key={`${project.id}-dot`} data-index={index} />)}
               </div>
-              <span className="project-carousel-hint">Scroll to advance</span>
+              <span className="project-carousel-hint">Scroll or swipe to advance</span>
             </div>
           </div>
         </div>
@@ -1688,20 +1755,23 @@ export default function Portfolio() {
                     <motion.div
                       className="service-drawer glass"
                       id={`service-detail-${rowIndex}`}
-                      initial={{ height: 0, opacity: 0, y: -10 }}
-                      animate={{ height: "auto", opacity: 1, y: 0 }}
-                      exit={{ height: 0, opacity: 0, y: -10 }}
-                      transition={{ height: { duration: 0.52, ease }, opacity: { duration: 0.28 }, y: { duration: 0.42, ease } }}
+                      initial={compactViewport ? { opacity: 0, scaleY: 0.985 } : { height: 0, opacity: 0, y: -10 }}
+                      animate={compactViewport ? { opacity: 1, scaleY: 1 } : { height: "auto", opacity: 1, y: 0 }}
+                      exit={compactViewport ? { opacity: 0, scaleY: 0.985 } : { height: 0, opacity: 0, y: -10 }}
+                      style={compactViewport ? { transformOrigin: "top" } : undefined}
+                      transition={compactViewport
+                        ? { duration: 0.18, ease }
+                        : { height: { duration: 0.52, ease }, opacity: { duration: 0.28 }, y: { duration: 0.42, ease } }}
                     >
                       <div className="service-drawer-inner">
                         <AnimatePresence initial={false} mode="wait">
                           <motion.div
                             className="service-drawer-content"
                             key={activeService.number}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -8 }}
-                            transition={{ duration: 0.3, ease }}
+                            initial={compactViewport ? { opacity: 0 } : { opacity: 0, y: 10 }}
+                            animate={compactViewport ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                            exit={compactViewport ? { opacity: 0 } : { opacity: 0, y: -8 }}
+                            transition={{ duration: compactViewport ? 0.14 : 0.3, ease }}
                           >
                             <div className="service-drawer-heading">
                               <span>{activeService.number} / Experience note</span>
@@ -1767,7 +1837,7 @@ export default function Portfolio() {
           </div>
         </article>
         <div className="testimonial-heading">
-          <p className="section-index" data-cursor-mask>References in progress</p>
+          <p className="section-index" data-cursor-mask>References</p>
           <h3 data-cursor-mask>What collaborators should verify.</h3>
         </div>
         <div className="testimonial-grid">
@@ -1783,7 +1853,7 @@ export default function Portfolio() {
       <section className="recognition section">
         <p className="section-index" data-cursor-mask>06 / Recognition</p>
         <SwipeTitle className="recognition-title">Recognition, platforms and industry relationships.</SwipeTitle>
-        <p className="recognition-intro" data-cursor-mask>Each name is labelled by the actual relationship so broadcast support, clients, labels, agencies and platform features remain clear and defensible.</p>
+        <p className="recognition-intro" data-cursor-mask>Selected broadcast support, label relationships, client campaigns, festival experience, agency work and platform features across my creative career.</p>
         <div className="recognition-list">
           {recognition.map((item, index) => {
             const key = `${item.label}-${item.title}`;
@@ -1889,7 +1959,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.3.1 · Build 012</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.4.0 · Build 013</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />
