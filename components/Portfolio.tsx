@@ -660,15 +660,15 @@ export default function Portfolio() {
 
         if (reelHeading) {
           reelTimeline.fromTo(reelHeading, {
-            autoAlpha: 0,
-            y: 0,
-            scale: 0.88
+            autoAlpha: 1,
+            y: () => -(initialHalfHeight() + 58),
+            scale: 0.96
           }, {
             autoAlpha: 1,
-            y: 0,
+            y: () => -(initialHalfHeight() + 58),
             scale: 1,
             duration: 0.2,
-            ease: "back.out(1.7)"
+            ease: "power2.out"
           }, 0.02);
         }
 
@@ -709,9 +709,9 @@ export default function Portfolio() {
 
         if (reelHeading) {
           reelTimeline.to(reelHeading, {
-            y: 0,
-            scale: 1.12,
-            autoAlpha: 0.34,
+            y: () => -(finalHalfHeight() + 64),
+            scale: 1.04,
+            autoAlpha: 0.52,
             duration: 0.82,
             ease: "none"
           }, 0.18);
@@ -2012,7 +2012,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.5.0 · Build 015</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.5.1 · Build 016</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />

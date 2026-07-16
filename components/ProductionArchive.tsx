@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties, type Poin
 import { productionArchive, type ProductionArchiveItem } from "@/data/content";
 
 const archiveEase = [0.2, 0.75, 0.2, 1] as const;
+const ARCHIVE_BATCH_SIZE = 5;
 
 function ArchivePlaceholder({ item, index, modal = false }: { item: ProductionArchiveItem; index: number; modal?: boolean }) {
   return (
@@ -48,6 +49,11 @@ export default function ProductionArchive() {
   const closeRef = useRef<HTMLButtonElement>(null);
   const [previewId, setPreviewId] = useState<string | null>(null);
   const [activeItem, setActiveItem] = useState<ProductionArchiveItem | null>(null);
+  const [visibleCount, setVisibleCount] = useState(ARCHIVE_BATCH_SIZE);
+
+  const visibleItems = productionArchive.slice(0, visibleCount);
+  const remainingCount = Math.max(0, productionArchive.length - visibleCount);
+  const hasMore = remainingCount > 0;
 
   const closeArchive = useCallback(() => setActiveItem(null), []);
 
@@ -112,8 +118,9 @@ export default function ProductionArchive() {
           <span>Post-production</span>
         </div>
 
-        <div className="production-archive-grid">
-          {productionArchive.map((item, index) => {
+        <div className={`production-archive-reveal${hasMore ? " has-more" : ""}`}>
+          <div className="production-archive-grid">
+          {visibleItems.map((item, index) => {
             const isPreviewing = previewId === item.id;
             const style = {
               "--archive-index": index,
@@ -153,6 +160,30 @@ export default function ProductionArchive() {
               </motion.button>
             );
           })}
+          </div>
+
+          <AnimatePresence initial={false}>
+            {hasMore ? (
+              <motion.div
+                className="production-archive-more"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.28 }}
+              >
+                <button
+                  type="button"
+                  className="production-archive-more-button"
+                  onClick={() => setVisibleCount((current) => Math.min(current + ARCHIVE_BATCH_SIZE, productionArchive.length))}
+                  aria-label={`Load ${Math.min(ARCHIVE_BATCH_SIZE, remainingCount)} more production archive items`}
+                >
+                  <span>Load more</span>
+                  <small>{remainingCount} remaining</small>
+                  <i aria-hidden="true">↓</i>
+                </button>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
         </div>
       </section>
 
