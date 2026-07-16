@@ -30,7 +30,15 @@ function ArchiveMedia({ item, index, activePreview = false, modal = false }: {
 }) {
   if (item.video && activePreview) {
     return (
-      <video autoPlay muted loop playsInline preload="none" poster={item.poster}>
+      <video
+        autoPlay
+        muted={!modal}
+        loop={!modal}
+        controls={modal}
+        playsInline
+        preload={modal ? "metadata" : "none"}
+        poster={item.poster}
+      >
         <source src={item.video} type="video/mp4" />
       </video>
     );
@@ -108,7 +116,7 @@ export default function ProductionArchive() {
             <p className="section-index" data-cursor-mask>06 / Production archive</p>
             <h2 data-cursor-mask>Freelance delivery beyond the flagship case studies.</h2>
           </div>
-          <p data-cursor-mask>A responsive contact sheet for one-off production, filming, editing, live-capture and campaign commissions. Every tile is currently a clearly marked placeholder ready for final media and credits.</p>
+          <p data-cursor-mask>A growing contact sheet for one-off production, filming, editing, live-capture and campaign commissions. Confirmed media can sit alongside clearly marked placeholders while the archive is completed.</p>
         </div>
 
         <div className="production-archive-key" aria-label="Production archive categories">
@@ -141,7 +149,7 @@ export default function ProductionArchive() {
                 onPointerLeave={() => setPreviewId((current) => current === item.id ? null : current)}
                 onBlur={() => setPreviewId((current) => current === item.id ? null : current)}
                 onClick={() => setActiveItem(item)}
-                aria-label={`Open placeholder ${index + 1}: ${item.title}`}
+                aria-label={`Open archive item ${index + 1}: ${item.title}`}
               >
                 <span className="archive-tile-media">
                   <ArchiveMedia item={item} index={index} activePreview={isPreviewing} />
