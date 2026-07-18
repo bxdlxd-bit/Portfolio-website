@@ -2042,7 +2042,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.5.8 · Build 023</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.5.9 · Build 024</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />
