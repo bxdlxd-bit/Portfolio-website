@@ -1633,6 +1633,13 @@ html.intro-locked .intro-logo {
   line-height: 1.8;
 }
 
+.recognition-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
 .recognition-source {
   display: inline-flex;
   align-items: center;
@@ -1640,7 +1647,7 @@ html.intro-locked .intro-logo {
   gap: 18px;
   width: fit-content;
   min-width: 126px;
-  margin-top: 4px;
+  margin-top: 0;
   padding: 10px 13px;
   border: 1px solid rgba(185,170,255,.24);
   border-radius: 999px;
@@ -3696,7 +3703,7 @@ html.mobile-service-open .globe-orbit-segment-path {
   to { opacity: 1; }
 }
 
-/* Build 022 - mobile carousel spacing and production archive media polish */
+/* Build 023 - selected work, recognition and archive link additions */
 .references .testimonial-heading {
   width: 100%;
   place-items: center;

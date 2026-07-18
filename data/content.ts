@@ -62,7 +62,12 @@ export const projects: Project[] = [
       outcome: "Delivered the full treatment and content package, performance reels for all six artists, press-ready producer and featured-artist photography, content end cards, Spotify Canvases and a one-hour deep-dive interview on the story of M-Beat and Missing.",
       credits: "M-Beat & Missing - Clients; Ian McQuaid - Project hire / Interviewer; Alfie Cartwright - B-camera Operator / Overflow Editor.",
       tools: ["Lightroom", "Three-point lighting", "Gimbal", "Lenses", "Microphones"]
-    }
+    },
+    links: [
+      { label: "M-BEAT & Missing Interview", href: "https://youtu.be/83WlPLw-864" },
+      { label: "Fusion Without Formula EP", href: "https://open.spotify.com/album/0klGGcpwM24w3lR7JjWVLW?si=Ys8n_uATT0y1w3_0xsztUw" },
+      { label: "BAGATUNE Instagram", href: "https://www.instagram.com/bagatune/" }
+    ]
   },
   {
     id: "tour-production",
@@ -297,6 +302,7 @@ export type Recognition = {
   title: string;
   details: string[];
   source?: { label: string; href: string };
+  links?: { label: string; href: string }[];
   media?: { src: string; alt: string; fit?: "cover" | "contain" }[];
 };
 
@@ -310,7 +316,13 @@ export const recognition: Recognition[] = [
       "“SLOZZA” was played on BBC Radio 1 Introducing Rock with Alyx Holcombe, who described it as: “Trap Metal goodness! Like being punched in the face - but in a good way.” The track also received further BBC Introducing support from Jess Izzatt.",
       "“NUMB” was featured on BBC Radio 1 Future Alternative with Nels Hylton. Additional tracks from the album PRESENCE have also received regional BBC support across BBC Radio Derby, BBC Radio Leicester, BBC Radio Lincolnshire and BBC Radio Nottingham."
     ],
-    source: { label: "Source", href: "https://www.bbc.co.uk/programmes/m001lnv0" },
+    source: { label: "Radio 1 Page", href: "https://www.bbc.co.uk/programmes/m001lnv0" },
+    links: [
+      { label: "PRISON Music Video", href: "https://youtu.be/L8ePgZFLdys?si=HyYKiMKatYR6bKN2" },
+      { label: "INEVITABLE Music Video", href: "https://youtu.be/VF2c7rBUX1E?si=vHTLwHbisbQuNcOI" },
+      { label: "NUMB Music Video", href: "https://youtu.be/U31cATK9tgU?si=R9OkkK9Lrun2Nn4u" },
+      { label: "SLOZZA Music Video", href: "https://youtu.be/kugt9UhyVVQ?si=Rq6Kb1eObD8jDBG0" }
+    ],
     media: [
       { src: "/media/recognition/bbc-future-alternative-numb.webp", alt: "BBC Radio 1 Future Alternative feature for BVDLVD track NUMB" },
       { src: "/media/recognition/bbc-future-alternative-prison.webp", alt: "BBC Radio 1 Future Alternative feature for BVDLVD track PRISON" }
@@ -323,6 +335,9 @@ export const recognition: Recognition[] = [
       "I began working with MOVES Recordings as a videographer, producing visual content for artists across the label’s roster. This relationship developed into a successful career as a signed recording artist, leading to three increasingly valuable record agreements between 2019 and 2021.",
       "During this period, I created several EPs and the album LUNATIC, maintaining a consistent release schedule before and throughout the COVID-19 pandemic. Alongside writing and performing, I filmed music videos, edited advertising campaigns and managed production budgets and expenses. I progressed from an emerging signing into one of the label’s most prominent artists, alongside acts including Naira Marley and Skengdo & AM."
     ],
+    links: [
+      { label: "LUNATIC Album", href: "https://open.spotify.com/album/22554MRTPWheW1fZZtnewr?si=xmtGKpvORteG6SLdTdCqsQ" }
+    ],
     media: [
       { src: "/media/recognition/moves-recordings.webp", alt: "MOVES Recordings logo", fit: "contain" }
     ]
@@ -333,6 +348,12 @@ export const recognition: Recognition[] = [
     details: [
       "I signed a two-option record agreement with Earache Records, including advances of $70,000 and a potential further $120,000, to create and release the album ABSENCE. I took an active role in budgeting production, equipment and creative expenses, ensuring the project’s visual and musical ambitions remained achievable within the available resources.",
       "I developed a detailed conceptual art direction for the campaign, including a mobile London bus advertisement featuring a scannable QR code. The campaign also included several ambitious music videos using FPV drone cinematography, large-scale locations and the hire of a functioning prison. These productions required close collaboration with external crews, including production company XANIMA, while maintaining a consistent creative identity across the album."
+    ],
+    links: [
+      { label: "ABSENCE Album", href: "https://open.spotify.com/album/7Aui4EMVMjhiuDLwUjRXAy?si=_2L5kAxtSxC7oA4MpM2_gw" },
+      { label: "PRISON Music Video", href: "https://youtu.be/L8ePgZFLdys?si=HyYKiMKatYR6bKN2" },
+      { label: "INEVITABLE Music Video", href: "https://youtu.be/VF2c7rBUX1E?si=vHTLwHbisbQuNcOI" },
+      { label: "FORGET ME NOT Music Video", href: "https://youtu.be/o-TUznwr8-0?si=4ODm0Wazezx05b1P" }
     ],
     media: [
       { src: "/media/recognition/earache-records.webp", alt: "Earache Records logo", fit: "contain" }
@@ -345,6 +366,10 @@ export const recognition: Recognition[] = [
       "Legendary producer M-Beat, known for General Levy’s “Incredible”, partnered with producer Missing to create the collaborative project BAGATUNE. I was hired to translate their creative vision into a tangible social-media campaign, while also contributing to the project as a featured artist on the track “No Halo”.",
       "The campaign was built around the ethos “Fusion Without Formula”, which needed to remain clearly represented across every piece of content. I filmed and delivered more than 60 assets for the release, working with and coordinating a wide range of artists and personalities, including Teezandos, PS Hitsquad, Deecien and Kwengface. The project required creative interpretation, artist management, adaptable production planning and consistent delivery across a complex collaborative campaign."
     ],
+    links: [
+      { label: "M-BEAT & Missing Interview", href: "https://youtu.be/83WlPLw-864" },
+      { label: "Fusion Without Formula EP", href: "https://open.spotify.com/album/0klGGcpwM24w3lR7JjWVLW?si=Ys8n_uATT0y1w3_0xsztUw" }
+    ],
     media: [
       { src: "/media/recognition/bagatune-square.webp", alt: "M-Beat and Missing photographed for the BAGATUNE project" }
     ]
@@ -354,6 +379,9 @@ export const recognition: Recognition[] = [
     title: "Festivals - BOOMTOWN & Kendal Calling",
     details: [
       "I have performed at established UK festivals including Boomtown Festival 2022, Kendal Calling 2022 and AltFest 2021. At AltFest, I was also hired to interview American rapper Smokepurpp live ahead of his performance. These appearances required confident communication, professional live-set preparation and the ability to operate effectively within large-scale, time-sensitive festival environments alongside artists, stage crews, engineers and production teams."
+    ],
+    links: [
+      { label: "ALT-LDN Recap", href: "https://youtu.be/fv1mYecc-4c?si=MDz7jc4m1TcPZ3uB" }
     ],
     media: [
       { src: "/media/recognition/boomtown-2022.webp", alt: "Boomtown Festival 2022 Earache Takeover lineup featuring BVDLVD" }
@@ -376,7 +404,7 @@ export const recognition: Recognition[] = [
     details: [
       "I created the music video for Fizzler’s “Minimum Wage”, which was released through GRM Daily and has since surpassed one million views. I was responsible for translating the track into an engaging visual project suitable for one of the UK’s most influential urban-music platforms."
     ],
-    source: { label: "Source", href: "https://youtu.be/VAFgDe54ptE?si=4-obZrUrxoaZ69xB" },
+    source: { label: "Fizzler - Minimum Wage", href: "https://youtu.be/VAFgDe54ptE?si=4-obZrUrxoaZ69xB" },
     media: [
       { src: "/media/recognition/grm-daily.png", alt: "GRM Daily logo", fit: "contain" }
     ]
@@ -386,6 +414,9 @@ export const recognition: Recognition[] = [
     title: "WorldStar HipHop",
     details: [
       "My track and accompanying music video “Forget Me Not” were featured by WorldStarHipHop, introducing the release to the platform’s international audience and expanding its visibility beyond the UK music market."
+    ],
+    links: [
+      { label: "FORGET ME NOT Music Video", href: "https://youtu.be/o-TUznwr8-0?si=4ODm0Wazezx05b1P" }
     ],
     media: [
       { src: "/media/recognition/worldstarhiphop.png", alt: "WorldStarHipHop logo", fit: "contain" }
@@ -459,6 +490,8 @@ export const productionArchive: ProductionArchiveItem[] = [
     size: "standard",
     note: "Teamed with Alfie Cartwright to create a multicamera interview with the producer behind General Levy’s “Incredible.”",
     tags: ["Creative oversight", "Direction", "Edit", "Interview", "Camera Operator"],
+    link: "https://youtu.be/83WlPLw-864",
+    linkLabel: "Watch full interview",
     poster: "/media/archive/mbeat-creating-incredible.webp",
     video: "/media/archive/mbeat-creating-incredible.mp4"
   }

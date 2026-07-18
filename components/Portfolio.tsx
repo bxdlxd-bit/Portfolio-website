@@ -1961,17 +1961,22 @@ export default function Portfolio() {
                         <span className="recognition-detail-number">{String(index + 1).padStart(2, "0")}</span>
                         <div className="recognition-detail-copy">
                           {item.details.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-                          {item.source ? (
-                            <a
-                              className="recognition-source"
-                              href={item.source.href}
-                              target="_blank"
-                              rel="noreferrer"
-                              data-cursor="nav"
-                            >
-                              <span>{item.source.label}</span>
-                              <span aria-hidden="true">↗</span>
-                            </a>
+                          {item.source || item.links?.length ? (
+                            <div className="recognition-links" aria-label={`${item.title} selected links`}>
+                              {[...(item.source ? [item.source] : []), ...(item.links ?? [])].map((link) => (
+                                <a
+                                  className="recognition-source"
+                                  href={link.href}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  data-cursor="nav"
+                                  key={`${link.label}-${link.href}`}
+                                >
+                                  <span>{link.label}</span>
+                                  <span aria-hidden="true">↗</span>
+                                </a>
+                              ))}
+                            </div>
                           ) : null}
                         </div>
                         <div
@@ -2037,7 +2042,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.5.7 · Build 022</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.5.8 · Build 023</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />
