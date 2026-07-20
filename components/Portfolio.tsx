@@ -1605,7 +1605,7 @@ export default function Portfolio() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.12, ease }}
           >
-            Creative Producer - Lincolnshire, UK
+            Creative Producer - United Kingdom
           </motion.p>
           <LandingName reduceMotion={simplifyLandingMotion} />
           <motion.div
@@ -1916,9 +1916,9 @@ export default function Portfolio() {
       <section className="references section" aria-label="References">
         <div className="testimonial-heading">
           <p className="section-index" data-cursor-mask>References</p>
-          <h3 data-cursor-mask>What collaborators should verify.</h3>
+          <h3 data-cursor-mask>Testimonials from Clients & Collaborators</h3>
         </div>
-        <div className={`testimonial-grid${testimonials.length === 1 ? " is-single" : ""}`}>
+        <div className={`testimonial-grid${testimonials.length === 1 ? " is-single" : testimonials.length === 2 ? " is-pair" : ""}`}>
           {testimonials.map((testimonial) => (
             <article className="testimonial-card glass" key={testimonial.name}>
               <blockquote>{testimonial.quote}</blockquote>
@@ -2007,7 +2007,7 @@ export default function Portfolio() {
           <div>
             <p className="section-index" data-cursor-mask>08 / Contact</p>
             <ContactFocusTitle />
-            <p data-cursor-mask>Available for permanent, fixed-term, contract and freelance creative production opportunities across Manchester, the East Midlands, London and remote UK.</p>
+            <p data-cursor-mask>Available for permanent, fixed-term, contract and freelance creative production opportunities across the United Kingdom, including London and Manchester, with remote and touring availability.</p>
           </div>
           <div className="contact-routes">
             <article>
@@ -2023,7 +2023,7 @@ export default function Portfolio() {
           </div>
           <a className="contact-email" href="mailto:JoshuaPearmanMGMT@gmail.com"><span data-cursor-mask>JoshuaPearmanMGMT</span><span data-cursor-mask>@gmail.com ↗</span></a>
           <div className="contact-bottom">
-            <span data-cursor-mask>Lincolnshire - available across Manchester, the East Midlands, London, touring and remote UK</span>
+            <span data-cursor-mask>United Kingdom - available nationwide, remotely and for touring</span>
             <div><a href="https://www.instagram.com/bvdlvd/" target="_blank" rel="noreferrer" data-cursor-mask>Instagram</a><a href="https://www.youtube.com/@BVDLVD" target="_blank" rel="noreferrer" data-cursor-mask>YouTube</a><a href="https://www.linkedin.com/in/bvdlvd/" target="_blank" rel="noreferrer" data-cursor-mask>LinkedIn</a></div>
           </div>
         </motion.div>
@@ -2042,7 +2042,7 @@ export default function Portfolio() {
           </div>
         </div>
         <a className="footer-top-link" href="#top" data-cursor-mask>Back to top ↑</a>
-        <span className="footer-version">JOSH PORTFOLIO v1.6.0 · Build 025</span>
+        <span className="footer-version">JOSH PORTFOLIO v1.6.1 · Build 026</span>
       </footer>
 
       <ProjectDialog project={activeProject} onClose={closeProject} />

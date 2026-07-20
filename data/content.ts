@@ -294,6 +294,11 @@ export const testimonials = [
     quote: "Working with Josh / BVDLVD across projects from Aisle 13 in Croatia to My House has consistently been the right choice for us. He excels at self-management, organisation and leading teams to meet deadlines and briefs. Josh is a creative collaborator we will always come back to.",
     name: "Noah Da Silva",
     role: "XANIMA"
+  },
+  {
+    quote: "I’ve commissioned Josh to work on numerous projects over the last decade, covering everything from creating basic artwork concepts, all the way through to complex, multi-platform campaigns running over several releases and encompassing web design & commerce, videography and brand conceptualising. He’s always been extremely easy to work with, which is one of the reasons I have come back to him so often - he has a meticulous attention to detail, an understanding of managing budgets, and understands the importance of maintaining communication when we have had to navigate roadbumps. I have been able to leave him to outsource designers, videographers, editors and artists to deliver projects on time, and have always been satisfied that if I give him a brief he will fulfill it in an exciting, creative and efficient manner.",
+    name: "Ian McQuaid",
+    role: "MOVES Recordings"
   }
 ];
 
