@@ -329,17 +329,31 @@ export const recognition: Recognition[] = [
     ]
   },
   {
-    label: "Record label",
-    title: "MOVES Recordings",
+    label: "Editorial coverage",
+    title: "Kerrang!",
     details: [
-      "I began working with MOVES Recordings as a videographer, producing visual content for artists across the label’s roster. This relationship developed into a successful career as a signed recording artist, leading to three increasingly valuable record agreements between 2019 and 2021.",
-      "During this period, I created several EPs and the album LUNATIC, maintaining a consistent release schedule before and throughout the COVID-19 pandemic. Alongside writing and performing, I filmed music videos, edited advertising campaigns and managed production budgets and expenses. I progressed from an emerging signing into one of the label’s most prominent artists, alongside acts including Naira Marley and Skengdo & AM."
+      "Kerrang! followed the development of BVDLVD and the ABSENCE campaign through a long-form interview, a 4/5 album review and individual release features covering NUMB, AISLE 13, INEVITABLE and PRISON.",
+      "The publication described BVDLVD as “one of the UK’s most exciting and innovative new artists”. Its ABSENCE review called the record a “brilliantly ugly hybrid of trap and metal” and concluded: “Whatever he does, he’ll do with excellence.”"
     ],
     links: [
-      { label: "LUNATIC Album", href: "https://open.spotify.com/album/22554MRTPWheW1fZZtnewr?si=xmtGKpvORteG6SLdTdCqsQ" }
+      { label: "Kerrang! Profile - Cracking a Troll", href: "https://www.kerrang.com/bvdlvd-trap-metal-interview-josh-pearman-absence-its-a-beautiful-thing-when-you-crack-a-troll" },
+      { label: "ABSENCE Album Review - 4/5", href: "https://www.kerrang.com/album-review-bvdlvd-absence" },
+      { label: "NUMB Feature", href: "https://www.kerrang.com/bvdlvd-opens-up-on-new-single-numb-it-feels-like-my-first-truly-honest-expression" },
+      { label: "AISLE 13 Feature", href: "https://www.kerrang.com/bvdlvd-unveils-new-single-and-video-aisle-13" },
+      { label: "ABSENCE Announcement", href: "https://www.kerrang.com/bvdlvd-announces-new-album-absence-i-need-to-say-f-ck-the-box-and-craft-my-own" },
+      { label: "PRISON Feature", href: "https://www.kerrang.com/bvdlvd-drops-raging-new-single-and-video-prison" }
+    ]
+  },
+  {
+    label: "Documentary feature",
+    title: "YouTube Originals",
+    details: [
+      "Featured in Terms & Conditions: Deeper Than Drill, a YouTube Originals documentary narrated by Riz Ahmed and exploring how young artists across the UK and Ireland use music as an outlet for creative expression.",
+      "At 32:08, Joshua discusses online abuse, empathy and the people behind anonymous hate comments. The same story was later highlighted in Kerrang!’s long-form BVDLVD profile, demonstrating communication and emotional intelligence beyond performance."
     ],
-    media: [
-      { src: "/media/recognition/moves-recordings.webp", alt: "MOVES Recordings logo", fit: "contain" }
+    links: [
+      { label: "Watch Full Documentary", href: "https://www.youtube.com/watch?v=A5K6IQJeXUE&t=1928s" },
+      { label: "Kerrang! Troll and Empathy Interview", href: "https://www.kerrang.com/bvdlvd-trap-metal-interview-josh-pearman-absence-its-a-beautiful-thing-when-you-crack-a-troll" }
     ]
   },
   {
@@ -360,18 +374,55 @@ export const recognition: Recognition[] = [
     ]
   },
   {
-    label: "Creative campaign",
-    title: "BAGATUNE - M-Beat & Missing",
+    label: "Record label",
+    title: "MOVES Recordings",
     details: [
-      "Legendary producer M-Beat, known for General Levy’s “Incredible”, partnered with producer Missing to create the collaborative project BAGATUNE. I was hired to translate their creative vision into a tangible social-media campaign, while also contributing to the project as a featured artist on the track “No Halo”.",
-      "The campaign was built around the ethos “Fusion Without Formula”, which needed to remain clearly represented across every piece of content. I filmed and delivered more than 60 assets for the release, working with and coordinating a wide range of artists and personalities, including Teezandos, PS Hitsquad, Deecien and Kwengface. The project required creative interpretation, artist management, adaptable production planning and consistent delivery across a complex collaborative campaign."
+      "I began working with MOVES Recordings as a videographer, producing visual content for artists across the label’s roster. This relationship developed into a successful career as a signed recording artist, leading to three increasingly valuable record agreements between 2019 and 2021.",
+      "During this period, I created several EPs and the album LUNATIC, maintaining a consistent release schedule before and throughout the COVID-19 pandemic. Alongside writing and performing, I filmed music videos, edited advertising campaigns and managed production budgets and expenses. I progressed from an emerging signing into one of the label’s most prominent artists, alongside acts including Naira Marley and Skengdo & AM."
     ],
     links: [
-      { label: "M-BEAT & Missing Interview", href: "https://youtu.be/83WlPLw-864" },
-      { label: "Fusion Without Formula EP", href: "https://open.spotify.com/album/0klGGcpwM24w3lR7JjWVLW?si=Ys8n_uATT0y1w3_0xsztUw" }
+      { label: "BVDLVD Artist Profile", href: "https://moves.life/bvdlvd" },
+      { label: "LUNATIC Album", href: "https://open.spotify.com/album/22554MRTPWheW1fZZtnewr?si=xmtGKpvORteG6SLdTdCqsQ" }
     ],
     media: [
-      { src: "/media/recognition/bagatune-square.webp", alt: "M-Beat and Missing photographed for the BAGATUNE project" }
+      { src: "/media/recognition/moves-recordings.webp", alt: "MOVES Recordings logo", fit: "contain" }
+    ]
+  },
+  {
+    label: "International and independent press",
+    title: "Selected Press",
+    details: [
+      "Additional coverage across international and independent music publications reinforced the self-directed production and visual identity behind BVDLVD’s releases. Outburn highlighted the “impeccable self-made artistic direction” behind LUNATIC, including the production, mixing, editing and direction of the work.",
+      "Clash described TREAT YOU as “a thrilling rollercoaster ride”. Distorted Sound reviewed ABSENCE as a raw, distinctly UK take on trap metal, recognising its energy and personality while offering an independent critical perspective on the album’s genre fusion."
+    ],
+    links: [
+      { label: "Outburn - LUNATIC Feature", href: "https://outburn.com/news/bvdlvd-releases-lunatic/" },
+      { label: "Clash - TREAT YOU Feature", href: "https://www.clashmusic.com/news/bvdlvd-storms-back-with-treat-you/" },
+      { label: "Distorted Sound - ABSENCE Review", href: "https://distortedsoundmag.com/album-review-absence-bvdlvd/" }
+    ]
+  },
+  {
+    label: "Music video",
+    title: "GRM Daily",
+    details: [
+      "I created the music video for Fizzler’s “Minimum Wage”, which was released through GRM Daily and has since surpassed one million views. I was responsible for translating the track into an engaging visual project suitable for one of the UK’s most influential urban-music platforms."
+    ],
+    source: { label: "Fizzler - Minimum Wage", href: "https://youtu.be/VAFgDe54ptE?si=4-obZrUrxoaZ69xB" },
+    media: [
+      { src: "/media/recognition/grm-daily.png", alt: "GRM Daily logo", fit: "contain" }
+    ]
+  },
+  {
+    label: "International feature",
+    title: "WorldStar HipHop",
+    details: [
+      "My track and accompanying music video “Forget Me Not” were featured by WorldStarHipHop, introducing the release to the platform’s international audience and expanding its visibility beyond the UK music market."
+    ],
+    links: [
+      { label: "FORGET ME NOT Music Video", href: "https://youtu.be/o-TUznwr8-0?si=4ODm0Wazezx05b1P" }
+    ],
+    media: [
+      { src: "/media/recognition/worldstarhiphop.png", alt: "WorldStarHipHop logo", fit: "contain" }
     ]
   },
   {
@@ -399,27 +450,18 @@ export const recognition: Recognition[] = [
     ]
   },
   {
-    label: "Music video",
-    title: "GRM Daily",
+    label: "Creative campaign",
+    title: "BAGATUNE - M-Beat & Missing",
     details: [
-      "I created the music video for Fizzler’s “Minimum Wage”, which was released through GRM Daily and has since surpassed one million views. I was responsible for translating the track into an engaging visual project suitable for one of the UK’s most influential urban-music platforms."
-    ],
-    source: { label: "Fizzler - Minimum Wage", href: "https://youtu.be/VAFgDe54ptE?si=4-obZrUrxoaZ69xB" },
-    media: [
-      { src: "/media/recognition/grm-daily.png", alt: "GRM Daily logo", fit: "contain" }
-    ]
-  },
-  {
-    label: "International feature",
-    title: "WorldStar HipHop",
-    details: [
-      "My track and accompanying music video “Forget Me Not” were featured by WorldStarHipHop, introducing the release to the platform’s international audience and expanding its visibility beyond the UK music market."
+      "Legendary producer M-Beat, known for General Levy’s “Incredible”, partnered with producer Missing to create the collaborative project BAGATUNE. I was hired to translate their creative vision into a tangible social-media campaign, while also contributing to the project as a featured artist on the track “No Halo”.",
+      "The campaign was built around the ethos “Fusion Without Formula”, which needed to remain clearly represented across every piece of content. I filmed and delivered more than 60 assets for the release, working with and coordinating a wide range of artists and personalities, including Teezandos, PS Hitsquad, Deecien and Kwengface. The project required creative interpretation, artist management, adaptable production planning and consistent delivery across a complex collaborative campaign."
     ],
     links: [
-      { label: "FORGET ME NOT Music Video", href: "https://youtu.be/o-TUznwr8-0?si=4ODm0Wazezx05b1P" }
+      { label: "M-BEAT & Missing Interview", href: "https://youtu.be/83WlPLw-864" },
+      { label: "Fusion Without Formula EP", href: "https://open.spotify.com/album/0klGGcpwM24w3lR7JjWVLW?si=Ys8n_uATT0y1w3_0xsztUw" }
     ],
     media: [
-      { src: "/media/recognition/worldstarhiphop.png", alt: "WorldStarHipHop logo", fit: "contain" }
+      { src: "/media/recognition/bagatune-square.webp", alt: "M-Beat and Missing photographed for the BAGATUNE project" }
     ]
   }
 ];
