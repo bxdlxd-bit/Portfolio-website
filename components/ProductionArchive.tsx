@@ -8,6 +8,25 @@ import { productionArchive, type ProductionArchiveItem } from "@/data/content";
 const archiveEase = [0.2, 0.75, 0.2, 1] as const;
 const ARCHIVE_BATCH_SIZE = 5;
 
+function archiveOrderKey(id: string) {
+  const input = `archive-v1:${id}`;
+  let hash = 1779033703 ^ input.length;
+
+  for (let index = 0; index < input.length; index += 1) {
+    hash = Math.imul(hash ^ input.charCodeAt(index), 3432918353);
+    hash = (hash << 13) | (hash >>> 19);
+  }
+
+  hash = Math.imul(hash ^ (hash >>> 16), 2246822507);
+  hash = Math.imul(hash ^ (hash >>> 13), 3266489909);
+  return (hash ^ (hash >>> 16)) >>> 0;
+}
+
+const orderedProductionArchive = [...productionArchive].sort((first, second) => {
+  const orderDifference = archiveOrderKey(first.id) - archiveOrderKey(second.id);
+  return orderDifference || first.id.localeCompare(second.id);
+});
+
 function formatVideoTime(value: number) {
   if (!Number.isFinite(value) || value < 0) return "0:00";
   const minutes = Math.floor(value / 60);
@@ -143,8 +162,8 @@ export default function ProductionArchive() {
   const [activeItem, setActiveItem] = useState<ProductionArchiveItem | null>(null);
   const [visibleCount, setVisibleCount] = useState(ARCHIVE_BATCH_SIZE);
 
-  const visibleItems = productionArchive.slice(0, visibleCount);
-  const remainingCount = Math.max(0, productionArchive.length - visibleCount);
+  const visibleItems = orderedProductionArchive.slice(0, visibleCount);
+  const remainingCount = Math.max(0, orderedProductionArchive.length - visibleCount);
   const hasMore = remainingCount > 0;
 
   const closeArchive = useCallback(() => setActiveItem(null), []);
@@ -211,7 +230,7 @@ export default function ProductionArchive() {
         </div>
 
         <div className={`production-archive-reveal${hasMore ? " has-more" : ""}`}>
-          <div className={`production-archive-grid${productionArchive.length <= 3 ? " is-compact" : ""}`}>
+          <div className={`production-archive-grid${orderedProductionArchive.length <= 3 ? " is-compact" : ""}`}>
           {visibleItems.map((item, index) => {
             const isPreviewing = previewId === item.id;
             const style = {
@@ -266,7 +285,7 @@ export default function ProductionArchive() {
                 <button
                   type="button"
                   className="production-archive-more-button"
-                  onClick={() => setVisibleCount((current) => Math.min(current + ARCHIVE_BATCH_SIZE, productionArchive.length))}
+                  onClick={() => setVisibleCount((current) => Math.min(current + ARCHIVE_BATCH_SIZE, orderedProductionArchive.length))}
                   aria-label={`Load ${Math.min(ARCHIVE_BATCH_SIZE, remainingCount)} more production archive items`}
                 >
                   <span>Load more</span>
@@ -307,7 +326,7 @@ export default function ProductionArchive() {
                 <span />
               </button>
               <div className="archive-dialog-media">
-                <ArchiveMedia item={activeItem} index={productionArchive.findIndex((item) => item.id === activeItem.id)} activePreview modal />
+                <ArchiveMedia item={activeItem} index={orderedProductionArchive.findIndex((item) => item.id === activeItem.id)} activePreview modal />
               </div>
               <div className="archive-dialog-content">
                 <div className="archive-dialog-kicker">

@@ -616,5 +616,31 @@ export const productionArchive: ProductionArchiveItem[] = [
     linkLabel: "Watch full video",
     poster: "/media/archive/knock-knock.webp",
     video: "/media/archive/knock-knock.mp4"
+  },
+  {
+    id: "archive-09",
+    title: "PS Boat Performance",
+    client: "PS HITSQUAD",
+    role: "Director / Camera Operator / Colourist",
+    category: "Campaign content",
+    orientation: "portrait",
+    size: "standard",
+    note: "While on location, spotted a boat docked at the port, secured permission to film and captured an improvised gimbal take against the sunset.",
+    tags: ["Gimbal", "FX30", "Colour Grade", "Improvisation"],
+    poster: "/media/archive/ps-boat-performance.webp",
+    video: "/media/archive/ps-boat-performance.mp4"
+  },
+  {
+    id: "archive-10",
+    title: "PS Stationary Edit",
+    client: "PS HITSQUAD",
+    role: "Director / Camera Operator / Editor",
+    category: "Campaign content",
+    orientation: "portrait",
+    size: "standard",
+    note: "Developed a repeat-performance edit on location to meet the content quota, trimming the audio to its strongest section and directing multiple placements for a clean position-switching cut.",
+    tags: ["Edit", "Colour Grade", "Sync", "FX30", "Direction", "Camera Operation"],
+    poster: "/media/archive/ps-stationary-edit.webp",
+    video: "/media/archive/ps-stationary-edit.mp4"
   }
 ];
